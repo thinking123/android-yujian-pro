@@ -6,5 +6,9 @@
 
     <string name="login_title">您好，</string>
     <string name="login_tip">只为yu健更好的自己，立即</string>
-    <string name="login_register_btn">注册</string>
+    <string name="login_btn_register">注册</string>
+    <string name="login_hint_phone">手机号</string>
+    <string name="login_hint_pw">密码</string>
+    <string name="login_forget_pw">忘记密码</string>
+    <string name="login_btn_login">登录</string>
 </resources>
