@@ -16,6 +16,7 @@ import com.yujian.mvp.contract.SplashContract;
 import com.yujian.mvp.presenter.SplashPresenter;
 
 import com.yujian.R;
+import com.yujian.utils.Common;
 
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -55,11 +56,17 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this , MainActivity.class);
-                startActivity(intent);
+                if(Common.isLogin()){
+                    Intent intent = new Intent(SplashActivity.this , MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
+                    startActivity(intent);
+                }
+
                 finish();
             }
-        } , 3000);
+        } , 300);
 
     }
 

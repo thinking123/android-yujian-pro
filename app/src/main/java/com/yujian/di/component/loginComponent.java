@@ -9,6 +9,7 @@ import com.yujian.di.module.loginModule;
 import com.yujian.mvp.contract.loginContract;
 
 import com.jess.arms.di.scope.FragmentScope;
+import com.yujian.mvp.ui.activity.LoginActivity;
 import com.yujian.mvp.ui.fragment.login.loginFragment;
 import com.yujian.mvp.ui.fragment.login.registerFragment;
 
@@ -30,6 +31,7 @@ import com.yujian.mvp.ui.fragment.login.registerFragment;
 public interface loginComponent {
     void inject(loginFragment fragment);
     void inject(registerFragment fragment);
+    void inject(LoginActivity loginActivity);
 
     @Component.Builder
     interface Builder {

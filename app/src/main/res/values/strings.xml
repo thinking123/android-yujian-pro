@@ -3,4 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="login_title">您好，</string>
+    <string name="login_tip">只为yu健更好的自己，立即</string>
+    <string name="login_register_btn">注册</string>
 </resources>
