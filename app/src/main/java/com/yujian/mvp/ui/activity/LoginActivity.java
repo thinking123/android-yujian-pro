@@ -57,7 +57,8 @@ public class LoginActivity extends MyBaseActivity {
         ISupportFragment fragment = findFragment(loginFragment.class);
 
         if (fragment == null) {
-            loadMultipleRootFragment(R.id.login_container, 0 ,loginFragment.newInstance() , registerFragment.newInstance());
+//            loadMultipleRootFragment(R.id.login_container, 0 ,loginFragment.newInstance() , registerFragment.newInstance());
+            loadRootFragment(R.id.login_container , loginFragment.newInstance());
         }
     }
 }

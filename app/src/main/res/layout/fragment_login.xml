@@ -48,7 +48,7 @@
         android:layout_width="@dimen/input_text_width"
         android:layout_height="@dimen/input_text_height"
         android:layout_marginTop="55dp"
-        android:hint="@string/login_hint_phone"
+        android:hint="@string/login_label_phone"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
@@ -57,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="@dimen/input_text_size"
+            android:hint="@string/login_hint_phone"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
@@ -66,15 +67,17 @@
         android:layout_width="@dimen/input_text_width"
         android:layout_height="@dimen/input_text_height"
         android:layout_marginTop="@dimen/input_text_margin_top"
-        android:hint="@string/login_hint_pw"
+        android:hint="@string/login_label_pw"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <android.support.design.widget.TextInputEditText
+            android:hint="@string/login_hint_pw"
             android:id="@+id/login_pw"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="@dimen/input_text_size"
+            android:inputType="textPassword"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
@@ -84,23 +87,36 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/input_text_margin_top"
         android:text="@string/login_forget_pw"
-        android:textSize="21sp"
+        android:textSize="15sp"
         android:textColor="#666666"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
-
-    <android.support.design.button.MaterialButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <ImageButton
+        android:id="@+id/login_btn_wx_login"
+        android:layout_width="@dimen/btn_circle_wx_dimen"
+        android:layout_height="@dimen/btn_circle_wx_dimen"
+        android:scaleType="fitCenter"
         android:layout_marginLeft="152dp"
         android:layout_marginTop="239dp"
-        app:cornerRadius="50dp"
-        android:background="@android:color/transparent"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        app:icon="@drawable/login_btn_wx"
+        android:background="@drawable/btn_wx_bg"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:srcCompat="@drawable/login_btn_wx" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/login_btn_login"
+        android:layout_width="115dp"
+        android:layout_height="54dp"
+        android:layout_marginLeft="18dp"
+        android:text="@string/login_btn_login"
+
+        app:cornerRadius="27dp"
+        app:backgroundTint="@color/btn_wx_hint_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/login_btn_wx_login"
+        app:layout_constraintStart_toEndOf="@+id/login_btn_wx_login"
+        app:layout_constraintTop_toTopOf="@+id/login_btn_wx_login" />
+
     <!--<com.google.android.material.textfield.TextInputLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->

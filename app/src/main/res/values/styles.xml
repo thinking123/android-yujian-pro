@@ -16,6 +16,8 @@
     </style>
     <style name="AppLoginTheme" parent="AppTheme">
         <item name="android:textColor">@color/text_primary</item>
+        <!--<item name="android:textColorHint">@drawable/textinput_hint_label_selector</item>-->
+        <item name="colorAccent">@color/text_primary</item>
     </style>
 
 </resources>

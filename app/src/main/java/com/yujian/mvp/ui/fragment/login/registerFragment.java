@@ -27,8 +27,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class registerFragment extends BaseSupportFragment<loginPresenter>
         implements loginContract.View{
 
-    public static loginFragment newInstance() {
-        loginFragment fragment = new loginFragment();
+    public static registerFragment newInstance() {
+        registerFragment fragment = new registerFragment();
         return fragment;
     }
 
@@ -46,7 +46,7 @@ public class registerFragment extends BaseSupportFragment<loginPresenter>
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.
 
-                layout.fragment_login, container, false);
+                layout.fragment_register, container, false);
     }
 
     @Override

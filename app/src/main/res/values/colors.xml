@@ -6,5 +6,5 @@
     <color name="white">#FFFFFF</color>
     <color name="text_primary">#999999</color>
     <color name="text_link">#3AC895</color>
-
+    <color name="btn_wx_hint_bg">#3AC895</color>
 </resources>

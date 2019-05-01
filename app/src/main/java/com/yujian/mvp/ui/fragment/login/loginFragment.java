@@ -14,11 +14,15 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.yujian.app.BaseSupportFragment;
+import com.yujian.app.MyBaseActivity;
 import com.yujian.di.component.DaggerloginComponent;
 import com.yujian.mvp.contract.loginContract;
 import com.yujian.mvp.presenter.loginPresenter;
 
 import com.yujian.R;
+
+import butterknife.OnClick;
+import me.yokeyword.fragmentation.ISupportFragment;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -101,6 +105,25 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
      *
      * @param data 当不需要参数时 {@code data} 可以为 {@code null}
      */
+    @OnClick({R.id.login_register_btn , R.id.login_btn_forget_pw ,
+    R.id.login_btn_wx_login , R.id.login_btn_login})
+    public void onViewClicked(View view){
+
+        MyBaseActivity myBaseActivity = (MyBaseActivity)getActivity();
+        switch (view.getId()){
+            case R.id.login_register_btn:
+//                ISupportFragment fragment = myBaseActivity.findFragment(registerFragment.class);
+//                showHideFragment(fragment , this);
+                start(registerFragment.newInstance());
+                break;
+            case R.id.login_btn_forget_pw:
+                break;
+            case R.id.login_btn_wx_login:
+                break;
+            case R.id.login_btn_login:
+                break;
+        }
+    }
     @Override
     public void setData(@Nullable Object data) {
 

@@ -31,7 +31,7 @@ import com.yujian.mvp.ui.fragment.login.registerFragment;
 public interface loginComponent {
     void inject(loginFragment fragment);
     void inject(registerFragment fragment);
-    void inject(LoginActivity loginActivity);
+//    void inject(LoginActivity loginActivity);
 
     @Component.Builder
     interface Builder {
