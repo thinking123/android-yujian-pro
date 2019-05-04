@@ -138,8 +138,13 @@ public class TextInputLayoutEx extends TextInputLayout {
                         setHint(textLabel);
                         textInputEditText.setHint(textHint);
                     }else{
-                        setHint(textHint);
-                        textInputEditText.setHint("");
+                        if(!getText().isEmpty()){
+
+                        }else{
+                            setHint(textHint);
+                            textInputEditText.setHint("");
+                        }
+
                     }
                 }
             });

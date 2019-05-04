@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="width" format="dimension"/>
+    <attr name="height" format="dimension"/>
+    <attr name="textHintEx" format="string"/>
+    <attr name="mytext" format="string"/>
+    <attr name="textSizeEx" format="dimension"/>
+
     <declare-styleable name="TextInputLayoutEx">
-        <attr name="width" format="dimension"/>
-        <attr name="height" format="dimension"/>
-        <!--<attr name="textHintEx" format="string"/>-->
-        <!--<attr name="mytext" format="string"/>-->
-        <!--<attr name="textSizeEx" format="dimension"/>-->
-        <attr name="textHintEx" format="string"/>
-        <attr name="mytext" format="string"/>
-        <attr name="textSizeEx" format="dimension"/>
+        <attr name="width" />
+        <attr name="height" />
+        <attr name="textHintEx" />
+        <attr name="mytext" />
+        <attr name="textSizeEx" />
         <attr name="android:inputType"/>
-        <attr name="endIconMode"/>
-        <attr name="endIconContentDescription"/>
-        <!--<attr name="textType" format="enum">-->
-            <!--<enum name="text" value="@String"-->
-        <!--</attr>-->
+    </declare-styleable>
+
+    <declare-styleable name="TextInputLayoutPhoneCodeEx" parent="TextInputLayoutEx">
+        <attr name="width" />
+        <attr name="height" />
+        <attr name="textHintEx" />
+        <attr name="mytext" />
+        <attr name="textSizeEx" />
+        <attr name="android:inputType"/>
+        <attr name="tip" format="string"/>
     </declare-styleable>
 </resources>

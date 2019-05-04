@@ -9,4 +9,9 @@
 
     <dimen name="page_title_size">36sp</dimen>
 
+    <dimen name="register_radio_margin_left">38dp</dimen>
+
+    <dimen name="btn_corner_radius_login">27dp</dimen>
+    <dimen name="btn_corner_width_login">115dp</dimen>
+    <dimen name="btn_corner_height_login">54dp</dimen>
 </resources>

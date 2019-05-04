@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.mvp.IPresenter;
+import com.yujian.R;
 
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportFragment;
@@ -358,5 +360,15 @@ public abstract class BaseSupportFragment <P extends IPresenter> extends BaseFra
     @Override
     public void post(Runnable runnable) {
 
+    }
+
+    protected void initToolbar(Toolbar toolbar){
+        toolbar.setNavigationIcon(R.drawable.nav_btn_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mActivity.onBackPressed();
+            }
+        });
     }
 }

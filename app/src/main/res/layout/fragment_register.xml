@@ -8,6 +8,11 @@
 
     tools:context=".mvp.ui.fragment.login.registerFragment">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
+
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -33,33 +38,88 @@
         app:textHintEx="@string/register_hint_phone"
         app:textSizeEx="@dimen/input_text_size" />
 
-    <com.yujian.widget.TextInputLayoutEx
-        android:id="@+id/textInputLayoutEx3"
+    <com.yujian.widget.TextInputLayoutPhoneCodeEx
+        android:id="@+id/textInputLayoutPhoneCodeEx"
         android:layout_width="@dimen/input_text_width"
         android:layout_height="@dimen/input_text_height"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/input_text_margin_top"
         android:hint="@string/register_label_code"
-        app:endIconContentDescription="@string/register_get_code"
-        app:endIconMode="custom"
         app:layout_constraintStart_toStartOf="@+id/textInputLayoutEx"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx"
-        app:mytext="test string"
         app:textHintEx="@string/register_hint_code"
-        app:textSizeEx="@dimen/input_text_size" />
+        app:textSizeEx="@dimen/input_text_size"
+        app:tip="@string/register_get_code" />
 
 
     <com.yujian.widget.TextInputLayoutEx
         android:id="@+id/textInputLayoutEx2"
         android:layout_width="@dimen/input_text_width"
         android:layout_height="@dimen/input_text_height"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="@dimen/input_text_margin_top"
         android:hint="@string/register_label_pw"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayoutEx3"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx3"
-        app:mytext="test string"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutPhoneCodeEx"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhoneCodeEx"
         app:textHintEx="@string/register_hint_pw"
+
         app:textSizeEx="@dimen/input_text_size" />
 
+
+    <com.yujian.widget.TextInputLayoutEx
+        android:id="@+id/textInputLayoutEx3"
+        android:layout_width="@dimen/input_text_width"
+        android:layout_height="@dimen/input_text_height"
+        android:layout_marginTop="@dimen/input_text_margin_top"
+        android:hint="@string/register_label_confirm_pw"
+        android:inputType="phone"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutEx2"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx2"
+        app:textHintEx="@string/register_hint_confirm_pw"
+        app:textSizeEx="@dimen/input_text_size" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="@dimen/input_text_margin_top"
+        android:orientation="horizontal"
+        android:theme="@style/AppActiveLoginTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx3">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_radio_1" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/register_radio_margin_left"
+            android:text="@string/register_radio_2" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/register_radio_margin_left"
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:text="@string/register_radio_3" />
+    </RadioGroup>
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/login_btn_login"
+        android:layout_width="@dimen/btn_corner_width_login"
+        android:layout_height="@dimen/btn_corner_height_login"
+
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/register_btn_register"
+        app:backgroundTint="@color/btn_wx_hint_bg"
+        app:cornerRadius="@dimen/btn_corner_radius_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
 </android.support.constraint.ConstraintLayout>
