@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/AppLoginTheme"
+
     tools:context=".mvp.ui.fragment.login.registerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="72dp"
+        android:text="@string/register_title"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/page_title_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <com.yujian.widget.TextInputLayoutEx
+        android:id="@+id/textInputLayoutEx"
+        android:layout_width="@dimen/input_text_width"
+        android:layout_height="@dimen/input_text_height"
+        android:layout_marginTop="40dp"
+        android:hint="@string/register_label_phone"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:mytext="test string"
+        app:textHintEx="@string/register_hint_phone"
+        app:textSizeEx="@dimen/input_text_size" />
+
+    <com.yujian.widget.TextInputLayoutEx
+        android:id="@+id/textInputLayoutEx3"
+        android:layout_width="@dimen/input_text_width"
+        android:layout_height="@dimen/input_text_height"
+        android:layout_marginTop="32dp"
+        android:hint="@string/register_label_code"
+        app:endIconContentDescription="@string/register_get_code"
+        app:endIconMode="custom"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutEx"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx"
+        app:mytext="test string"
+        app:textHintEx="@string/register_hint_code"
+        app:textSizeEx="@dimen/input_text_size" />
+
+
+    <com.yujian.widget.TextInputLayoutEx
+        android:id="@+id/textInputLayoutEx2"
+        android:layout_width="@dimen/input_text_width"
+        android:layout_height="@dimen/input_text_height"
+        android:layout_marginTop="28dp"
+        android:hint="@string/register_label_pw"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutEx3"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx3"
+        app:mytext="test string"
+        app:textHintEx="@string/register_hint_pw"
+        app:textSizeEx="@dimen/input_text_size" />
+
+
+</android.support.constraint.ConstraintLayout>

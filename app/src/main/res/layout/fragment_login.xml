@@ -14,7 +14,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="68dp"
-        android:textSize="36sp"
+        android:textSize="@dimen/page_title_size"
         android:text="@string/login_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="9.5dp"
-        android:textSize="17sp"
+        android:textSize="@dimen/text_view_size"
 
         android:text="@string/login_tip"
         app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -38,7 +38,7 @@
         android:layout_marginLeft="8dp"
         android:text="@string/login_btn_register"
         android:textColor="@color/text_link"
-        android:textSize="17sp"
+        android:textSize="@dimen/text_view_size"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 

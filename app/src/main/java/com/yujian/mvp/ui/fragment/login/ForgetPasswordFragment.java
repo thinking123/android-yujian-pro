@@ -1,5 +1,6 @@
 package com.yujian.mvp.ui.fragment.login;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -12,38 +13,22 @@ import android.view.ViewGroup;
 
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-
+import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
-import com.yujian.app.MyBaseActivity;
 import com.yujian.di.component.DaggerloginComponent;
 import com.yujian.mvp.contract.loginContract;
 import com.yujian.mvp.presenter.loginPresenter;
 
-import com.yujian.R;
-
-import butterknife.OnClick;
-import me.yokeyword.fragmentation.ISupportFragment;
-
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
-
 /**
- * ================================================
- * Description:
- * <p>
- * Created by MVPArmsTemplate on 04/27/2019 23:15
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
- * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
- * ================================================
+ * A simple {@link Fragment} subclass.
  */
-public class loginFragment extends BaseSupportFragment<loginPresenter>
+public class ForgetPasswordFragment extends BaseSupportFragment<loginPresenter>
         implements loginContract.View{
 
-    public static loginFragment newInstance() {
-        loginFragment fragment = new loginFragment();
+    public static ForgetPasswordFragment newInstance() {
+        ForgetPasswordFragment fragment = new ForgetPasswordFragment();
         return fragment;
     }
 
@@ -61,7 +46,7 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.
 
-                layout.fragment_login, container, false);
+                layout.fragment_forget_password, container, false);
     }
 
     @Override
@@ -105,26 +90,6 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
      *
      * @param data 当不需要参数时 {@code data} 可以为 {@code null}
      */
-    @OnClick({R.id.login_register_btn , R.id.login_btn_forget_pw ,
-    R.id.login_btn_wx_login , R.id.login_btn_login})
-    public void onViewClicked(View view){
-
-//        MyBaseActivity myBaseActivity = (MyBaseActivity)getActivity();
-        switch (view.getId()){
-            case R.id.login_register_btn:
-//                ISupportFragment fragment = myBaseActivity.findFragment(registerFragment.class);
-//                showHideFragment(fragment , this);
-                start(registerFragment.newInstance());
-                break;
-            case R.id.login_btn_forget_pw:
-                start(ForgetPasswordFragment.newInstance());
-                break;
-            case R.id.login_btn_wx_login:
-                break;
-            case R.id.login_btn_login:
-                break;
-        }
-    }
     @Override
     public void setData(@Nullable Object data) {
 
@@ -159,3 +124,4 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
 
 
 }
+
