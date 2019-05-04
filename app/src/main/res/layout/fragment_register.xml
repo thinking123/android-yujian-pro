@@ -113,7 +113,7 @@
         android:id="@+id/login_btn_login"
         android:layout_width="@dimen/btn_corner_width_login"
         android:layout_height="@dimen/btn_corner_height_login"
-
+        android:textSize="@dimen/text_view_size"
         android:layout_marginLeft="220dp"
         android:layout_marginTop="40dp"
         android:text="@string/register_btn_register"

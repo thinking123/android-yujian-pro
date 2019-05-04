@@ -29,4 +29,7 @@
     <string name="register_radio_2">教练</string>
     <string name="register_radio_3">普通用户</string>
 
+    <string name="forget_pw_title">修改密码</string>
+    <string name="forget_pw_show_pw">显示</string>
+    <string name="forget_pw_btn_submit">确 定</string>
 </resources>

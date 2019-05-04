@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,13 @@ public class ForgetPasswordFragment extends BaseSupportFragment<loginPresenter>
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.
+        View view = inflater.inflate(R.
 
                 layout.fragment_forget_password, container, false);
+
+        Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar);
+        initToolbar(toolbar);
+        return  view;
     }
 
     @Override
