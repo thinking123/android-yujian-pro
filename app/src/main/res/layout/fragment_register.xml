@@ -36,9 +36,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:mytext="test string"
         app:textHintEx="@string/register_hint_phone"
+
         app:textSizeEx="@dimen/input_text_size" />
 
-    <com.yujian.widget.TextInputLayoutPhoneCodeEx
+    <com.yujian.widget.TextInputLayoutEx
         android:id="@+id/textInputLayoutPhoneCodeEx"
         android:layout_width="@dimen/input_text_width"
         android:layout_height="@dimen/input_text_height"
@@ -48,7 +49,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx"
         app:textHintEx="@string/register_hint_code"
         app:textSizeEx="@dimen/input_text_size"
-        app:tip="@string/register_get_code" />
+        app:countDown="3"
+        app:tipTextWidth="@dimen/btn_input_tip_text_w"
+        app:tipTextColor="@color/btn_wx_hint_bg"
+        app:tipText="@string/register_get_code" />
 
 
     <com.yujian.widget.TextInputLayoutEx

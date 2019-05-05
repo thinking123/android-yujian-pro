@@ -5,7 +5,10 @@
     <attr name="textHintEx" format="string"/>
     <attr name="mytext" format="string"/>
     <attr name="textSizeEx" format="dimension"/>
-
+    <attr name="countDown" format="string"/>
+    <attr name="tipText" format="string"/>
+    <attr name="tipTextColor" format="color"/>
+    <attr name="tipTextWidth" format="dimension"/>
     <declare-styleable name="TextInputLayoutEx">
         <attr name="width" />
         <attr name="height" />
@@ -13,6 +16,11 @@
         <attr name="mytext" />
         <attr name="textSizeEx" />
         <attr name="android:inputType"/>
+
+        <attr name="countDown" />
+        <attr name="tipText" />
+        <attr name="tipTextColor"/>
+        <attr name="tipTextWidth"/>
     </declare-styleable>
 
     <declare-styleable name="TextInputLayoutPhoneCodeEx" parent="TextInputLayoutEx">

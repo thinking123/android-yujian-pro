@@ -19,6 +19,7 @@ import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerloginComponent;
 import com.yujian.mvp.contract.loginContract;
 import com.yujian.mvp.presenter.loginPresenter;
+import com.yujian.widget.TextInputLayoutEx;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -28,6 +29,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class registerFragment extends BaseSupportFragment<loginPresenter>
         implements loginContract.View{
 
+    private TextInputLayoutEx textInputLayoutPhoneCodeEx;
     public static registerFragment newInstance() {
         registerFragment fragment = new registerFragment();
         return fragment;
@@ -49,6 +51,18 @@ public class registerFragment extends BaseSupportFragment<loginPresenter>
 
                 layout.fragment_register, container, false);
 
+        textInputLayoutPhoneCodeEx = (TextInputLayoutEx)view.findViewById(R.id.textInputLayoutPhoneCodeEx);
+        textInputLayoutPhoneCodeEx.setCountDownListener(new TextInputLayoutEx.CountDownListener() {
+            @Override
+            public void onStartCountDown() {
+
+            }
+
+            @Override
+            public void onEndCountDown() {
+
+            }
+        });
         Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar);
         initToolbar(toolbar);
         return  view;

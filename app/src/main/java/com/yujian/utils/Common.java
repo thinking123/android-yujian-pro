@@ -1,6 +1,7 @@
 package com.yujian.utils;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.jess.arms.base.BaseApplication;
 import com.yujian.app.BaseApp;
@@ -26,6 +27,10 @@ public class Common {
         Timber.i("convert dp : %s to px : %s " , dp , px);
 
         return px;
+    }
+
+    public static void showMsg(String msg){
+        Toast.makeText(getContext() , msg , Toast.LENGTH_SHORT).show();
     }
 
 }
