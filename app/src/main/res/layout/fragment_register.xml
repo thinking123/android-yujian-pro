@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:mytext="test string"
         app:textHintEx="@string/register_hint_phone"
-
+        android:inputType="phone"
         app:textSizeEx="@dimen/input_text_size" />
 
     <com.yujian.widget.TextInputLayoutEx
@@ -50,6 +50,7 @@
         app:textHintEx="@string/register_hint_code"
         app:textSizeEx="@dimen/input_text_size"
         app:countDown="3"
+        android:inputType="number"
         app:tipTextWidth="@dimen/btn_input_tip_text_w"
         app:tipTextColor="@color/btn_wx_hint_bg"
         app:tipText="@string/register_get_code" />
@@ -75,7 +76,7 @@
         android:layout_height="@dimen/input_text_height"
         android:layout_marginTop="@dimen/input_text_margin_top"
         android:hint="@string/register_label_confirm_pw"
-        android:inputType="phone"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@+id/textInputLayoutEx2"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx2"
         app:textHintEx="@string/register_hint_confirm_pw"
@@ -91,20 +92,24 @@
         android:orientation="horizontal"
         android:theme="@style/AppActiveLoginTheme"
         app:layout_constraintStart_toStartOf="parent"
+        android:checkedButton="@id/register_radio_3"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEx3">
 
         <RadioButton
+            android:id="@+id/register_radio_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register_radio_1" />
 
         <RadioButton
+            android:id="@+id/register_radio_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/register_radio_margin_left"
             android:text="@string/register_radio_2" />
 
         <RadioButton
+            android:id="@+id/register_radio_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/register_radio_margin_left"

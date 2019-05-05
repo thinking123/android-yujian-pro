@@ -30,8 +30,9 @@ import timber.log.Timber;
 public class TextInputLayoutEx extends TextInputLayout {
 
 
-    public interface CountDownListener{
+    public interface CountDownListener {
         public void onStartCountDown();
+
         public void onEndCountDown();
     }
 
@@ -42,16 +43,22 @@ public class TextInputLayoutEx extends TextInputLayout {
     private TextInputEditText textInputEditText;
     private Context context;
     private AttributeSet attributeSet;
-    public TextInputLayoutEx(Context context){
-        this(context , null , 0);
+
+
+    private String textHint = "", textLabel = "", tipText = "";
+    private float width = 0, height = 0, textSize = 0 , tipTextWidth = 0;
+    private int inputType = 0, countDown = 0 , tipTextColor = 0;
+
+    public TextInputLayoutEx(Context context) {
+        this(context, null, 0);
     }
 
-    public TextInputLayoutEx(Context context , AttributeSet attributeSet){
-        this(context , attributeSet , 0);
+    public TextInputLayoutEx(Context context, AttributeSet attributeSet) {
+        this(context, attributeSet, 0);
     }
 
-    public TextInputLayoutEx(Context context , AttributeSet attributeSet , int defStyleAttr){
-        super(context , attributeSet , defStyleAttr);
+    public TextInputLayoutEx(Context context, AttributeSet attributeSet, int defStyleAttr) {
+        super(context, attributeSet, defStyleAttr);
         this.context = context;
         this.attributeSet = attributeSet;
         countDownListener = null;
@@ -59,68 +66,77 @@ public class TextInputLayoutEx extends TextInputLayout {
         isTouchEnable = true;
         try {
             init();
-        }catch (Exception e){
+        } catch (Exception e) {
             Timber.e(e.getMessage());
         }
 
 //        init();
     }
 
-    private void init() throws Exception{
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private void init() throws Exception {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        inflater.inflate(R.layout.widget_text_input_layout_ex , this , true);
+        inflater.inflate(R.layout.widget_text_input_layout_ex, this, true);
         FrameLayout frameLayout = (FrameLayout) getChildAt(0);
-        if(frameLayout == null){
+        if (frameLayout == null) {
             throw new Exception("no child view");
         }
 
 
+        textInputEditText = (TextInputEditText) frameLayout.getChildAt(0);
+
+
+        TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.TextInputLayoutEx, 0, 0);
+
+
+        int count = typedArray.getIndexCount();
+        for (int i = 0; i < count; i++) {
+            int attr = typedArray.getIndex(i);
+            switch (attr) {
+                case R.styleable.TextInputLayoutEx_android_inputType:
+                    inputType = typedArray.getInt(R.styleable.TextInputLayoutEx_android_inputType, EditorInfo.TYPE_TEXT_VARIATION_NORMAL);
+                    break;
+
+                case R.styleable.TextInputLayoutEx_textHintEx:
+                    textHint = typedArray.getString(R.styleable.TextInputLayoutEx_textHintEx);
+                    break;
+                case R.styleable.TextInputLayoutEx_textSizeEx:
+                    textSize = typedArray.getDimension(R.styleable.TextInputLayoutEx_textSizeEx, R.dimen.input_text_size);
+                    break;
+                case R.styleable.TextInputLayoutEx_width:
+                    width = typedArray.getDimension(R.styleable.TextInputLayoutEx_width, R.dimen.input_text_width);
+                    break;
+                case R.styleable.TextInputLayoutEx_height:
+                    typedArray.getDimension(R.styleable.TextInputLayoutEx_height, R.dimen.input_text_height);
+                    break;
+                case R.styleable.TextInputLayoutEx_countDown:
+                    countDown = Integer.parseInt(typedArray.getString(R.styleable.TextInputLayoutEx_countDown));
+                    break;
+
+                case R.styleable.TextInputLayoutEx_tipText:
+                    tipText = typedArray.getString(R.styleable.TextInputLayoutEx_tipText);
+                    break;
+
+                case R.styleable.TextInputLayoutEx_tipTextColor:
+                    tipTextColor = typedArray.getColor(
+                            R.styleable.TextInputLayoutEx_tipTextColor,
+                            ContextCompat.getColor(context, R.color.text_black));
+                    break;
+                case R.styleable.TextInputLayoutEx_tipTextWidth:
+                    tipTextWidth = typedArray.getDimension(R.styleable.TextInputLayoutEx_tipTextWidth,0);
+                    break;
+            }
+        }
 
 
 
-
-
-
-
-
-        textInputEditText = (TextInputEditText)frameLayout.getChildAt(0);
-
-
-        TypedArray typedArray = context.obtainStyledAttributes(attributeSet , R.styleable.TextInputLayoutEx , 0 , 0);
-
-
-//        int countDown = typedArray.getInt(R.styleable.TextInputLayoutEx_countDown , 0);
-        int countDown = Integer.parseInt(typedArray.getString(R.styleable.TextInputLayoutEx_countDown));
-
-
-        String tipText = typedArray.getString(R.styleable.TextInputLayoutEx_tipText);
-
-
-
-        if(!TextUtils.isEmpty(tipText)){
+        if (!TextUtils.isEmpty(tipText)) {
             TextView textView = new TextView(context);
-
-            int tipTextColor = typedArray.getColor(
-                    R.styleable.TextInputLayoutEx_tipTextColor,
-                    ContextCompat.getColor(context , R.color.text_black));
 
             textView.setTextColor(tipTextColor);
 
-
-//            textView.setBackgroundColor(R.color.btn_wx_hint_bg);
-            float tipTextWidth = typedArray.getDimension(R.styleable.TextInputLayoutEx_tipTextWidth , 0);
-
-//            if(tipTextWidth != 0){
-//                tipTextWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP , tipTextWidth , getResources().getDisplayMetrics());
-//            }
-//            if(tipTextWidth == 0){
-//
-//            }else{
-//
-//            }
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                    tipTextWidth == 0 ? FrameLayout.LayoutParams.WRAP_CONTENT : (int)tipTextWidth,
+                    tipTextWidth == 0 ? FrameLayout.LayoutParams.WRAP_CONTENT : (int) tipTextWidth,
                     FrameLayout.LayoutParams.MATCH_PARENT
             );
             layoutParams.gravity = Gravity.RIGHT;
@@ -133,10 +149,10 @@ public class TextInputLayoutEx extends TextInputLayout {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     Common.showMsg("you touch");
-                    if(countDownTimer != null && isTouchEnable){
+                    if (countDownTimer != null && isTouchEnable) {
 
                         TypedValue value = new TypedValue();
-                        context.getTheme().resolveAttribute(R.attr.colorAccent , value , true);
+                        context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
                         int colorAccent = value.data;
                         textView.setTextColor(colorAccent);
                         isTouchEnable = false;
@@ -146,10 +162,10 @@ public class TextInputLayoutEx extends TextInputLayout {
                 }
             });
 
-            if(countDown > 0){
+            if (countDown > 0) {
                 counter = countDown;
                 countDownTimer = new CountDownTimer(
-                        countDown * 1000 ,
+                        countDown * 1000,
                         1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -167,46 +183,45 @@ public class TextInputLayoutEx extends TextInputLayout {
                 };
             }
         }
-        float width = typedArray.getDimension(R.styleable.TextInputLayoutEx_width , R.dimen.input_text_width);
-
-
-
-        float height = typedArray.getDimension(R.styleable.TextInputLayoutEx_height , R.dimen.input_text_height);
+//        float width = typedArray.getDimension(R.styleable.TextInputLayoutEx_width , R.dimen.input_text_width);
+//
+//
+//
+//        float height = typedArray.getDimension(R.styleable.TextInputLayoutEx_height , R.dimen.input_text_height);
 
         setLayoutParams(new LinearLayoutCompat.LayoutParams(
-                Common.dpToPx(width) ,
+                Common.dpToPx(width),
                 Common.dpToPx(height)));
 
-        String textHint1 = typedArray.getString(R.styleable.TextInputLayoutEx_mytext);
+//        String textHint1 = typedArray.getString(R.styleable.TextInputLayoutEx_mytext);
 //
 //        textInputEditText.setHint(textHint);
 
 
-
-        String textHint = typedArray.getString(R.styleable.TextInputLayoutEx_textHintEx);
+//        String textHint = typedArray.getString(R.styleable.TextInputLayoutEx_textHintEx);
 
         textInputEditText.setHint("");
 
-        float textSize = typedArray.getDimension(R.styleable.TextInputLayoutEx_textSizeEx , R.dimen.input_text_size);
-        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX , textSize);
+//        float textSize = typedArray.getDimension(R.styleable.TextInputLayoutEx_textSizeEx , R.dimen.input_text_size);
+        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 
-        int inputType = typedArray.getInt(R.styleable.TextInputLayoutEx_android_inputType , EditorInfo.TYPE_TEXT_VARIATION_NORMAL);
+//        int inputType = typedArray.getInt(R.styleable.TextInputLayoutEx_android_inputType , EditorInfo.TYPE_TEXT_VARIATION_NORMAL);
 
         textInputEditText.setInputType(inputType);
 
 
-        String textLabel = getHint().toString();
-        if(!Objects.equals(textHint , textLabel)){
-            textInputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        textLabel = getHint().toString();
+        if (!Objects.equals(textHint, textLabel)) {
+            textInputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if(hasFocus){
+                    if (hasFocus) {
                         setHint(textLabel);
                         textInputEditText.setHint(textHint);
-                    }else{
-                        if(!getText().isEmpty()){
+                    } else {
+                        if (!getText().isEmpty()) {
 
-                        }else{
+                        } else {
                             setHint(textHint);
                             textInputEditText.setHint("");
                         }
@@ -216,18 +231,16 @@ public class TextInputLayoutEx extends TextInputLayout {
             });
         }
 
-//        this.setEndIconOnClickListener
 
-//        setEndIconMode
         typedArray.recycle();
 
     }
 
-    public String getText(){
+    public String getText() {
         return textInputEditText.getText().toString().trim();
     }
 
-    public void setCountDownListener(CountDownListener countDownListener){
+    public void setCountDownListener(CountDownListener countDownListener) {
         this.countDownListener = countDownListener;
     }
 
