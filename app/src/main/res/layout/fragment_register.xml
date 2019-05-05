@@ -117,18 +117,43 @@
             android:scrollHorizontally="false"
             android:text="@string/register_radio_3" />
     </RadioGroup>
+    <!--<com.yujian.widget.PrimaryRadiusBtn-->
+        <!--android:id="@+id/register_btn_registersdfsdf"-->
+        <!--android:layout_width="@dimen/btn_corner_width_login"-->
+        <!--android:layout_height="@dimen/btn_corner_height_login"-->
+        <!--android:layout_marginLeft="220dp"-->
+        <!--android:layout_marginTop="40dp"-->
 
-    <android.support.design.button.MaterialButton
-        android:id="@+id/login_btn_login"
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/radioGroup2"/>-->
+
+    <com.yujian.widget.PrimaryRadiusBtn
+        android:id="@+id/register_btn_register"
         android:layout_width="@dimen/btn_corner_width_login"
         android:layout_height="@dimen/btn_corner_height_login"
-        android:textSize="@dimen/text_view_size"
         android:layout_marginLeft="220dp"
         android:layout_marginTop="40dp"
         android:text="@string/register_btn_register"
-        app:backgroundTint="@color/btn_wx_hint_bg"
+        style="@style/Widget.MaterialComponents.Button"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_view_size"
         app:cornerRadius="@dimen/btn_corner_radius_login"
+        app:backgroundTint="@color/btn_wx_hint_bg"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2"/>
+
+    <!--<android.support.design.button.MaterialButton-->
+        <!--android:id="@+id/login_btn_login"-->
+        <!--android:layout_width="@dimen/btn_corner_width_login"-->
+        <!--android:layout_height="@dimen/btn_corner_height_login"-->
+        <!--android:textSize="@dimen/text_view_size"-->
+        <!--android:layout_marginLeft="220dp"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:text="@string/register_btn_register"-->
+        <!--app:backgroundTint="@color/btn_wx_hint_bg"-->
+        <!--app:cornerRadius="@dimen/btn_corner_radius_login"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />-->
 
 </android.support.constraint.ConstraintLayout>

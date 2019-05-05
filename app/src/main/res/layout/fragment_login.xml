@@ -137,13 +137,29 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:srcCompat="@drawable/login_btn_wx" />
 
-    <android.support.design.button.MaterialButton
+    <!--<android.support.design.button.MaterialButton-->
+        <!--android:id="@+id/login_btn_login"-->
+        <!--android:layout_width="@dimen/btn_corner_width_login"-->
+        <!--android:layout_height="@dimen/btn_corner_height_login"-->
+        <!--android:layout_marginLeft="18dp"-->
+        <!--android:text="@string/login_btn_login"-->
+        <!--app:cornerRadius="@dimen/btn_corner_radius_login"-->
+        <!--app:backgroundTint="@color/btn_wx_hint_bg"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/login_btn_wx_login"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/login_btn_wx_login"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/login_btn_wx_login" />-->
+
+
+
+    <com.yujian.widget.PrimaryRadiusBtn
         android:id="@+id/login_btn_login"
         android:layout_width="@dimen/btn_corner_width_login"
         android:layout_height="@dimen/btn_corner_height_login"
         android:layout_marginLeft="18dp"
+        android:textSize="@dimen/text_view_size"
         android:text="@string/login_btn_login"
-
+        android:gravity="center"
+        android:textColor="@color/white"
         app:cornerRadius="@dimen/btn_corner_radius_login"
         app:backgroundTint="@color/btn_wx_hint_bg"
         app:layout_constraintBottom_toBottomOf="@+id/login_btn_wx_login"

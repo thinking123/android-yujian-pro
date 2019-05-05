@@ -34,4 +34,9 @@
         <attr name="android:inputType"/>
         <attr name="tip" format="string"/>
     </declare-styleable>
+
+    <attr name="btnBg" format="color"/>
+    <declare-styleable name="PrimaryRadiusBtn">
+
+    </declare-styleable>
 </resources>
