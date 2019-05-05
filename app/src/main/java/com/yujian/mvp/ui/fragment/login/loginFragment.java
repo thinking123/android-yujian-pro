@@ -122,9 +122,12 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
             case R.id.login_btn_wx_login:
                 break;
             case R.id.login_btn_login:
+
                 break;
         }
     }
+
+
     @Override
     public void setData(@Nullable Object data) {
 

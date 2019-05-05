@@ -40,6 +40,7 @@ public class TextInputLayoutEx extends TextInputLayout {
     private Common.Callback callback;
     private CountDownTimer countDownTimer;
     private CountDownListener countDownListener;
+    private TextView textView;
     private int counter;
     private boolean isTouchEnable;
     private TextInputEditText textInputEditText;
@@ -48,8 +49,8 @@ public class TextInputLayoutEx extends TextInputLayout {
 
 
     private String textHint = "", textLabel = "", tipText = "";
-    private float width = 0, height = 0, textSize = 0 , tipTextWidth = 0 , tipTextSize = 0;
-    private int inputType = 0, countDown = 0 , tipTextColor = 0;
+    private float width = 0, height = 0, textSize = 0, tipTextWidth = 0, tipTextSize = 0;
+    private int inputType = 0, countDown = 0, tipTextColor = 0;
 
     public TextInputLayoutEx(Context context) {
         this(context, null, 0);
@@ -125,7 +126,7 @@ public class TextInputLayoutEx extends TextInputLayout {
                             ContextCompat.getColor(context, R.color.text_black));
                     break;
                 case R.styleable.TextInputLayoutEx_tipTextWidth:
-                    tipTextWidth = typedArray.getDimension(R.styleable.TextInputLayoutEx_tipTextWidth,0);
+                    tipTextWidth = typedArray.getDimension(R.styleable.TextInputLayoutEx_tipTextWidth, 0);
                     break;
                 case R.styleable.TextInputLayoutEx_tipTextSize:
                     tipTextSize = typedArray.getDimension(R.styleable.TextInputLayoutEx_tipTextSize, R.dimen.input_text_size);
@@ -134,9 +135,8 @@ public class TextInputLayoutEx extends TextInputLayout {
         }
 
 
-
         if (!TextUtils.isEmpty(tipText)) {
-            TextView textView = new TextView(context);
+            textView = new TextView(context);
 
             textView.setTextColor(tipTextColor);
 
@@ -157,18 +157,18 @@ public class TextInputLayoutEx extends TextInputLayout {
             textView.setOnTouchListener(new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    Common.showMsg("you touch");
-                    if (countDownTimer != null && isTouchEnable) {
+//                    Common.showMsg("you touch");
+//                    if (countDownTimer != null && isTouchEnable) {
+//
+//                        TypedValue value = new TypedValue();
+//                        context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
+//                        int colorAccent = value.data;
+//                        textView.setTextColor(colorAccent);
+//                        isTouchEnable = false;
+//                        countDownTimer.start();
+//                    }
 
-                        TypedValue value = new TypedValue();
-                        context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
-                        int colorAccent = value.data;
-                        textView.setTextColor(colorAccent);
-                        isTouchEnable = false;
-                        countDownTimer.start();
-                    }
-
-                    if(callback != null){
+                    if (callback != null) {
                         callback.callback();
                     }
 
@@ -177,9 +177,9 @@ public class TextInputLayoutEx extends TextInputLayout {
 //                        passwordVisibilityToggleRequested();
 //                    }
 
-                   if(isPasswordVisibilityToggleEnabled()){
-                       passwordVisibilityToggleRequested(false);
-                   }
+                    if (isPasswordVisibilityToggleEnabled()) {
+                        passwordVisibilityToggleRequested(false);
+                    }
 
                     return true;
                 }
@@ -223,7 +223,7 @@ public class TextInputLayoutEx extends TextInputLayout {
 
 //        String textHint = typedArray.getString(R.styleable.TextInputLayoutEx_textHintEx);
 
-        textInputEditText.setHint("");
+        textInputEditText.setHint(textHint);
 
 //        float textSize = typedArray.getDimension(R.styleable.TextInputLayoutEx_textSizeEx , R.dimen.input_text_size);
         textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
@@ -234,6 +234,7 @@ public class TextInputLayoutEx extends TextInputLayout {
 
 
         textLabel = getHint().toString();
+        setHint("");
         if (!Objects.equals(textHint, textLabel)) {
             textInputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -259,12 +260,28 @@ public class TextInputLayoutEx extends TextInputLayout {
 
     }
 
+    public void startCount() {
+        if (countDownTimer != null && isTouchEnable) {
+
+            TypedValue value = new TypedValue();
+            context.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
+            int colorAccent = value.data;
+            textView.setTextColor(colorAccent);
+            isTouchEnable = false;
+            countDownTimer.start();
+        }
+    }
+
     public String getText() {
         return textInputEditText.getText().toString().trim();
     }
 
     public void setCountDownListener(CountDownListener countDownListener) {
         this.countDownListener = countDownListener;
+    }
+
+    public void setTapTipListener(Common.Callback callback){
+        this.callback = callback;
     }
 
 //    @TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.yujian.BuildConfig;
 import com.yujian.mvp.model.api.Api;
+import com.yujian.utils.Constant;
 
 /**
  * ================================================
@@ -45,7 +46,7 @@ public final class GlobalConfiguration implements ConfigModule {
             builder.printHttpLogLevel(RequestInterceptor.Level.NONE);
         }
 
-        builder.baseurl(Api.APP_DOMAIN)
+        builder.baseurl(Constant.Api.APP_DOMAIN)
                 //强烈建议自己自定义图片加载逻辑, 因为 arms-imageloader-glide 提供的 GlideImageLoaderStrategy 并不能满足复杂的需求
                 //请参考 https://github.com/JessYanCoding/MVPArms/wiki#3.4
                 .imageLoaderStrategy(new GlideImageLoaderStrategy())

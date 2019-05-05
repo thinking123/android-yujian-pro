@@ -19,6 +19,7 @@ import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerloginComponent;
 import com.yujian.mvp.contract.loginContract;
 import com.yujian.mvp.presenter.loginPresenter;
+import com.yujian.utils.Common;
 import com.yujian.widget.TextInputLayoutEx;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -30,6 +31,7 @@ public class registerFragment extends BaseSupportFragment<loginPresenter>
         implements loginContract.View{
 
     private TextInputLayoutEx textInputLayoutPhoneCodeEx;
+    private TextInputLayoutEx textInputLayoutExPhone;
     public static registerFragment newInstance() {
         registerFragment fragment = new registerFragment();
         return fragment;
@@ -52,6 +54,9 @@ public class registerFragment extends BaseSupportFragment<loginPresenter>
                 layout.fragment_register, container, false);
 
         textInputLayoutPhoneCodeEx = (TextInputLayoutEx)view.findViewById(R.id.textInputLayoutPhoneCodeEx);
+
+        textInputLayoutExPhone = (TextInputLayoutEx)view.findViewById(R.id.textInputLayoutEx);
+
         textInputLayoutPhoneCodeEx.setCountDownListener(new TextInputLayoutEx.CountDownListener() {
             @Override
             public void onStartCountDown() {
@@ -61,6 +66,16 @@ public class registerFragment extends BaseSupportFragment<loginPresenter>
             @Override
             public void onEndCountDown() {
 
+            }
+        });
+
+        textInputLayoutPhoneCodeEx.setTapTipListener(new Common.Callback() {
+            @Override
+            public void callback() {
+                String phone = textInputLayoutExPhone.getText();
+                if(Common.isPhone(phone)){
+                    textInputLayoutPhoneCodeEx.startCount();
+                }
             }
         });
         Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar);
