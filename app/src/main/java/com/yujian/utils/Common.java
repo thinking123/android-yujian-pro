@@ -10,6 +10,9 @@ import com.yujian.entity.User;
 import timber.log.Timber;
 
 public class Common {
+    public interface Callback{
+        public void callback();
+    }
     public static Context getContext(){
         return BaseApp.getContext();
     }

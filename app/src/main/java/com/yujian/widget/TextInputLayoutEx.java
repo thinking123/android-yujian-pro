@@ -9,6 +9,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -36,6 +37,7 @@ public class TextInputLayoutEx extends TextInputLayout {
         public void onEndCountDown();
     }
 
+    private Common.Callback callback;
     private CountDownTimer countDownTimer;
     private CountDownListener countDownListener;
     private int counter;
@@ -46,7 +48,7 @@ public class TextInputLayoutEx extends TextInputLayout {
 
 
     private String textHint = "", textLabel = "", tipText = "";
-    private float width = 0, height = 0, textSize = 0 , tipTextWidth = 0;
+    private float width = 0, height = 0, textSize = 0 , tipTextWidth = 0 , tipTextSize = 0;
     private int inputType = 0, countDown = 0 , tipTextColor = 0;
 
     public TextInputLayoutEx(Context context) {
@@ -125,6 +127,9 @@ public class TextInputLayoutEx extends TextInputLayout {
                 case R.styleable.TextInputLayoutEx_tipTextWidth:
                     tipTextWidth = typedArray.getDimension(R.styleable.TextInputLayoutEx_tipTextWidth,0);
                     break;
+                case R.styleable.TextInputLayoutEx_tipTextSize:
+                    tipTextSize = typedArray.getDimension(R.styleable.TextInputLayoutEx_tipTextSize, R.dimen.input_text_size);
+                    break;
             }
         }
 
@@ -139,12 +144,16 @@ public class TextInputLayoutEx extends TextInputLayout {
                     tipTextWidth == 0 ? FrameLayout.LayoutParams.WRAP_CONTENT : (int) tipTextWidth,
                     FrameLayout.LayoutParams.MATCH_PARENT
             );
+
             layoutParams.gravity = Gravity.RIGHT;
             textView.setLayoutParams(layoutParams);
             textView.setGravity(Gravity.CENTER);
             textView.setText(tipText);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tipTextSize == 0 ? getResources().getDimension(R.dimen.tip_text_size) : tipTextSize);
+            textView.setMaxLines(1);
             frameLayout.addView(textView);
-
+//            frameLayout.setClipChildren(false);
+//            setClipChildren(false);
             textView.setOnTouchListener(new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -158,6 +167,20 @@ public class TextInputLayoutEx extends TextInputLayout {
                         isTouchEnable = false;
                         countDownTimer.start();
                     }
+
+                    if(callback != null){
+                        callback.callback();
+                    }
+
+//                    if(inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
+//                    inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD){
+//                        passwordVisibilityToggleRequested();
+//                    }
+
+                   if(isPasswordVisibilityToggleEnabled()){
+                       passwordVisibilityToggleRequested(false);
+                   }
+
                     return true;
                 }
             });

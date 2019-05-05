@@ -20,6 +20,8 @@
     <string name="register_label_code">验证码</string>
     <string name="register_hint_code">请输入验证码</string>
     <string name="register_get_code">获取验证码</string>
+    <string name="register_get_code_count_down">30</string>
+
     <string name="register_label_pw">密码</string>
     <string name="register_hint_pw">请设置密码</string>
     <string name="register_label_confirm_pw">确认密码</string>

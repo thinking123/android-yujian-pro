@@ -16,4 +16,5 @@
     <dimen name="btn_corner_height_login">54dp</dimen>
 
     <dimen name="btn_input_tip_text_w">70dp</dimen>
+    <dimen name="tip_text_size">14sp</dimen>
 </resources>

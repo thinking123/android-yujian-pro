@@ -9,6 +9,7 @@
     <attr name="tipText" format="string"/>
     <attr name="tipTextColor" format="color"/>
     <attr name="tipTextWidth" format="dimension"/>
+    <attr name="tipTextSize" format="dimension"/>
     <declare-styleable name="TextInputLayoutEx">
         <attr name="width" />
         <attr name="height" />
@@ -21,6 +22,7 @@
         <attr name="tipText" />
         <attr name="tipTextColor"/>
         <attr name="tipTextWidth"/>
+        <attr name="tipTextSize"/>
     </declare-styleable>
 
     <declare-styleable name="TextInputLayoutPhoneCodeEx" parent="TextInputLayoutEx">
