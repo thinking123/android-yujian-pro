@@ -9,6 +9,7 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import com.yujian.app.BaseSupportActivity;
 import com.yujian.di.component.DaggerMainComponent;
 import com.yujian.mvp.contract.MainContract;
 import com.yujian.mvp.presenter.MainPresenter;
@@ -31,7 +32,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends BaseSupportActivity<MainPresenter> implements MainContract.View {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -78,5 +79,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void killMyself() {
         finish();
+    }
+
+    @Override
+    public void post(Runnable runnable) {
+
     }
 }

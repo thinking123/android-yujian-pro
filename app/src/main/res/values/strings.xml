@@ -35,7 +35,11 @@
     <string name="forget_pw_show_pw">显示</string>
     <string name="forget_pw_btn_submit">确 定</string>
 
-
+    <string name="main_nav_menu_home">首页</string>
+    <string name="main_nav_menu_friend">好友</string>
+    <string name="main_nav_menu_fitnessroom">健身房</string>
+    <string name="main_nav_menu_dynamic">动态</string>
+    <string name="main_nav_menu_my">我的</string>
 
 
 </resources>

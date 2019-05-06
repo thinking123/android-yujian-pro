@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/main_nav_home"
+    android:title="@string/main_nav_menu_home"
+    android:icon="@drawable/main_nav_menu_home"/>
+    <item
+        android:id="@+id/main_nav_friend"
+        android:title="@string/main_nav_menu_friend"
+        android:icon="@drawable/main_nav_menu_home"/>
+    <item
+        android:id="@+id/main_nav_fitnessroom"
+        android:title="@string/main_nav_menu_fitnessroom"
+        android:icon="@drawable/main_nav_menu_home"/>
+    <item
+        android:id="@+id/main_nav_dynamic"
+        android:title="@string/main_nav_menu_dynamic"
+        android:icon="@drawable/main_nav_menu_home"/>
+    <item
+        android:id="@+id/main_nav_my"
+        android:title="@string/main_nav_menu_my"
+        android:icon="@drawable/main_nav_menu_home"/>
+</menu>
