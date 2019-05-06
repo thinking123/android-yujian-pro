@@ -115,6 +115,7 @@ public final class GlobalConfiguration implements ConfigModule {
                 .responseErrorListener(new ResponseErrorListenerImpl())
                 .gsonConfiguration((context1, gsonBuilder) -> {//这里可以自己自定义配置 Gson 的参数
                     gsonBuilder
+//                            .setLenient()
                             .serializeNulls()//支持序列化值为 null 的参数
                             .enableComplexMapKeySerialization();//支持将序列化 key 为 Object 的 Map, 默认只能序列化 key 为 String 的 Map
                 })

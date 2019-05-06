@@ -67,6 +67,25 @@ public class loginPresenter extends BasePresenter<loginContract.Model, loginCont
                 });
     }
 
+    public void checkPhone(String phone) {
+        mModel.checkPhone(phone)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(rxErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.checkCodeSuccess();
+
+                        } else{
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();

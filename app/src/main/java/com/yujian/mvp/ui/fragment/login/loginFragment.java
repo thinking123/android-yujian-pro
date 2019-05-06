@@ -48,6 +48,11 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
     }
 
     @Override
+    public void checkCodeSuccess() {
+
+    }
+
+    @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
         DaggerloginComponent //如找不到该类,请编译一下项目
                 .builder()

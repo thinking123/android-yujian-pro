@@ -10,7 +10,11 @@ import com.jess.arms.di.scope.FragmentScope;
 
 import javax.inject.Inject;
 
+import com.yujian.entity.BaseResponse;
 import com.yujian.mvp.contract.loginContract;
+import com.yujian.mvp.model.api.service.LoginService;
+
+import io.reactivex.Observable;
 
 
 /**
@@ -43,4 +47,16 @@ public class loginModel extends BaseModel implements loginContract.Model {
         this.mGson = null;
         this.mApplication = null;
     }
+
+    @Override
+    public Observable<BaseResponse<String>> getPhoneCode(String phone) {
+        return mRepositoryManager.obtainRetrofitService(LoginService.class).getPhoneCode(phone);
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> checkPhone(String phone) {
+        return mRepositoryManager.obtainRetrofitService(LoginService.class).checkPhone(phone);
+    }
+
+
 }

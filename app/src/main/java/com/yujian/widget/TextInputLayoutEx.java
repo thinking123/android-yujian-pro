@@ -154,6 +154,12 @@ public class TextInputLayoutEx extends TextInputLayout {
             frameLayout.addView(textView);
 //            frameLayout.setClipChildren(false);
 //            setClipChildren(false);
+//            textView.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
             textView.setOnTouchListener(new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -168,18 +174,21 @@ public class TextInputLayoutEx extends TextInputLayout {
 //                        countDownTimer.start();
 //                    }
 
-                    if (callback != null) {
-                        callback.callback();
-                    }
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (callback != null) {
+                            callback.callback();
+                        }
 
 //                    if(inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD ||
 //                    inputType == InputType.TYPE_NUMBER_VARIATION_PASSWORD){
 //                        passwordVisibilityToggleRequested();
 //                    }
 
-                    if (isPasswordVisibilityToggleEnabled()) {
-                        passwordVisibilityToggleRequested(false);
+                        if (isPasswordVisibilityToggleEnabled()) {
+                            passwordVisibilityToggleRequested(false);
+                        }
                     }
+
 
                     return true;
                 }

@@ -75,12 +75,27 @@ public class registerFragment extends BaseSupportFragment<loginPresenter>
                 String phone = textInputLayoutExPhone.getText();
                 if(Common.isPhone(phone)){
                     textInputLayoutPhoneCodeEx.startCount();
+                    if(mPresenter != null){
+                        mPresenter.checkPhone(phone);
+                    }
+
+                }else{
+                    showMessage("手机号不对");
                 }
             }
         });
         Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar);
         initToolbar(toolbar);
         return  view;
+    }
+
+    @Override
+    public void checkCodeSuccess() {
+        String phone = textInputLayoutExPhone.getText();
+        if(mPresenter != null){
+            mPresenter.getPhoneCode(phone);
+        }
+
     }
 
     @Override

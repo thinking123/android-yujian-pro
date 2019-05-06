@@ -10,7 +10,7 @@ public class Constant {
     }
 
     public class Api {
-        public static final   String APP_DOMAIN = "http://117.50.69.235";
+        public static final   String APP_DOMAIN = "http://117.50.69.235/api/";
         public static final  int RequestSuccess = 0;
         public static final String ResponseSuccess = "200";
     }
