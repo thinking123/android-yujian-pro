@@ -10,7 +10,6 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.squareup.haha.perflib.Main;
 import com.yujian.di.component.DaggerSplashComponent;
 import com.yujian.mvp.contract.SplashContract;
 import com.yujian.mvp.presenter.SplashPresenter;

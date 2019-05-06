@@ -40,6 +40,21 @@
     <string name="main_nav_menu_fitnessroom">健身房</string>
     <string name="main_nav_menu_dynamic">动态</string>
     <string name="main_nav_menu_my">我的</string>
+    <string name="main_friend_title">好友</string>
 
+    <string name="main_friend_btn_list_recommend">推荐</string>
+    <string name="main_friend_btn_list_coach">教练</string>
+    <string name="main_friend_btn_list_fitnessroom">健身房</string>
+    <string name="main_friend_btn_list_user">用户</string>
+    <string name="main_friend_btn_list_attention">关注</string>
+    <string name="main_friend_btn_list_fans">粉丝</string>
+    <string-array name="main_friend_btn_list">
+        <item>@string/main_friend_btn_list_recommend</item>
+        <item>@string/main_friend_btn_list_coach</item>
+        <item>@string/main_friend_btn_list_fitnessroom</item>
+        <item>@string/main_friend_btn_list_user</item>
+        <item>@string/main_friend_btn_list_attention</item>
+        <item>@string/main_friend_btn_list_fans</item>
+    </string-array>
 
 </resources>
