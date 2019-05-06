@@ -18,6 +18,7 @@ import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerloginComponent;
 import com.yujian.mvp.contract.loginContract;
+import com.yujian.mvp.model.entity.LoginBean;
 import com.yujian.mvp.presenter.loginPresenter;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -35,6 +36,11 @@ public class ForgetPasswordFragment extends BaseSupportFragment<loginPresenter>
 
     @Override
     public void checkCodeSuccess() {
+
+    }
+
+    @Override
+    public void loginResult(LoginBean msg) {
 
     }
 

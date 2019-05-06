@@ -31,21 +31,40 @@ import java.io.Serializable;
  * ================================================
  */
 public class BaseResponse<T> implements Serializable {
-    private T data;
-    private String code;
-    private String msg;
+//    private T data;
+//    private String code;
+//    private String msg;
+//
+//    public T getData() {
+//        return data;
+//    }
+//
+//    public String getCode() {
+//        return code;
+//    }
+//
+//    public String getMsg() {
+//        return msg;
+//    }
+//
+//    /**
+//     * 请求是否成功
+//     *
+//     * @return
+//     */
+//    public boolean isSuccess() {
+//        if (code.equals(Constant.Api.ResponseSuccess)) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
-    public T getData() {
-        return data;
-    }
 
-    public String getCode() {
-        return code;
-    }
+    private T rows;
+    private String status;
+    private String message;
 
-    public String getMsg() {
-        return msg;
-    }
 
     /**
      * 请求是否成功
@@ -53,10 +72,22 @@ public class BaseResponse<T> implements Serializable {
      * @return
      */
     public boolean isSuccess() {
-        if (code.equals(Constant.Api.ResponseSuccess)) {
+        if (status.equalsIgnoreCase(Constant.Api.ResponseSuccess)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public String getMsg(){
+        return message;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public T getData(){
+        return rows;
     }
 }

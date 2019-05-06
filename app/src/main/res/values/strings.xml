@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app</string>
+    <string name="app_name">yu键</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -34,4 +34,8 @@
     <string name="forget_pw_title">修改密码</string>
     <string name="forget_pw_show_pw">显示</string>
     <string name="forget_pw_btn_submit">确 定</string>
+
+
+
+
 </resources>

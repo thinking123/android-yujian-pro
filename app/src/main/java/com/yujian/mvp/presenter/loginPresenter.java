@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import com.yujian.app.utils.RxUtils;
 import com.yujian.entity.BaseResponse;
 import com.yujian.mvp.contract.loginContract;
+import com.yujian.mvp.model.entity.LoginBean;
 
 import java.util.List;
 
@@ -83,6 +84,29 @@ public class loginPresenter extends BasePresenter<loginContract.Model, loginCont
                     }
                 });
     }
+
+    public void loginByPhone(
+            String deviceId,
+            String openId,
+            String passWord,
+            String phone
+    ) {
+        mModel.loginByPhone(deviceId , openId , passWord , phone)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<LoginBean>>(rxErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<LoginBean> response) {
+                        if (response.isSuccess()) {
+                            mRootView.loginResult(response.getData());
+
+                        } else{
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
 
 
 

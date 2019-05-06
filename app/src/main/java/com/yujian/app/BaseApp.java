@@ -11,6 +11,7 @@ import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.Preconditions;
+import com.yujian.BugHandler;
 import com.yujian.entity.User;
 
 public class BaseApp extends Application implements App {
@@ -43,6 +44,9 @@ public class BaseApp extends Application implements App {
             this.mAppDelegate.onCreate(this);
 
         context = getApplicationContext();
+
+        BugHandler handler = BugHandler.getInstance(this);
+        Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
 

@@ -16,13 +16,21 @@ import com.jess.arms.utils.ArmsUtils;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.app.MyBaseActivity;
 import com.yujian.di.component.DaggerloginComponent;
+import com.yujian.entity.User;
 import com.yujian.mvp.contract.loginContract;
+import com.yujian.mvp.model.entity.LoginBean;
 import com.yujian.mvp.presenter.loginPresenter;
 
 import com.yujian.R;
+import com.yujian.mvp.ui.activity.MainActivity;
+import com.yujian.utils.Common;
+import com.yujian.utils.Constant;
+import com.yujian.widget.TextInputLayoutEx;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import me.yokeyword.fragmentation.ISupportFragment;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -42,6 +50,10 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class loginFragment extends BaseSupportFragment<loginPresenter>
         implements loginContract.View{
 
+    @BindView(R.id.textInputLayout)
+    TextInputLayoutEx mPhone;
+    @BindView(R.id.textInputLayout2)
+    TextInputLayoutEx mPw;
     public static loginFragment newInstance() {
         loginFragment fragment = new loginFragment();
         return fragment;
@@ -50,6 +62,18 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
     @Override
     public void checkCodeSuccess() {
 
+    }
+
+    @Override
+    public void loginResult(LoginBean msg) {
+        User user = User.getInstance();
+
+        user.save(msg);
+        Timber.i(msg.toString());
+
+        Intent intent = new Intent(getActivity() , MainActivity.class);
+        getActivity().startActivity(intent);
+        getActivity().finish();
     }
 
     @Override
@@ -127,11 +151,26 @@ public class loginFragment extends BaseSupportFragment<loginPresenter>
             case R.id.login_btn_wx_login:
                 break;
             case R.id.login_btn_login:
-
+                login();
                 break;
         }
     }
 
+    private void login(){
+        String phone = mPhone.getText();
+        String pw = mPw.getText();
+        if(Common.isPhone(phone) && Common.isValidPw(pw)){
+            if(mPresenter != null){
+                mPresenter.loginByPhone(
+                        "android",
+                        "",
+                        pw,
+                        phone);
+            }
+        }else {
+            showMessage(Constant.ErrorMsg.phonePw);
+        }
+    }
 
     @Override
     public void setData(@Nullable Object data) {

@@ -18,6 +18,7 @@ import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerloginComponent;
 import com.yujian.mvp.contract.loginContract;
+import com.yujian.mvp.model.entity.LoginBean;
 import com.yujian.mvp.presenter.loginPresenter;
 import com.yujian.utils.Common;
 import com.yujian.widget.TextInputLayoutEx;
@@ -95,6 +96,11 @@ public class registerFragment extends BaseSupportFragment<loginPresenter>
         if(mPresenter != null){
             mPresenter.getPhoneCode(phone);
         }
+
+    }
+
+    @Override
+    public void loginResult(LoginBean msg) {
 
     }
 

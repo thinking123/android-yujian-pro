@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import com.yujian.entity.BaseResponse;
 import com.yujian.mvp.contract.loginContract;
 import com.yujian.mvp.model.api.service.LoginService;
+import com.yujian.mvp.model.entity.LoginBean;
+import com.yujian.mvp.model.entity.LoginRequestBean;
 
 import io.reactivex.Observable;
 
@@ -58,5 +60,14 @@ public class loginModel extends BaseModel implements loginContract.Model {
         return mRepositoryManager.obtainRetrofitService(LoginService.class).checkPhone(phone);
     }
 
+
+    @Override
+    public Observable<BaseResponse<LoginBean>> loginByPhone(
+            String deviceId,
+            String openId,
+            String passWord,
+            String phone) {
+        return mRepositoryManager.obtainRetrofitService(LoginService.class).loginByPhone(new LoginRequestBean(deviceId , openId , passWord , phone));
+    }
 
 }
