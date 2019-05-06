@@ -27,6 +27,8 @@ import com.yujian.mvp.ui.adapter.RecyclerViewHorizontalButtonListAdapter;
 import java.util.Arrays;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -73,6 +75,12 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         horBtnList.setLayoutManager(layoutManagerBtnList);
         String [] btns = getResources().getStringArray(R.array.main_friend_btn_list);
         RecyclerViewHorizontalButtonListAdapter recyclerViewHorizontalButtonListAdapter = new RecyclerViewHorizontalButtonListAdapter(Arrays.asList(btns));
+        recyclerViewHorizontalButtonListAdapter.getPositionClicks().subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Timber.i("you click : " + s);
+            }
+        });
         horBtnList.setAdapter(recyclerViewHorizontalButtonListAdapter);
     }
 

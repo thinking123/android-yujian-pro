@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    >
 <android.support.design.button.MaterialButton
     android:id="@+id/btn"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    app:cornerRadius="20dp"
+    android:minWidth="32dp"
+    style="@style/Widget.MaterialComponents.Button.TextButton"
+    app:backgroundTint="@color/white1"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+
+    android:textColor="@color/text_primary1"
+    android:textSize="@dimen/tip_text_size"
+    app:rippleColor="@color/text_primary1"
+    />
 </android.support.constraint.ConstraintLayout>

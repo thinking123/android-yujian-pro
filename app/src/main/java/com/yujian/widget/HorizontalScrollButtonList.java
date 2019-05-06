@@ -1,6 +1,7 @@
 package com.yujian.widget;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.HorizontalScrollView;
@@ -11,12 +12,10 @@ import com.yujian.R;
 import butterknife.BindView;
 import timber.log.Timber;
 
-public class HorizontalScrollButtonList extends HorizontalScrollView {
+public class HorizontalScrollButtonList extends RecyclerView {
 
     private Context context;
     private AttributeSet attributeSet;
-    @BindView(R.id.horizontal_scroll_button_list_wrap)
-    LinearLayout linearLayout;
     public HorizontalScrollButtonList(Context context) {
         this(context, null, 0);
     }
