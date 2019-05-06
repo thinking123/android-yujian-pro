@@ -10,7 +10,14 @@ import com.jess.arms.di.scope.FragmentScope;
 
 import javax.inject.Inject;
 
+import com.yujian.entity.BaseResponse;
+import com.yujian.entity.Friend;
 import com.yujian.mvp.contract.FriendContract;
+import com.yujian.mvp.model.api.service.FriendService;
+
+import java.util.List;
+
+import io.reactivex.Observable;
 
 
 /**
@@ -42,5 +49,23 @@ public class FriendModel extends BaseModel implements FriendContract.Model {
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<BaseResponse<List<Friend>>> goodFriendAllListHot() {
+        return mRepositoryManager.obtainRetrofitService(FriendService.class).goodFriendAllListHot();
+    }
+
+    @Override
+    public Observable<BaseResponse<List<Friend>>> goodFriendAllList(String pageNum, String longitude, String latitude, String memberId, String name, String role, String id) {
+        return mRepositoryManager.obtainRetrofitService(FriendService.class).goodFriendAllList(
+                pageNum,
+                longitude,
+                latitude,
+                memberId,
+                name,
+                role,
+                id
+        );
     }
 }

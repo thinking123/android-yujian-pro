@@ -22,4 +22,9 @@ public class Constant {
         public static final   String phonePw = "手机或密码不正确";
     }
 
+
+    public interface Common{
+        public static String PRE_HEADER_TOKEN = "Bearer ";
+    }
+
 }

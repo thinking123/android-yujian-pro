@@ -121,10 +121,12 @@ public final class GlobalConfiguration implements ConfigModule {
                 })
                 .retrofitConfiguration((context1, retrofitBuilder) -> {//这里可以自己自定义配置 Retrofit 的参数, 甚至您可以替换框架配置好的 OkHttpClient 对象 (但是不建议这样做, 这样做您将损失框架提供的很多功能)
 //                    retrofitBuilder.addConverterFactory(FastJsonConverterFactory.create());//比如使用 FastJson 替代 Gson
+
                 })
                 .okhttpConfiguration((context1, okhttpBuilder) -> {//这里可以自己自定义配置 Okhttp 的参数
 //                    okhttpBuilder.sslSocketFactory(); //支持 Https, 详情请百度
                     okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS);
+                    okhttpBuilder.addInterceptor(new HeaderInterceptor());
                     //使用一行代码监听 Retrofit／Okhttp 上传下载进度监听, 以及 Glide 加载进度监听, 详细使用方法请查看 https://github.com/JessYanCoding/ProgressManager
 //                    ProgressManager.getInstance().with(okhttpBuilder);
                     //让 Retrofit 同时支持多个 BaseUrl 以及动态改变 BaseUrl, 详细使用方法请查看 https://github.com/JessYanCoding/RetrofitUrlManager
