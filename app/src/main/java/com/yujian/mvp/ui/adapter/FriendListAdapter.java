@@ -5,14 +5,21 @@ import android.support.design.button.MaterialButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yujian.R;
 import com.yujian.app.BaseApp;
 import com.yujian.entity.Friend;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -67,15 +74,34 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder  viewHoler, int position) {
         if(viewHoler instanceof ViewHoler){
-            final Friend friend = values.get(position - 1);
+            position = headerData == null ? position : position - 1;
+            Friend friend = values.get(position );
             ViewHoler holer = (ViewHoler)viewHoler;
-            holer.button.setText("");
-            holer.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickSubject.onNext(friend);
-                }
-            });
+//            holer.button.setText("");
+//            holer.button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onClickSubject.onNext(friend);
+//                }
+//            });
+            Glide.with(holer.layout.getContext()).load(friend.getLogo()).into(holer.logo);
+
+            holer.name.setText(friend.getName());
+            holer.addressDetails.setText(friend.getAddressDetails());
+            holer.distance.setText(friend.getDistance());
+
+
+            String icons = friend.getIcon();
+            List<String> list = new ArrayList<String>();
+            if(!TextUtils.isEmpty(icons)){
+                list = Arrays.asList(icons.split(","));
+            }
+            FriendListTagAdapter friendListTagAdapter = new FriendListTagAdapter(list);
+            RecyclerView.LayoutManager layoutManagerBtnList = new LinearLayoutManager(holer.layout.getContext() , LinearLayoutManager.HORIZONTAL , false);
+
+            holer.icons.setAdapter(friendListTagAdapter);
+            holer.icons.setLayoutManager(layoutManagerBtnList);
+
         }else if(viewHoler instanceof ViewHolerHeader){
             ViewHolerHeader holer = (ViewHolerHeader)viewHoler;
             FriendListHeaderAdapter friendListHeaderAdapter = new FriendListHeaderAdapter(headerData);
@@ -95,14 +121,15 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
     public void add(int position, Friend item) {
-        values.add(position + 1, item);
+        position = headerData == null ? position : position + 1;
+                values.add(position, item);
         notifyItemInserted(position);
     }
 
     public void addAll(int position , List<Friend> list){
         int count = values.size();
-        values.addAll(position + 1, list);
-        notifyItemRangeChanged(count + 1, list.size());
+        values.addAll(headerData == null ? position : position + 1, list);
+        notifyItemRangeChanged(headerData == null ? count : count + 1, list.size());
     }
 
     public void remove(int position) {
@@ -113,18 +140,26 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return values.size() + 1;
+        return headerData == null ? values.size() : values.size() + 1;
     }
 
     public class ViewHoler extends RecyclerView.ViewHolder {
 
-        public MaterialButton button;
+        public ImageView logo;
+        public TextView name;
+        public TextView addressDetails;
+        public TextView distance;
+        public RecyclerView icons;
         public View layout;
 
         public ViewHoler(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            button = (MaterialButton) itemView.findViewById(R.id.btn);
+            logo = (ImageView) itemView.findViewById(R.id.logo);
+            name = (TextView) itemView.findViewById(R.id.name);
+            addressDetails = (TextView) itemView.findViewById(R.id.addressDetails);
+            distance = (TextView) itemView.findViewById(R.id.distance);
+            icons = (RecyclerView) itemView.findViewById(R.id.icons);
         }
     }
     public class ViewHolerHeader extends RecyclerView.ViewHolder {

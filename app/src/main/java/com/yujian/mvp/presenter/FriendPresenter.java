@@ -84,7 +84,7 @@ public class FriendPresenter extends BasePresenter<FriendContract.Model, FriendC
                     @Override
                     public void onNext(BaseResponse<FriendBean> response) {
                         if (response.isSuccess()) {
-                            mRootView.showMessage("验证码发送成功.");
+                            mRootView.goodFriendAllListResult(response.getData());
 
                         } else{
                             mRootView.showMessage(response.getMsg());

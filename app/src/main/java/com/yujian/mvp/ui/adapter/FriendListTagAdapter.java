@@ -7,25 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.yujian.R;
 import com.yujian.app.BaseApp;
-import com.yujian.entity.Friend;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHeaderAdapter.ViewHoler> {
+public class FriendListTagAdapter extends RecyclerView.Adapter<FriendListTagAdapter.ViewHoler> {
 
-    private List<Friend> values;
-    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
-    public FriendListHeaderAdapter(List<Friend> myDataset) {
+    private List<String> values;
+    private final PublishSubject<String> onClickSubject = PublishSubject.create();
+    public FriendListTagAdapter(List<String> myDataset) {
         values = myDataset;
     }
 
@@ -35,7 +30,7 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
         LayoutInflater inflater = LayoutInflater.from(
                 viewGroup.getContext());
         View v =
-                inflater.inflate(R.layout.friend_list_row_header_row, viewGroup, false);
+                inflater.inflate(R.layout.friend_list_row_body_tag_row, viewGroup, false);
 
         ViewHoler viewHoler = new ViewHoler(v);
 
@@ -44,19 +39,17 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
 
     @Override
     public void onBindViewHolder(@NonNull ViewHoler viewHoler, int position) {
-        final Friend name = values.get(position);
-
-        Glide.with(viewHoler.layout.getContext()).load(name.getLogo()).into(viewHoler.imageView);
-//        viewHoler.imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onClickSubject.onNext(name);
-//            }
-//        });
-        viewHoler.textView.setText(name.getName());
+        final String name = values.get(position);
+        viewHoler.button.setText(name);
+        viewHoler.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSubject.onNext(name);
+            }
+        });
     }
 
-    public void add(int position, Friend item) {
+    public void add(int position, String item) {
         values.add(position, item);
         notifyItemInserted(position);
     }
@@ -74,18 +67,16 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
 
     public class ViewHoler extends RecyclerView.ViewHolder{
 
-        public CircleImageView imageView;
+        public MaterialButton button;
         public View layout;
-        public TextView textView;
         public ViewHoler(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            imageView = (CircleImageView)itemView.findViewById(R.id.logo);
-            textView = (TextView)itemView.findViewById(R.id.name);
+            button = (MaterialButton)itemView.findViewById(R.id.btn);
         }
     }
 
-    public Observable<Friend> getPositionClicks(){
+    public Observable<String> getPositionClicks(){
         return onClickSubject.hide();
     }
 }

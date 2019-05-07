@@ -20,6 +20,8 @@ import com.jess.arms.utils.ArmsUtils;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFriendComponent;
 import com.yujian.entity.Friend;
+import com.yujian.entity.GPSLocation;
+import com.yujian.entity.User;
 import com.yujian.mvp.contract.FriendContract;
 import com.yujian.mvp.model.entity.FriendBean;
 import com.yujian.mvp.presenter.FriendPresenter;
@@ -68,9 +70,27 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     @BindView(R.id.friend_list)
     RecyclerView friendList;
 
+    private int pageNum = 1, pages , total;
     public static FriendFragment newInstance() {
         FriendFragment fragment = new FriendFragment();
         return fragment;
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        if(mPresenter != null){
+            mPresenter.goodFriendAllListHot();
+            mPresenter.goodFriendAllList(
+                    Integer.toString(pageNum),
+                    Double.toString(GPSLocation.getInstance().getLongitude()),
+                    Double.toString(GPSLocation.getInstance().getLatitude()),
+                    "",
+                    "",
+                    "6",
+                    User.getInstance().getId()
+            );
+        }
     }
 
     @Override
@@ -103,9 +123,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         horBtnList.setAdapter(recyclerViewHorizontalButtonListAdapter);
 
 
-        if(mPresenter != null){
-            mPresenter.goodFriendAllListHot();
-        }
+
 
 //        MaterialHeader materialHeader = new MaterialHeader(getActivity());
 //        materialHeader.setColorSchemeColors(new int[]{Color.RED, Color.GREEN, Color.BLUE});
@@ -229,6 +247,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     @Override
     public void goodFriendAllListResult(FriendBean friends) {
-
+        Timber.i("cont : " + friends.list.size());
+        friendListAdapter.addAll(0 , friends.list);
     }
 }
