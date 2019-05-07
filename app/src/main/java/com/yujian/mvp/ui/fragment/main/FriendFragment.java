@@ -99,6 +99,9 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         horBtnList.setAdapter(recyclerViewHorizontalButtonListAdapter);
 
 
+        if(mPresenter != null){
+            mPresenter.goodFriendAllListHot();
+        }
 
 //        MaterialHeader materialHeader = new MaterialHeader(getActivity());
 //        materialHeader.setColorSchemeColors(new int[]{Color.RED, Color.GREEN, Color.BLUE});
@@ -196,7 +199,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     @Override
     public void goodFriendAllListHotResult(List<Friend> friends) {
-
+        Timber.i("cont : " + friends.size());
     }
 
     @Override

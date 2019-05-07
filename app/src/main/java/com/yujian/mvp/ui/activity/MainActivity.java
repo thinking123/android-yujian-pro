@@ -19,6 +19,7 @@ import com.jess.arms.utils.ArmsUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yujian.app.BaseSupportActivity;
 import com.yujian.di.component.DaggerMainComponent;
+import com.yujian.entity.GPSLocation;
 import com.yujian.mvp.contract.MainContract;
 import com.yujian.mvp.presenter.MainPresenter;
 
@@ -166,12 +167,18 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
                             public void onLocationResult(Location location) {
                                 String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
 
+                                GPSLocation gpsLocation = GPSLocation.getInstance();
+                                gpsLocation.setLatitude(location.getLatitude());
+                                gpsLocation.setLongitude(location.getLongitude());
                                 showMessage(str);
                             }
 
                             @Override
                             public void OnLocationChange(Location location) {
                                 String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
+                                GPSLocation gpsLocation = GPSLocation.getInstance();
+                                gpsLocation.setLatitude(location.getLatitude());
+                                gpsLocation.setLongitude(location.getLongitude());
 
                                 showMessage(str);
                             }
