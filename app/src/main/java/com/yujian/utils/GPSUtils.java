@@ -47,23 +47,39 @@ public class GPSUtils {
         String locationProvider = null;
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         //获取所有可用的位置提供器
+//        List<String> providers = locationManager.getProviders(true);
+
+
         List<String> providers = locationManager.getProviders(true);
-
-        if (providers.contains(LocationManager.GPS_PROVIDER)) {
-            //如果是GPS
-            locationProvider = LocationManager.GPS_PROVIDER;
-        } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
-            //如果是Network
-            locationProvider = LocationManager.NETWORK_PROVIDER;
-        } else {
-            Intent i = new Intent();
-            i.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            mContext.startActivity(i);
-            return null;
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = locationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+                locationProvider = provider;
+            }
         }
+        Location location =  bestLocation;
 
-        //获取Location
-        Location location = locationManager.getLastKnownLocation(locationProvider);
+//        if (providers.contains(LocationManager.GPS_PROVIDER)) {
+//            //如果是GPS
+//            locationProvider = LocationManager.GPS_PROVIDER;
+//        } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+//            //如果是Network
+//            locationProvider = LocationManager.NETWORK_PROVIDER;
+//        } else {
+//            Intent i = new Intent();
+//            i.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//            mContext.startActivity(i);
+//            return null;
+//        }
+//
+//        //获取Location
+//        Location location = locationManager.getLastKnownLocation(locationProvider);
         if (location != null) {
             //不为空,显示地理位置经纬度
             if (mOnLocationListener != null) {
@@ -71,6 +87,7 @@ public class GPSUtils {
             }
 
         }
+        if(locationProvider != null)
         //监视地理位置变化
         locationManager.requestLocationUpdates(locationProvider, 3000, 1, locationListener);
         return null;

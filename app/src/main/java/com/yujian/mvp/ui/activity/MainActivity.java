@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
@@ -31,6 +32,7 @@ import com.yujian.utils.GPSUtils;
 
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import me.yokeyword.fragmentation.ISupportFragment;
 import timber.log.Timber;
 
@@ -57,29 +59,29 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
 
     private ISupportFragment[] mFragments = new ISupportFragment[5];
 
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            //your code here
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
-    private  LocationManager mLocationManager ;
+//    private final LocationListener mLocationListener = new LocationListener() {
+//        @Override
+//        public void onLocationChanged(final Location location) {
+//            //your code here
+//        }
+//
+//        @Override
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderEnabled(String provider) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderDisabled(String provider) {
+//
+//        }
+//    };
+//
+//    private  LocationManager mLocationManager ;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -98,7 +100,7 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         requestPermissions();
         initNav();
     }
@@ -155,26 +157,31 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION
                 )
+//                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(granted -> {
                     if (granted) {
                         Timber.i("grant loaton");
                         GPSUtils.getInstance(this).getLngAndLat(new GPSUtils.OnLocationResultListener() {
                             @Override
                             public void onLocationResult(Location location) {
-                                String str = String.format("l : $s , r : %s" , location.getLatitude() , location.getLongitude());
+                                String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
 
                                 showMessage(str);
                             }
 
                             @Override
                             public void OnLocationChange(Location location) {
+                                String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
 
+                                showMessage(str);
                             }
                         });
                     } else {
                         // 用户拒绝了该权限，并且选中『不再询问』
                         Timber.e("%s is denied.", "location");
                     }
+                } , error -> {
+                    Timber.e(error.getMessage());
                 });
 
 
@@ -193,7 +200,8 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
     @Override
     public void showMessage(@NonNull String message) {
         checkNotNull(message);
-        ArmsUtils.snackbarText(message);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+//        ArmsUtils.snackbarText(message);
     }
 
     @Override

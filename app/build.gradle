@@ -78,6 +78,6 @@ dependencies {
 
     implementation rootProject.ext.dependencies["design"]
     annotationProcessor rootProject.ext.dependencies["lombok-compiler"]
-    implementation 'in.srain.cube:ptr-load-more:1.0.6'
+//    implementation 'in.srain.cube:ptr-load-more:1.0.6'
 
 }
