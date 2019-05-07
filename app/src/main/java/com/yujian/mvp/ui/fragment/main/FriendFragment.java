@@ -30,11 +30,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-//import in.srain.cube.views.ptr.PtrClassicDefaultFooter;
-//import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-//import in.srain.cube.views.ptr.PtrDefaultHandler2;
-//import in.srain.cube.views.ptr.PtrFrameLayout;
-//import in.srain.cube.views.ptr.header.MaterialHeader;
+import in.srain.cube.views.ptr.PtrClassicDefaultFooter;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.header.MaterialHeader;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -58,11 +59,11 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     @BindView(R.id.friend_top_btn_list)
     RecyclerView horBtnList;
 
-//    @BindView(R.id.friend_refresh_layout)
-//    PtrClassicFrameLayout refreshLayout;
+    @BindView(R.id.friend_refresh_layout)
+    PtrClassicFrameLayout refreshLayout;
 
-//    @BindView(R.id.friend_list)
-//    RecyclerView friendList;
+    @BindView(R.id.friend_list)
+    RecyclerView friendList;
 
     public static FriendFragment newInstance() {
         FriendFragment fragment = new FriendFragment();
@@ -107,26 +108,34 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 //        materialHeader.setColorSchemeColors(new int[]{Color.RED, Color.GREEN, Color.BLUE});
 //        refreshLayout.setHeaderView(materialHeader);
 //        refreshLayout.addPtrUIHandler(materialHeader);
-//
-//
-//        PtrClassicDefaultFooter ptrClassicDefaultFooter = new PtrClassicDefaultFooter(getActivity());
-//        refreshLayout.setFooterView(ptrClassicDefaultFooter);
-//
+
+        StoreHouseHeader storeHouseHeader = new StoreHouseHeader(getActivity());
+        storeHouseHeader.setPadding(0,100,0,0);
+        storeHouseHeader.setBackgroundColor(Color.BLACK);
+        storeHouseHeader.setTextColor(Color.WHITE);
+        storeHouseHeader.initWithString("haichenyi");//只可英文，中文不可运行(添加时间)
+        refreshLayout.setHeaderView(storeHouseHeader);
+        refreshLayout.addPtrUIHandler(storeHouseHeader);
+
+
+        PtrClassicDefaultFooter ptrClassicDefaultFooter = new PtrClassicDefaultFooter(getActivity());
+        refreshLayout.setFooterView(ptrClassicDefaultFooter);
+
 //        refreshLayout.addPtrUIHandler(materialHeader);
-//        refreshLayout.addPtrUIHandler(ptrClassicDefaultFooter);
-//
-//        refreshLayout.setPtrHandler(new PtrDefaultHandler2() {
-//            @Override
-//            public void onLoadMoreBegin(PtrFrameLayout frame) {
-//                frame.postDelayed(refreshLayout::refreshComplete, 2000);
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout frame) {
-//                frame.postDelayed(refreshLayout::refreshComplete, 2000);
-//            }
-//        });
-//        refreshLayout.setMode(PtrFrameLayout.Mode.LOAD_MORE);
+        refreshLayout.addPtrUIHandler(ptrClassicDefaultFooter);
+
+        refreshLayout.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                frame.postDelayed(refreshLayout::refreshComplete, 2000);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(refreshLayout::refreshComplete, 2000);
+            }
+        });
+        refreshLayout.setMode(PtrFrameLayout.Mode.LOAD_MORE);
     }
 
     /**
