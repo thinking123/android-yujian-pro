@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yujian.R;
@@ -16,6 +17,7 @@ import com.yujian.entity.Friend;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -51,6 +53,7 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
                 onClickSubject.onNext(name);
             }
         });
+        viewHoler.textView.setText(name.getName());
     }
 
     public void add(int position, Friend item) {
@@ -71,12 +74,14 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
 
     public class ViewHoler extends RecyclerView.ViewHolder{
 
-        public ImageView imageView;
+        public CircleImageView imageView;
         public View layout;
+        public TextView textView;
         public ViewHoler(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            imageView = (ImageView)itemView.findViewById(R.id.logo);
+            imageView = (CircleImageView)itemView.findViewById(R.id.logo);
+            textView = (TextView)itemView.findViewById(R.id.name);
         }
     }
 

@@ -57,4 +57,5 @@
         <item>@string/main_friend_btn_list_fans</item>
     </string-array>
 
+    <string name="friend_header_title">热门教练</string>
 </resources>
