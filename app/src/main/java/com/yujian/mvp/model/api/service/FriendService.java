@@ -2,6 +2,7 @@ package com.yujian.mvp.model.api.service;
 
 import com.yujian.entity.BaseResponse;
 import com.yujian.entity.Friend;
+import com.yujian.mvp.model.entity.FriendBean;
 
 import java.util.List;
 
@@ -11,10 +12,10 @@ import retrofit2.http.Query;
 
 public interface FriendService {
     @GET("/api/gym/GoodFriendAllListHot")
-    Observable<BaseResponse<List<Friend>>> goodFriendAllListHot();
+    Observable<BaseResponse<FriendBean>> goodFriendAllListHot();
 
     @GET("/api/gym/GoodFriendAllList")
-    Observable<BaseResponse<List<Friend>>> goodFriendAllList(
+    Observable<BaseResponse<FriendBean>> goodFriendAllList(
             @Query("pageNum") String pageNum,
             @Query("longitude") String longitude,
             @Query("latitude") String latitude,

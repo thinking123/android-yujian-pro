@@ -17,6 +17,7 @@ import com.yujian.app.utils.RxUtils;
 import com.yujian.entity.BaseResponse;
 import com.yujian.entity.Friend;
 import com.yujian.mvp.contract.FriendContract;
+import com.yujian.mvp.model.entity.FriendBean;
 
 import java.util.List;
 
@@ -53,11 +54,11 @@ public class FriendPresenter extends BasePresenter<FriendContract.Model, FriendC
     public void goodFriendAllListHot(){
         mModel.goodFriendAllListHot()
                 .compose(RxUtils.applySchedulers(mRootView))
-                .subscribe(new ErrorHandleSubscriber<BaseResponse<List<Friend>>>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<FriendBean>>(mErrorHandler) {
                     @Override
-                    public void onNext(BaseResponse<List<Friend>> response) {
+                    public void onNext(BaseResponse<FriendBean> response) {
                         if (response.isSuccess()) {
-                            mRootView.showMessage("验证码发送成功.");
+                            mRootView.goodFriendAllListHotResult(response.getData());
 
                         } else{
                             mRootView.showMessage(response.getMsg());
@@ -79,9 +80,9 @@ public class FriendPresenter extends BasePresenter<FriendContract.Model, FriendC
                 id
         )
                 .compose(RxUtils.applySchedulers(mRootView))
-                .subscribe(new ErrorHandleSubscriber<BaseResponse<List<Friend>>>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<FriendBean>>(mErrorHandler) {
                     @Override
-                    public void onNext(BaseResponse<List<Friend>> response) {
+                    public void onNext(BaseResponse<FriendBean> response) {
                         if (response.isSuccess()) {
                             mRootView.showMessage("验证码发送成功.");
 

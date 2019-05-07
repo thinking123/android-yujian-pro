@@ -18,7 +18,7 @@ import com.yujian.mvp.model.api.service.FriendService;
 import java.util.List;
 
 import io.reactivex.Observable;
-
+import com.yujian.mvp.model.entity.FriendBean;
 
 /**
  * ================================================
@@ -52,12 +52,12 @@ public class FriendModel extends BaseModel implements FriendContract.Model {
     }
 
     @Override
-    public Observable<BaseResponse<List<Friend>>> goodFriendAllListHot() {
+    public Observable<BaseResponse<FriendBean>> goodFriendAllListHot() {
         return mRepositoryManager.obtainRetrofitService(FriendService.class).goodFriendAllListHot();
     }
 
     @Override
-    public Observable<BaseResponse<List<Friend>>> goodFriendAllList(String pageNum, String longitude, String latitude, String memberId, String name, String role, String id) {
+    public Observable<BaseResponse<FriendBean>> goodFriendAllList(String pageNum, String longitude, String latitude, String memberId, String name, String role, String id) {
         return mRepositoryManager.obtainRetrofitService(FriendService.class).goodFriendAllList(
                 pageNum,
                 longitude,

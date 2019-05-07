@@ -21,11 +21,14 @@ import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFriendComponent;
 import com.yujian.entity.Friend;
 import com.yujian.mvp.contract.FriendContract;
+import com.yujian.mvp.model.entity.FriendBean;
 import com.yujian.mvp.presenter.FriendPresenter;
 
 import com.yujian.R;
+import com.yujian.mvp.ui.adapter.FriendListAdapter;
 import com.yujian.mvp.ui.adapter.RecyclerViewHorizontalButtonListAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -136,8 +139,19 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
             }
         });
         refreshLayout.setMode(PtrFrameLayout.Mode.LOAD_MORE);
+
+        initFriendList();
     }
 
+    private FriendListAdapter friendListAdapter;
+    private void initFriendList(){
+        friendListAdapter = new FriendListAdapter(new ArrayList<Friend>());
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        friendList.setLayoutManager(mLayoutManager);
+
+        friendList.setAdapter(friendListAdapter);
+    }
     /**
      * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
      * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
@@ -207,12 +221,14 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     }
 
     @Override
-    public void goodFriendAllListHotResult(List<Friend> friends) {
-        Timber.i("cont : " + friends.size());
+    public void goodFriendAllListHotResult(FriendBean friends) {
+        Timber.i("cont : " + friends.list.size());
+//        friendListAdapter.add(0 , friends.list);
+        friendListAdapter.addHeaderData(friends.list);
     }
 
     @Override
-    public void goodFriendAllListResult(List<Friend> friends) {
+    public void goodFriendAllListResult(FriendBean friends) {
 
     }
 }

@@ -26,9 +26,9 @@ public class HeaderInterceptor implements Interceptor {
         Timber.i("App-token : %s", token);
         Request request = chain.request()
                 .newBuilder()
-                .addHeader("Authorization",
+                .addHeader("token",
                         "".equals(token) ?
-                                "" : Constant.Common.PRE_HEADER_TOKEN + token)
+                                "" : token)
                 .build();
 
         return chain.proceed(request);
