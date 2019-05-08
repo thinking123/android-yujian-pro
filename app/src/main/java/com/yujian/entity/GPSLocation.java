@@ -16,6 +16,9 @@ public class GPSLocation {
     public static GPSLocation getInstance(){
         if(gpsLocation == null){
             gpsLocation = new GPSLocation();
+
+            gpsLocation.setLongitude(117.4658203125);
+            gpsLocation.setLatitude(28.6809497286);
         }
 
         return gpsLocation;

@@ -155,6 +155,12 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
             public void onRefreshBegin(PtrFrameLayout frame) {
                 frame.postDelayed(refreshLayout::refreshComplete, 2000);
             }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return super.checkCanDoRefresh(frame, content, header);
+//                return PtrDefaultHandler
+            }
         });
         refreshLayout.setMode(PtrFrameLayout.Mode.LOAD_MORE);
 

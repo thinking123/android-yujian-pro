@@ -8,13 +8,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logo"
-        android:tint="@color/text_primary1"
-        android:backgroundTint="@color/text_primary1"
-        app:civ_circle_background_color="@color/text_primary1"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/btn_wx_hint_bg"
         android:layout_width="40dp"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:src="@color/text_primary1"
+        />
 
     <TextView
         android:id="@+id/name"
