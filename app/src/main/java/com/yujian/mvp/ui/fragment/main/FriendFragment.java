@@ -243,6 +243,19 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         Timber.i("cont : " + friends.list.size());
 //        friendListAdapter.add(0 , friends.list);
         friendListAdapter.addHeaderData(friends.list);
+
+//        if(mPresenter != null){
+////            mPresenter.goodFriendAllListHot();
+//            mPresenter.goodFriendAllList(
+//                    Integer.toString(pageNum),
+//                    Double.toString(GPSLocation.getInstance().getLongitude()),
+//                    Double.toString(GPSLocation.getInstance().getLatitude()),
+//                    "",
+//                    "",
+//                    "6",
+//                    User.getInstance().getId()
+//            );
+//        }
     }
 
     @Override

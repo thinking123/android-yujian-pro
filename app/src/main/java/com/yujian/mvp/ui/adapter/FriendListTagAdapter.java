@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yujian.R;
 import com.yujian.app.BaseApp;
@@ -19,7 +20,7 @@ import io.reactivex.subjects.PublishSubject;
 public class FriendListTagAdapter extends RecyclerView.Adapter<FriendListTagAdapter.ViewHoler> {
 
     private List<String> values;
-    private final PublishSubject<String> onClickSubject = PublishSubject.create();
+//    private final PublishSubject<String> onClickSubject = PublishSubject.create();
     public FriendListTagAdapter(List<String> myDataset) {
         values = myDataset;
     }
@@ -41,12 +42,12 @@ public class FriendListTagAdapter extends RecyclerView.Adapter<FriendListTagAdap
     public void onBindViewHolder(@NonNull ViewHoler viewHoler, int position) {
         final String name = values.get(position);
         viewHoler.button.setText(name);
-        viewHoler.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickSubject.onNext(name);
-            }
-        });
+//        viewHoler.button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onClickSubject.onNext(name);
+//            }
+//        });
     }
 
     public void add(int position, String item) {
@@ -67,16 +68,16 @@ public class FriendListTagAdapter extends RecyclerView.Adapter<FriendListTagAdap
 
     public class ViewHoler extends RecyclerView.ViewHolder{
 
-        public MaterialButton button;
+        public TextView button;
         public View layout;
         public ViewHoler(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            button = (MaterialButton)itemView.findViewById(R.id.btn);
+            button = (TextView)itemView.findViewById(R.id.btn);
         }
     }
 
-    public Observable<String> getPositionClicks(){
-        return onClickSubject.hide();
-    }
+//    public Observable<String> getPositionClicks(){
+//        return onClickSubject.hide();
+//    }
 }

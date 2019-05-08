@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import io.reactivex.subjects.PublishSubject;
 public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHeaderAdapter.ViewHoler> {
 
     private List<Friend> values;
-    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
+//    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
     public FriendListHeaderAdapter(List<Friend> myDataset) {
         values = myDataset;
     }
@@ -46,13 +47,21 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
     public void onBindViewHolder(@NonNull ViewHoler viewHoler, int position) {
         final Friend name = values.get(position);
 
-        Glide.with(viewHoler.layout.getContext()).load(name.getLogo()).into(viewHoler.imageView);
-//        viewHoler.imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        if(TextUtils.isEmpty(name.getLogo())){
+//            viewHoler.imageView.setColorFilter(ContextCompat.getColor(
+//                    viewHoler.layout.getContext(),
+//                    R.color.text_primary1
+//            ));
+        }else{
+            Glide.with(viewHoler.layout.getContext()).load(name.getLogo()).into(viewHoler.imageView);
+        }
+
+        viewHoler.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                onClickSubject.onNext(name);
-//            }
-//        });
+            }
+        });
         viewHoler.textView.setText(name.getName());
     }
 
@@ -85,7 +94,7 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
         }
     }
 
-    public Observable<Friend> getPositionClicks(){
-        return onClickSubject.hide();
-    }
+//    public Observable<Friend> getPositionClicks(){
+//        return onClickSubject.hide();
+//    }
 }

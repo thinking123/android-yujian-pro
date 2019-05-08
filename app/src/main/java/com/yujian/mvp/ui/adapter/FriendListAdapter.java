@@ -30,7 +30,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_ITEM = 1;
     private List<Friend> values;
     private MaterialButton preSelectedBtn;
-    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
+//    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
     private List<Friend> headerData;
     public FriendListAdapter(List<Friend> myDataset) {
         values = myDataset;
@@ -62,7 +62,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (isPositionHeader(position))
+        if (isPositionHeader(position) && headerData != null)
             return TYPE_HEADER;
 
         return TYPE_ITEM;
@@ -88,10 +88,15 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             holer.name.setText(friend.getName());
             holer.addressDetails.setText(friend.getAddressDetails());
-            holer.distance.setText(friend.getDistance());
+            double distance = 0;
+            if(!TextUtils.isEmpty(friend.getDistance())){
+                distance = Double.parseDouble(friend.getDistance());
+            }
+            holer.distance.setText(String.format("%.2fKM" , distance));
 
 
             String icons = friend.getIcon();
+            icons = "金牌,水电费了可视对讲弗兰克,sddsflkj,是的范德萨开发,水电费了款式大方";
             List<String> list = new ArrayList<String>();
             if(!TextUtils.isEmpty(icons)){
                 list = Arrays.asList(icons.split(","));
@@ -128,7 +133,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void addAll(int position , List<Friend> list){
         int count = values.size();
-        values.addAll(headerData == null ? position : position + 1, list);
+        values.addAll(position, list);
         notifyItemRangeChanged(headerData == null ? count : count + 1, list.size());
     }
 
@@ -174,8 +179,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public Observable<Friend> getPositionClicks() {
-        return onClickSubject.hide();
-    }
+//    public Observable<Friend> getPositionClicks() {
+//        return onClickSubject.hide();
+//    }
 
 }
