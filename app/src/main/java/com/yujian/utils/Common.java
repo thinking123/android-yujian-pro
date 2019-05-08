@@ -1,6 +1,7 @@
 package com.yujian.utils;
 
 import android.content.Context;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -55,5 +56,8 @@ public class Common {
         }
     }
 
+    public static boolean isMainThread(){
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
 //    public static String recourceTo
 }

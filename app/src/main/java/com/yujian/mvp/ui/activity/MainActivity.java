@@ -162,27 +162,27 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
                 .subscribe(granted -> {
                     if (granted) {
                         Timber.i("grant loaton");
-                        GPSUtils.getInstance(this).getLngAndLat(new GPSUtils.OnLocationResultListener() {
-                            @Override
-                            public void onLocationResult(Location location) {
-                                String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
-
-                                GPSLocation gpsLocation = GPSLocation.getInstance();
-                                gpsLocation.setLatitude(location.getLatitude());
-                                gpsLocation.setLongitude(location.getLongitude());
-                                showMessage(str);
-                            }
-
-                            @Override
-                            public void OnLocationChange(Location location) {
-                                String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
-                                GPSLocation gpsLocation = GPSLocation.getInstance();
-                                gpsLocation.setLatitude(location.getLatitude());
-                                gpsLocation.setLongitude(location.getLongitude());
-
-                                showMessage(str);
-                            }
-                        });
+//                        GPSUtils.getInstance(this).getLngAndLat(new GPSUtils.OnLocationResultListener() {
+//                            @Override
+//                            public void onLocationResult(Location location) {
+//                                String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
+//
+//                                GPSLocation gpsLocation = GPSLocation.getInstance();
+//                                gpsLocation.setLatitude(location.getLatitude());
+//                                gpsLocation.setLongitude(location.getLongitude());
+//                                showMessage(str);
+//                            }
+//
+//                            @Override
+//                            public void OnLocationChange(Location location) {
+//                                String str = String.format("l : %f , r : %f" , location.getLatitude() , location.getLongitude());
+//                                GPSLocation gpsLocation = GPSLocation.getInstance();
+//                                gpsLocation.setLatitude(location.getLatitude());
+//                                gpsLocation.setLongitude(location.getLongitude());
+//
+//                                showMessage(str);
+//                            }
+//                        });
                     } else {
                         // 用户拒绝了该权限，并且选中『不再询问』
                         Timber.e("%s is denied.", "location");

@@ -13,6 +13,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <!-- baidu map start-->
+    //读取系统信息，包含系统版本等信息，用作统计
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    //这个权限用于进行网络定位
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- end-->
     <application
         android:name=".app.BaseApp"
         android:allowBackup="true"
@@ -45,6 +51,14 @@
         <meta-data
             android:name="com.yujian.app.GlobalConfiguration"
             android:value="ConfigModule" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="lsGamh7kYRckbjWfapDHZ2HUucyyInx5" />
+
+        <service android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"/>
     </application>
 
 </manifest>
