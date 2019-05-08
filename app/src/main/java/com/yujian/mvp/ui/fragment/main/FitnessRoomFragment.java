@@ -6,14 +6,21 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.LogoPosition;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.SupportMapFragment;
+import com.baidu.mapapi.model.LatLng;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -45,9 +52,12 @@ import io.reactivex.functions.Consumer;
  */
 public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresenter> implements FitnessRoomContract.View {
 
-    @BindView(R.id.fitnessroom_bd_map)
+//    @BindView(R.id.fitnessroom_bd_map)
     MapView bdMap;
     BaiduMap mBaiduMap;
+
+//    @BindView(R.id.fitnessroom_bd_map_fragment)
+//    SupportMapFragment supportMapFragment;
     public static FitnessRoomFragment newInstance() {
         FitnessRoomFragment fragment = new FitnessRoomFragment();
         return fragment;
@@ -65,18 +75,39 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_fitness_room, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_fitness_room, container, false);
+//        supportMapFragment = (SupportMapFragment)view.findViewById(R.id.fitnessroom_bd_map_fragment);
+
+//        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
+//        FragmentManager fragmentManager = getChildFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction
+//                .replace(R.id.fitnessroom_bd_map_fragment_container , supportMapFragment)
+//                .commit();
+        return view;
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mBaiduMap = bdMap.getMap();
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment) (getChildFragmentManager()
+                .findFragmentById(R.id.fitnessroom_bd_map));
+        bdMap = supportMapFragment.getMapView();
+
+//        mBaiduMap = bdMap.getMap();
+        mBaiduMap = supportMapFragment.getBaiduMap();
         mBaiduMap.setMyLocationEnabled(true);
+        LatLng GEO_SHANGHAI = new LatLng(31.227, 121.481);
+        MapStatusUpdate status1 = MapStatusUpdateFactory.newLatLng(GEO_SHANGHAI);
+        mBaiduMap.setMapStatus(status1);
+        bdMap.setLogoPosition(LogoPosition.logoPostionleftTop);
+
 
         BaseApp.getInstance().myListener.getBDLocation().subscribe(new Consumer<BDLocation>() {
             @Override
             public void accept(BDLocation location) throws Exception {
-                if(location != null){
+                if(location != null && mBaiduMap != null){
                     FitnessRoomFragment.this.bdLocation = location;
 
                     MyLocationData locData = new MyLocationData.Builder()
@@ -84,7 +115,7 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
                             // 此处设置开发者获取到的方向信息，顺时针0-360
                             .direction(location.getDirection()).latitude(location.getLatitude())
                             .longitude(location.getLongitude()).build();
-                    FitnessRoomFragment.this.mBaiduMap.setMyLocationData(locData);
+//                    mBaiduMap.setMyLocationData(locData);
 
                 }
             }
@@ -94,21 +125,27 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
     private BDLocation bdLocation;
     @Override
     public void onResume() {
-        super.onResume();
         bdMap.onResume();
+        super.onResume();
+
     }
 
     @Override
     public void onPause() {
-        super.onPause();
         bdMap.onPause();
+        super.onPause();
+
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        bdMap.onDestroy();
+
         mBaiduMap.setMyLocationEnabled(false);
+        bdMap.onDestroy();
+
+        bdMap = null;
+        super.onDestroy();
+
     }
 
     @Override

@@ -177,7 +177,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         initFriendList();
 
 
-        BaseApp.getInstance().myListener.getBDLocation().first(null).subscribe(new Consumer<BDLocation>() {
+        BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
             @Override
             public void accept(BDLocation bdLocation) throws Exception {
                 if(bdLocation != null){

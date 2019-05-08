@@ -9,13 +9,42 @@
         android:id="@+id/include2"
         layout="@layout/toolbar" />
 
-    <com.baidu.mapapi.map.MapView
+    <!--<com.baidu.mapapi.map.MapView-->
+        <!--android:id="@+id/fitnessroom_bd_map"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--app:layout_constraintVertical_weight="1"-->
+        <!--android:clickable="true"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/include2" />-->
+    <!--<com.baidu.mapapi.map.SupportMapFragment-->
+        <!--android:id="@+id/fitnessroom_bd_map_fragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--app:layout_constraintVertical_weight="1"-->
+        <!--android:clickable="true"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/include2" />-->
+
+    <fragment
         android:id="@+id/fitnessroom_bd_map"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="1"
-        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include2" />
+        app:layout_constraintTop_toBottomOf="@+id/include2"
+        class="com.baidu.mapapi.map.SupportMapFragment" />
+    <!--<FrameLayout-->
+        <!--android:id="@+id/fitnessroom_bd_map_fragment_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--app:layout_constraintVertical_weight="1"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/include2"-->
+        <!--&gt;</FrameLayout>-->
+
 </android.support.constraint.ConstraintLayout>

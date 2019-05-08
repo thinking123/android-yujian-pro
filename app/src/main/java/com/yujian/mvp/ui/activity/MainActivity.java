@@ -17,6 +17,7 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportActivity;
 import com.yujian.di.component.DaggerMainComponent;
 import com.yujian.entity.GPSLocation;
@@ -156,12 +157,16 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
         rxPermission
                 .request(
                         Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
 //                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(granted -> {
                     if (granted) {
                         Timber.i("grant loaton");
+
+                        BaseApp.getInstance().mLocationClient.start();
 //                        GPSUtils.getInstance(this).getLngAndLat(new GPSUtils.OnLocationResultListener() {
 //                            @Override
 //                            public void onLocationResult(Location location) {
