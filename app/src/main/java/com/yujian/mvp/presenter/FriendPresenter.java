@@ -69,7 +69,7 @@ public class FriendPresenter extends BasePresenter<FriendContract.Model, FriendC
     }
 
 
-    public void goodFriendAllList(String pageNum, String longitude, String latitude, String memberId, String name, String role, String id){
+    public void goodFriendAllList(String pageNum, String longitude, String latitude, String memberId, String name, String role, String id ){
         mModel.goodFriendAllList(
                 pageNum,
                 longitude,

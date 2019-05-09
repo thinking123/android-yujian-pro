@@ -11,4 +11,7 @@ import lombok.Setter;
 @Getter
 public class FriendBean implements Serializable {
     public List<Friend> list;
+    String pageNum;
+    String pages;
+    String total;
 }

@@ -120,6 +120,11 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     }
 
+    public void clear(){
+        headerData = null;
+        values.clear();
+        notifyDataSetChanged();
+    }
     public void addHeaderData(List<Friend> friends){
         headerData = friends;
 //        notifyItemInserted(0);
@@ -137,6 +142,16 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyItemRangeChanged(headerData == null ? count : count + 1, list.size());
     }
 
+    public void addAll(List<Friend> list){
+        int count = values.size();
+        values.addAll(list);
+        notifyItemRangeChanged(headerData == null ? count : count + 1, list.size());
+    }
+
+    public int getPosition(){
+        int count = values.size();
+        return headerData == null ? count : count + 1;
+    }
     public void remove(int position) {
         values.remove(position);
         notifyItemRemoved(position);

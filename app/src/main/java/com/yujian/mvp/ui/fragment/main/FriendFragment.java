@@ -3,6 +3,7 @@ package com.yujian.mvp.ui.fragment.main;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -71,8 +73,11 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     @BindView(R.id.friend_list)
     XRecyclerView friendList;
+    int pageNum = 1;
+    int pages = 0;
+    int total = 0;
+    boolean isLoadingMore = false, isRefreshing = false;
 
-    private int pageNum = 1, pages , total;
     public static FriendFragment newInstance() {
         FriendFragment fragment = new FriendFragment();
         return fragment;
@@ -81,8 +86,35 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        if(mPresenter != null){
+        initFriendListData();
+    }
+
+    public void initFriendListData() {
+        if (mPresenter != null) {
+            friendListAdapter.clear();
+            pageNum = 1;
+            pages = 0;
+            total = 0;
             mPresenter.goodFriendAllListHot();
+            mPresenter.goodFriendAllList(
+                    Integer.toString(pageNum),
+                    Double.toString(GPSLocation.getInstance().getLongitude()),
+                    Double.toString(GPSLocation.getInstance().getLatitude()),
+                    "",
+                    "",
+                    "6",
+                    User.getInstance().getId()
+            );
+        }
+    }
+
+
+    public void getFriendListData(int pageNum,
+                                  String memberId,
+                                  String name,
+                                  String role) {
+//        role = "6";
+        if (mPresenter != null) {
             mPresenter.goodFriendAllList(
                     Integer.toString(pageNum),
                     Double.toString(GPSLocation.getInstance().getLongitude()),
@@ -110,11 +142,12 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         return inflater.inflate(R.layout.fragment_friend, container, false);
     }
 
+
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        RecyclerView.LayoutManager layoutManagerBtnList = new LinearLayoutManager(getActivity() , LinearLayoutManager.HORIZONTAL , false);
+        RecyclerView.LayoutManager layoutManagerBtnList = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         horBtnList.setLayoutManager(layoutManagerBtnList);
-        String [] btns = getResources().getStringArray(R.array.main_friend_btn_list);
+        String[] btns = getResources().getStringArray(R.array.main_friend_btn_list);
         RecyclerViewHorizontalButtonListAdapter recyclerViewHorizontalButtonListAdapter = new RecyclerViewHorizontalButtonListAdapter(Arrays.asList(btns));
         recyclerViewHorizontalButtonListAdapter.getPositionClicks().subscribe(new Consumer<String>() {
             @Override
@@ -129,7 +162,8 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     }
 
     private FriendListAdapter friendListAdapter;
-    private void initFriendList(){
+
+    private void initFriendList() {
         friendListAdapter = new FriendListAdapter(new ArrayList<Friend>());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -139,57 +173,49 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         friendList.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);//设定上拉加载样式
 //        friendList.setArrowImageView(R.drawable.qwe);
 
+        friendList.setPullRefreshEnabled(true);
+
+        friendList.setLoadingMoreEnabled(true);
+
         friendList.setAdapter(friendListAdapter);
 
 
         friendList.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                friendList.loadMoreComplete();
+                isRefreshing = true;
+                initFriendListData();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        friendList.refreshComplete();
+//                    }
+//                } , 5000);
+
             }
 
             @Override
             public void onLoadMore() {
-                friendList.refreshComplete();
+
+                if (pageNum < pages) {
+                    isLoadingMore = true;
+                    getFriendListData(pageNum + 1, "", "", "");
+                } else {
+                    showMessage("没有更多了");
+                    friendList.loadMoreComplete();
+                }
+
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(getContext() , "loadmore" , Toast.LENGTH_LONG).show();
+//                        friendList.loadMoreComplete();
+//                    }
+//                } , 5000);
             }
         });
     }
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
+
     @Override
     public void setData(@Nullable Object data) {
 
@@ -224,39 +250,37 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     @Override
     public void goodFriendAllListHotResult(FriendBean friends) {
-        Timber.i("cont : " + friends.list.size());
-//        friendListAdapter.add(0 , friends.list);
-//        friendListAdapter.addHeaderData(friends.list);
-
-//        if(mPresenter != null){
-////            mPresenter.goodFriendAllListHot();
-//            mPresenter.goodFriendAllList(
-//                    Integer.toString(pageNum),
-//                    Double.toString(GPSLocation.getInstance().getLongitude()),
-//                    Double.toString(GPSLocation.getInstance().getLatitude()),
-//                    "",
-//                    "",
-//                    "6",
-//                    User.getInstance().getId()
-//            );
-//        }
+        if (isRefreshing && friendList != null) {
+            isRefreshing = false;
+            friendList.refreshComplete();
+        }
+        friendListAdapter.addHeaderData(friends.list);
     }
+
 
     @Override
     public void goodFriendAllListResult(FriendBean friends) {
-        Timber.i("cont : " + friends.list.size());
 
-        List<Friend> list = friends.list;
-//
-//        ArrayList<Friend> clone = ((ArrayList<Friend>)list).clone();
-//
-//
-//        friends.list.addAll(((ArrayList)(friends.list)).clone());
-
-        for(int i = 0 ; i < 5 ; i++){
-            list.add(list.get(0));
+        if (isLoadingMore && friendList != null) {
+            isLoadingMore = false;
+            friendList.loadMoreComplete();
         }
 
-        friendListAdapter.addAll(0 , list);
+
+        Timber.i("isLoadingMore : " + friends.list.size());
+
+        List<Friend> list = friends.list;
+
+        pageNum = Integer.parseInt(friends.getPageNum());
+        pages = Integer.parseInt(friends.getPages());
+        total = Integer.parseInt(friends.getTotal());
+
+
+//        for(int i = 0 ; i < 10 ; i++){
+//            list.add(list.get(0));
+//        }
+
+        friendListAdapter.addAll(list);
+
     }
 }
