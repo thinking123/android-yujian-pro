@@ -133,19 +133,20 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void add(int position, Friend item) {
         position = headerData == null ? position : position + 1;
                 values.add(position, item);
-        notifyItemInserted(position);
+//        notifyItemInserted(position);
+        notifyDataSetChanged();
     }
 
-    public void addAll(int position , List<Friend> list){
-        int count = values.size();
-        values.addAll(position, list);
-        notifyItemRangeChanged(headerData == null ? count : count + 1, list.size());
-    }
 
     public void addAll(List<Friend> list){
         int count = values.size();
         values.addAll(list);
-        notifyItemRangeChanged(headerData == null ? count : count + 1, list.size());
+//        notifyItemRangeChanged(headerData == null ? count : count + 1, list.size());
+        //不能使用 notifyItemRangeChanged ： error :
+        /*
+        * Called attach on a child which is not detached: ViewHolder{2e1b324d position=0 id=-1, oldPos=-1, pLpos:-1} com.jcodecraeer.xrecyclerview.XRecyclerView{25ac0888 VFED.... ......ID 0,397-1080,1699 #7f09006f app:id/friend_list}, adapter:com.jcodecraeer.xrecyclerview.XRecyclerView$WrapAdapter@16094221, layout:android.support.v7.widget.LinearLayoutManager@1f761102, context:com.yujian.mvp.ui.activity.MainActivity@53d4d58
+        * */
+        notifyDataSetChanged();
     }
 
     public int getPosition(){
