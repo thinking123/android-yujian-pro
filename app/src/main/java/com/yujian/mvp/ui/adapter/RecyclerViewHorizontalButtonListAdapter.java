@@ -50,11 +50,11 @@ public class RecyclerViewHorizontalButtonListAdapter extends RecyclerView.Adapte
 //                viewHoler.button.setActivated(true);
                 if(preSelectedBtn != null){
                     preSelectedBtn.setBackgroundTintList(ContextCompat.getColorStateList(BaseApp.getContext(), R.color.white1));;
-                    preSelectedBtn.setTextColor(ContextCompat.getColor(BaseApp.getContext() , R.color.text_primary1));
+                    preSelectedBtn.setTextColor(ContextCompat.getColor(BaseApp.getContext() , R.color.text_gray));
                 }
                 preSelectedBtn = viewHoler.button;
                 viewHoler.button.setBackgroundTintList(ContextCompat.getColorStateList(BaseApp.getContext(), R.color.btn_wx_hint_bg));;
-                viewHoler.button.setTextColor(ContextCompat.getColor(BaseApp.getContext() , R.color.white1));
+                viewHoler.button.setTextColor(ContextCompat.getColor(BaseApp.getContext() , R.color.white));
                 onClickSubject.onNext(name);
             }
         });
@@ -62,7 +62,7 @@ public class RecyclerViewHorizontalButtonListAdapter extends RecyclerView.Adapte
         if(position == 0 && preSelectedBtn == null) {
             preSelectedBtn = viewHoler.button;
             viewHoler.button.setBackgroundTintList(ContextCompat.getColorStateList(BaseApp.getContext(), R.color.btn_wx_hint_bg));;
-            viewHoler.button.setTextColor(ContextCompat.getColor(BaseApp.getContext() , R.color.white1));
+            viewHoler.button.setTextColor(ContextCompat.getColor(BaseApp.getContext() , R.color.white));
 //            viewHoler.button.setTextSize(R.dimen.page_title_size);
         }
     }

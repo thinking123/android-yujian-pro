@@ -26,6 +26,7 @@ import com.yujian.di.component.DaggerFriendComponent;
 import com.yujian.entity.Friend;
 import com.yujian.entity.GPSLocation;
 import com.yujian.entity.User;
+import com.yujian.entity.UserRole;
 import com.yujian.mvp.contract.FriendContract;
 import com.yujian.mvp.model.entity.FriendBean;
 import com.yujian.mvp.presenter.FriendPresenter;
@@ -73,6 +74,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     @BindView(R.id.friend_list)
     XRecyclerView friendList;
+    UserRole userRole = UserRole.RECOMMEND;
     int pageNum = 1;
     int pages = 0;
     int total = 0;
@@ -92,6 +94,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     public void initFriendListData() {
         if (mPresenter != null) {
             friendListAdapter.clear();
+//            friendList.reset();
             pageNum = 1;
             pages = 0;
             total = 0;
@@ -102,7 +105,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
                     Double.toString(GPSLocation.getInstance().getLatitude()),
                     "",
                     "",
-                    "6",
+                    userRole.toString(),
                     User.getInstance().getId()
             );
         }
@@ -142,7 +145,21 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         return inflater.inflate(R.layout.fragment_friend, container, false);
     }
 
-
+    private UserRole selectedUserRole(String s){
+        if(s == getResources().getString(R.string.main_friend_btn_list_fans)){
+            return UserRole.FANS;
+        }else if(s == getResources().getString(R.string.main_friend_btn_list_coach)){
+            return UserRole.COACH;
+        }else if(s == getResources().getString(R.string.main_friend_btn_list_fitnessroom)){
+            return UserRole.FITNESSROOM;
+        }else if(s == getResources().getString(R.string.main_friend_btn_list_user)){
+            return UserRole.USER;
+        }else if(s == getResources().getString(R.string.main_friend_btn_list_attention)){
+            return UserRole.ATTENTION;
+        }else {
+            return UserRole.RECOMMEND;
+        }
+    }
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
@@ -156,6 +173,8 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         recyclerViewHorizontalButtonListAdapter.getPositionClicks().subscribe(new Consumer<String>() {
             @Override
             public void accept(String s) throws Exception {
+                userRole = selectedUserRole(s);
+                initFriendListData();
                 Timber.i("you click : " + s);
             }
         });

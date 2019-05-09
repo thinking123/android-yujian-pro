@@ -18,8 +18,8 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
 
-    android:textColor="@color/text_primary1"
+    android:textColor="@color/text_gray"
     android:textSize="@dimen/tip_text_size"
-    app:rippleColor="@color/text_primary1"
+    app:rippleColor="@color/text_gray"
     />
 </android.support.constraint.ConstraintLayout>
