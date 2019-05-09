@@ -42,27 +42,43 @@
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/friend_refresh_layout"
+
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="1"
-        app:ptr_resistance_header="1.7"
-        app:ptr_ratio_of_header_height_to_refresh="1.2"
-        app:ptr_duration_to_back_header="300"
-        app:ptr_duration_to_close_header="2000"
-        app:ptr_keep_header_when_refresh="true"
-        app:ptr_pull_to_fresh="false"
-        app:ptr_resistance_footer="1.3"
-        app:ptr_duration_to_back_footer="300"
-        app:ptr_duration_to_close_footer="2000"
-
         app:layout_constraintTop_toBottomOf="@+id/friend_top_btn_list"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/friend_list"
+        android:backgroundTint="@color/btn_wx_hint_bg"
+        android:background="@color/btn_wx_hint_bg"
         >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/friend_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
+
+
+    </com.jcodecraeer.xrecyclerview.XRecyclerView>
+    <!--<in.srain.cube.views.ptr.PtrClassicFrameLayout-->
+        <!--android:id="@+id/friend_refresh_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--app:layout_constraintVertical_weight="1"-->
+        <!--app:ptr_resistance_header="1.7"-->
+        <!--app:ptr_ratio_of_header_height_to_refresh="1.2"-->
+        <!--app:ptr_duration_to_back_header="300"-->
+        <!--app:ptr_duration_to_close_header="2000"-->
+        <!--app:ptr_keep_header_when_refresh="true"-->
+        <!--app:ptr_pull_to_fresh="false"-->
+        <!--app:ptr_resistance_footer="1.3"-->
+        <!--app:ptr_duration_to_back_footer="300"-->
+        <!--app:ptr_duration_to_close_footer="2000"-->
+
+        <!--app:layout_constraintTop_toBottomOf="@+id/friend_top_btn_list"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--&gt;-->
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/friend_list"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
+    <!--</in.srain.cube.views.ptr.PtrClassicFrameLayout>-->
 </android.support.constraint.ConstraintLayout>

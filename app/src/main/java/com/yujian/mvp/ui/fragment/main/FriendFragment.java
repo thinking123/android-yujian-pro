@@ -13,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baidu.location.BDLocation;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFriendComponent;
 import com.yujian.entity.Friend;
@@ -66,11 +66,11 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     @BindView(R.id.friend_top_btn_list)
     RecyclerView horBtnList;
 
-    @BindView(R.id.friend_refresh_layout)
-    PtrClassicFrameLayout refreshLayout;
+//    @BindView(R.id.friend_refresh_layout)
+//    PtrClassicFrameLayout refreshLayout;
 
     @BindView(R.id.friend_list)
-    RecyclerView friendList;
+    XRecyclerView friendList;
 
     private int pageNum = 1, pages , total;
     public static FriendFragment newInstance() {
@@ -81,21 +81,12 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-
-    }
-
-    private void getFriends(BDLocation location){
-        if(mPresenter != null && location != null){
+        if(mPresenter != null){
             mPresenter.goodFriendAllListHot();
             mPresenter.goodFriendAllList(
                     Integer.toString(pageNum),
-
-                    Double.toString(location.getLongitude()),
-                    Double.toString(location.getLatitude()),
-
-//
-//                    Double.toString(GPSLocation.getInstance().getLongitude()),
-//                    Double.toString(GPSLocation.getInstance().getLatitude()),
+                    Double.toString(GPSLocation.getInstance().getLongitude()),
+                    Double.toString(GPSLocation.getInstance().getLatitude()),
                     "",
                     "",
                     "6",
@@ -103,6 +94,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
             );
         }
     }
+
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
         DaggerFriendComponent //如找不到该类,请编译一下项目
@@ -133,65 +125,9 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         horBtnList.setAdapter(recyclerViewHorizontalButtonListAdapter);
 
 
-
-
-//        MaterialHeader materialHeader = new MaterialHeader(getActivity());
-//        materialHeader.setColorSchemeColors(new int[]{Color.RED, Color.GREEN, Color.BLUE});
-//        refreshLayout.setHeaderView(materialHeader);
-//        refreshLayout.addPtrUIHandler(materialHeader);
-
-        StoreHouseHeader storeHouseHeader = new StoreHouseHeader(getActivity());
-        storeHouseHeader.setPadding(0,100,0,0);
-        storeHouseHeader.setBackgroundColor(Color.BLACK);
-        storeHouseHeader.setTextColor(Color.WHITE);
-        storeHouseHeader.initWithString("haichenyi");//只可英文，中文不可运行(添加时间)
-        refreshLayout.setHeaderView(storeHouseHeader);
-        refreshLayout.addPtrUIHandler(storeHouseHeader);
-
-
-        PtrClassicDefaultFooter ptrClassicDefaultFooter = new PtrClassicDefaultFooter(getActivity());
-        refreshLayout.setFooterView(ptrClassicDefaultFooter);
-
-//        refreshLayout.addPtrUIHandler(materialHeader);
-        refreshLayout.addPtrUIHandler(ptrClassicDefaultFooter);
-
-        refreshLayout.setPtrHandler(new PtrDefaultHandler2() {
-            @Override
-            public void onLoadMoreBegin(PtrFrameLayout frame) {
-                frame.postDelayed(refreshLayout::refreshComplete, 2000);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                frame.postDelayed(refreshLayout::refreshComplete, 2000);
-            }
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return super.checkCanDoRefresh(frame, content, header);
-//                return PtrDefaultHandler
-            }
-        });
-        refreshLayout.setMode(PtrFrameLayout.Mode.LOAD_MORE);
-
         initFriendList();
-
-
-        BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
-            @Override
-            public void accept(BDLocation bdLocation) throws Exception {
-                if(bdLocation != null){
-                    FriendFragment.this.bdLocation = bdLocation;
-
-                    FriendFragment.this.getFriends(bdLocation);
-
-                }
-            }
-        });
-
-
     }
-    private BDLocation bdLocation;
+
     private FriendListAdapter friendListAdapter;
     private void initFriendList(){
         friendListAdapter = new FriendListAdapter(new ArrayList<Friend>());
@@ -199,10 +135,61 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         friendList.setLayoutManager(mLayoutManager);
 
+        friendList.setRefreshProgressStyle(ProgressStyle.BallZigZag); //设定下拉刷新样式
+        friendList.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);//设定上拉加载样式
+//        friendList.setArrowImageView(R.drawable.qwe);
+
         friendList.setAdapter(friendListAdapter);
+
+
+        friendList.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                friendList.loadMoreComplete();
+            }
+
+            @Override
+            public void onLoadMore() {
+                friendList.refreshComplete();
+            }
+        });
     }
-
-
+    /**
+     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
+     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
+     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
+     * <p>
+     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
+     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
+     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
+     * <p>
+     * Example usage:
+     * <pre>
+     * public void setData(@Nullable Object data) {
+     *     if (data != null && data instanceof Message) {
+     *         switch (((Message) data).what) {
+     *             case 0:
+     *                 loadData(((Message) data).arg1);
+     *                 break;
+     *             case 1:
+     *                 refreshUI();
+     *                 break;
+     *             default:
+     *                 //do something
+     *                 break;
+     *         }
+     *     }
+     * }
+     *
+     * // call setData(Object):
+     * Message data = new Message();
+     * data.what = 0;
+     * data.arg1 = 1;
+     * fragment.setData(data);
+     * </pre>
+     *
+     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
+     */
     @Override
     public void setData(@Nullable Object data) {
 
@@ -239,7 +226,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     public void goodFriendAllListHotResult(FriendBean friends) {
         Timber.i("cont : " + friends.list.size());
 //        friendListAdapter.add(0 , friends.list);
-        friendListAdapter.addHeaderData(friends.list);
+//        friendListAdapter.addHeaderData(friends.list);
 
 //        if(mPresenter != null){
 ////            mPresenter.goodFriendAllListHot();
@@ -258,6 +245,18 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     @Override
     public void goodFriendAllListResult(FriendBean friends) {
         Timber.i("cont : " + friends.list.size());
-        friendListAdapter.addAll(0 , friends.list);
+
+        List<Friend> list = friends.list;
+//
+//        ArrayList<Friend> clone = ((ArrayList<Friend>)list).clone();
+//
+//
+//        friends.list.addAll(((ArrayList)(friends.list)).clone());
+
+        for(int i = 0 ; i < 5 ; i++){
+            list.add(list.get(0));
+        }
+
+        friendListAdapter.addAll(0 , list);
     }
 }
