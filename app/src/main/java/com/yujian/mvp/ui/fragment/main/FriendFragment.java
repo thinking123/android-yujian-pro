@@ -145,6 +145,10 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+
+
+
+
         RecyclerView.LayoutManager layoutManagerBtnList = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         horBtnList.setLayoutManager(layoutManagerBtnList);
         String[] btns = getResources().getStringArray(R.array.main_friend_btn_list);
