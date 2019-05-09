@@ -51,8 +51,6 @@
         app:layout_constraintTop_toBottomOf="@+id/friend_top_btn_list"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/friend_list"
-        android:backgroundTint="@color/btn_wx_hint_bg"
-        android:background="@color/btn_wx_hint_bg"
         >
 
 
