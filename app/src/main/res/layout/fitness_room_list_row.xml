@@ -11,18 +11,13 @@
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
     android:layout_marginBottom="18dp"
-    android:background="@color/colorAccent"
-    android:backgroundTint="@color/colorAccent"
+    app:cardCornerRadius="5dp"
     >
 <android.support.constraint.ConstraintLayout
-    android:background="@color/colorAccent"
-    android:backgroundTint="@color/colorAccent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:background="@color/colorAccent"
-        android:backgroundTint="@color/colorAccent"
         android:id="@+id/bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,6 +43,8 @@
         android:layout_marginTop="5dp"
         android:text="TextView"
         android:textSize="11sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintStart_toStartOf="@+id/card_title"
         app:layout_constraintTop_toBottomOf="@+id/card_title" />
 
@@ -93,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/card_time"
         app:srcCompat="@mipmap/ic_launcher" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/card_attention"
         android:layout_width="35dp"
         android:layout_height="35dp"
@@ -101,7 +98,18 @@
         android:layout_marginRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/heart_btn_selector"/>
+        android:src="@drawable/heart_icon_disable"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/card_attention"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--android:scaleType="center"-->
+        <!--android:background="@drawable/heart_icon"-->
+        <!--android:src="@drawable/heart_icon_disable"/>-->
 
 
 </android.support.constraint.ConstraintLayout>

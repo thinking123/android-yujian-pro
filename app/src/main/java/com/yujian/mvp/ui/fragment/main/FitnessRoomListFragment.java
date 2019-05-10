@@ -21,12 +21,14 @@ import com.yujian.R;
 import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFitnessRoomComponent;
+import com.yujian.entity.FitnessRoom;
 import com.yujian.mvp.contract.FitnessRoomContract;
 import com.yujian.mvp.model.entity.FitnessRoomBean;
 import com.yujian.mvp.presenter.FitnessRoomPresenter;
 import com.yujian.mvp.ui.adapter.FitnessRoomListAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
@@ -94,15 +96,17 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPres
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         fitnessRoomListAdapter = new FitnessRoomListAdapter(new ArrayList<>());
-        fitnessRoomList.setAdapter(fitnessRoomListAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         fitnessRoomList.setLayoutManager(layoutManager);
 
         fitnessRoomList.setRefreshProgressStyle(ProgressStyle.BallZigZag); //设定下拉刷新样式
         fitnessRoomList.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);//设定上拉加载样式
         fitnessRoomList.setPullRefreshEnabled(true);
 
-        fitnessRoomList.setLoadingMoreEnabled(true);
+        fitnessRoomList.setLoadingMoreEnabled(false);
+
+        fitnessRoomList.setAdapter(fitnessRoomListAdapter);
         fitnessRoomList.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -167,6 +171,12 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPres
             isRefreshing = false;
             fitnessRoomList.refreshComplete();
         }
+
+//        List<FitnessRoom> list = new ArrayList<>();
+//        for(int i = 0 ; i < 10 ; i++){
+//            list.addAll(fitnessRoomBean.getList());
+//        }
         fitnessRoomListAdapter.addAll(fitnessRoomBean.getList());
+//        fitnessRoomListAdapter.addAll(list);
     }
 }

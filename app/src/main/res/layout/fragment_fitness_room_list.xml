@@ -19,12 +19,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:layout_marginTop="18dp"
         android:id="@+id/fitness_room_list"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:background="@color/btn_wx_hint_bg"
-        android:backgroundTint="@color/btn_wx_hint_bg"
         android:layout_height="0dp">
 
     </com.jcodecraeer.xrecyclerview.XRecyclerView>

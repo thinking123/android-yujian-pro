@@ -14,12 +14,15 @@ import com.yujian.entity.FitnessRoom;
 import com.yujian.utils.Common;
 
 import java.util.List;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomListAdapter.ViewHolder> {
     private List<FitnessRoom> values;
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title;
         public TextView address;
@@ -28,20 +31,21 @@ public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomList
         public TextView distance;
         public ImageView bg;
         public ImageView typeIcon;
-        public ImageView attention;
+        public CircleImageView attention;
         public View layout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            title = (TextView)itemView.findViewById(R.id.card_title);
-            address = (TextView)itemView.findViewById(R.id.card_address);
-            time = (TextView)itemView.findViewById(R.id.card_time);
-            type = (TextView)itemView.findViewById(R.id.card_type);
-            distance = (TextView)itemView.findViewById(R.id.card_distance);
+            title = (TextView) itemView.findViewById(R.id.card_title);
+            address = (TextView) itemView.findViewById(R.id.card_address);
+            time = (TextView) itemView.findViewById(R.id.card_time);
+            type = (TextView) itemView.findViewById(R.id.card_type);
+            distance = (TextView) itemView.findViewById(R.id.card_distance);
 
-            bg = (ImageView)itemView.findViewById(R.id.bg);
-            typeIcon = (ImageView)itemView.findViewById(R.id.card_type_icon);
-            attention = (ImageView)itemView.findViewById(R.id.card_attention);
+            bg = (ImageView) itemView.findViewById(R.id.bg);
+            typeIcon = (ImageView) itemView.findViewById(R.id.card_type_icon);
+            attention = (CircleImageView) itemView.findViewById(R.id.card_attention);
         }
     }
 
@@ -69,11 +73,11 @@ public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomList
         viewHolder.address.setText(Common.formatAddress(fitnessRoom.getGymAddressDetails()));
         viewHolder.time.setText(Common.formatTimeRange(fitnessRoom.getOpenTime()));
         viewHolder.distance.setText(fitnessRoom.getDistance());
-        viewHolder.type.setText(fitnessRoom.getGymName());
-        if(fitnessRoom.getIsHasCard() == "1"){
+//        viewHolder.type.setText(fitnessRoom.getGymName());
+        if (Objects.equals(fitnessRoom.getIsHasCard(), "1")) {
             viewHolder.type.setVisibility(View.VISIBLE);
             viewHolder.typeIcon.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             viewHolder.type.setVisibility(View.INVISIBLE);
             viewHolder.typeIcon.setVisibility(View.INVISIBLE);
         }
@@ -94,8 +98,8 @@ public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomList
          * Called attach on a child which is not detached: ViewHolder{2e1b324d position=0 id=-1, oldPos=-1, pLpos:-1} com.jcodecraeer.xrecyclerview.XRecyclerView{25ac0888 VFED.... ......ID 0,397-1080,1699 #7f09006f app:id/friend_list}, adapter:com.jcodecraeer.xrecyclerview.XRecyclerView$WrapAdapter@16094221, layout:android.support.v7.widget.LinearLayoutManager@1f761102, context:com.yujian.mvp.ui.activity.MainActivity@53d4d58
          * */
         notifyDataSetChanged();
+//        notifyItemRangeInserted(0 , list.size());
     }
-
 
 
     @Override
