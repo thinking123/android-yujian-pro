@@ -15,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFriendComponent;
 import com.yujian.entity.Friend;
@@ -79,7 +81,8 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     int pages = 0;
     int total = 0;
     boolean isLoadingMore = false, isRefreshing = false;
-
+    private boolean isFirstLocation = true;
+    private BDLocation bdLocation;
     public static FriendFragment newInstance() {
         FriendFragment fragment = new FriendFragment();
         return fragment;
@@ -88,11 +91,21 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        initFriendListData();
+        BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
+            @Override
+            public void accept(BDLocation location) throws Exception {
+                if(location != null && isFirstLocation){
+                    isFirstLocation = false;
+
+                    FriendFragment.this.bdLocation = location;
+                    initFriendListData();
+                }
+            }
+        });
     }
 
     public void initFriendListData() {
-        if (mPresenter != null) {
+        if (mPresenter != null && bdLocation != null) {
             friendListAdapter.clear();
 //            friendList.reset();
             pageNum = 1;
@@ -101,8 +114,8 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
             mPresenter.goodFriendAllListHot();
             mPresenter.goodFriendAllList(
                     Integer.toString(pageNum),
-                    Double.toString(GPSLocation.getInstance().getLongitude()),
-                    Double.toString(GPSLocation.getInstance().getLatitude()),
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
                     "",
                     "",
                     userRole.toString(),
@@ -117,7 +130,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
                                   String name,
                                   String role) {
 //        role = "6";
-        if (mPresenter != null) {
+        if (mPresenter != null && bdLocation != null) {
             mPresenter.goodFriendAllList(
                     Integer.toString(pageNum),
                     Double.toString(GPSLocation.getInstance().getLongitude()),
@@ -182,6 +195,9 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
 
         initFriendList();
+
+
+
     }
 
     private FriendListAdapter friendListAdapter;
