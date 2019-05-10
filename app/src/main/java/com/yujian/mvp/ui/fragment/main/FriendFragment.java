@@ -1,27 +1,21 @@
 package com.yujian.mvp.ui.fragment.main;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-
+import com.yujian.R;
 import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFriendComponent;
@@ -32,8 +26,6 @@ import com.yujian.entity.UserRole;
 import com.yujian.mvp.contract.FriendContract;
 import com.yujian.mvp.model.entity.FriendBean;
 import com.yujian.mvp.presenter.FriendPresenter;
-
-import com.yujian.R;
 import com.yujian.mvp.ui.adapter.FriendListAdapter;
 import com.yujian.mvp.ui.adapter.RecyclerViewHorizontalButtonListAdapter;
 
@@ -42,12 +34,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import in.srain.cube.views.ptr.PtrClassicDefaultFooter;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler2;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.header.MaterialHeader;
-import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 

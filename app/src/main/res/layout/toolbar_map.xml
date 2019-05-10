@@ -16,14 +16,5 @@
         android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"
-        app:titleTextAppearance="@style/Toolbar_TextAppearance_White">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/title"
-            android:textColor="@color/text_black"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            />
-    </android.support.v7.widget.Toolbar>
+        app:titleTextAppearance="@style/Toolbar_TextAppearance_White"/>
 </android.support.design.widget.AppBarLayout>

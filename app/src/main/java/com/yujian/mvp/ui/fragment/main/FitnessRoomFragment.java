@@ -2,48 +2,32 @@ package com.yujian.mvp.ui.fragment.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.LogoPosition;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.SupportMapFragment;
-import com.baidu.mapapi.model.LatLng;
-import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-
-import com.yujian.app.BaseApp;
+import com.yujian.R;
+import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFitnessRoomComponent;
 import com.yujian.mvp.contract.FitnessRoomContract;
+import com.yujian.mvp.model.entity.FitnessRoomBean;
 import com.yujian.mvp.presenter.FitnessRoomPresenter;
 
-import com.yujian.R;
+import butterknife.BindView;
+import me.yokeyword.fragmentation.ISupportFragment;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
-import com.yujian.app.BaseSupportFragment;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 /**
  * ================================================
@@ -58,17 +42,15 @@ import io.reactivex.functions.Consumer;
  * ================================================
  */
 public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresenter> implements FitnessRoomContract.View {
+    private ISupportFragment[] mFragments = new ISupportFragment[2];
+    public static final int FIRST = 0;
+    public static final int SECOND = 1;
+    private int currentFragment = FIRST;
 
-//    @BindView(R.id.fitnessroom_bd_map)
-    MapView bdMap;
-    BaiduMap mBaiduMap;
-
-    @BindView(R.id.location_btn)
-    Button locationBtn;
-//    @BindView(R.id.fitnessroom_bd_map_fragment)
-//    SupportMapFragment supportMapFragment;
-
-    private boolean isFirstLocation = true;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
     public static FitnessRoomFragment newInstance() {
         FitnessRoomFragment fragment = new FitnessRoomFragment();
         return fragment;
@@ -84,134 +66,67 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
                 .inject(this);
     }
 
-    @OnClick({R.id.location_btn})
-    public void onClick(View view){
-        updataLocation(bdLocation);
-    }
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_fitness_room, container, false);
-//        supportMapFragment = (SupportMapFragment)view.findViewById(R.id.fitnessroom_bd_map_fragment);
 
-//        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
-//        FragmentManager fragmentManager = getChildFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction
-//                .replace(R.id.fitnessroom_bd_map_fragment_container , supportMapFragment)
-//                .commit();
+        setHasOptionsMenu(true);
         return view;
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fitness_room_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment) (getChildFragmentManager()
-                .findFragmentById(R.id.fitnessroom_bd_map));
-        bdMap = supportMapFragment.getMapView();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-//        mBaiduMap = bdMap.getMap();
-        mBaiduMap = supportMapFragment.getBaiduMap();
-        mBaiduMap.setMyLocationEnabled(true);
-
-
-        MapStatus.Builder builder = new MapStatus.Builder();
-        builder.zoom(18.0f);
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-
-//        LatLng GEO_SHANGHAI = new LatLng(31.227, 121.481);
-//        MapStatusUpdate status1 = MapStatusUpdateFactory.newLatLng(GEO_SHANGHAI);
-//        mBaiduMap.setMapStatus(status1);
-//
-//
-//
-//        bdMap.setLogoPosition(LogoPosition.logoPostionleftTop);
-        MyLocationConfiguration myLocationConfiguration = new MyLocationConfiguration(
-                MyLocationConfiguration.LocationMode.NORMAL,
-                false,
-                BitmapDescriptorFactory.fromResource(R.drawable.bd_location_dot),
-                ContextCompat.getColor(getActivity() , R.color.bd_location_border ),
-                ContextCompat.getColor(getActivity() , R.color.bd_location_border )
-        );
-
-        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
-
-
-        BaseApp.getInstance().myListener.getBDLocation().subscribe(new Consumer<BDLocation>() {
-            @Override
-            public void accept(BDLocation location) throws Exception {
-                if(location != null && mBaiduMap != null && isFirstLocation){
-                    isFirstLocation = false;
-
-                    FitnessRoomFragment.this.bdLocation = location;
-
-                    updataLocation(location);
-//                    MyLocationData locData = new MyLocationData.Builder()
-//                            .accuracy(location.getRadius())
-//                            // 此处设置开发者获取到的方向信息，顺时针0-360
-//                            .direction(location.getDirection()).latitude(location.getLatitude())
-//                            .longitude(location.getLongitude()).build();
-//                    mBaiduMap.setMyLocationData(locData);
-//
-//
-//                    LatLng ll = new LatLng(location.getLatitude(),
-//                            location.getLongitude());
-//
-//                    MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
-//
-//                    mBaiduMap.animateMapStatus(update);
-
+        switch (item.getItemId()) {
+            case R.id.switch_map:
+                if(currentFragment == FIRST){
+                    showHideFragment(mFragments[SECOND],mFragments[FIRST]);
+                    currentFragment = SECOND;
+                }else{
+                    showHideFragment(mFragments[FIRST],mFragments[SECOND]);
+                    currentFragment = FIRST;
                 }
-            }
-        });
-    }
 
-    private void updataLocation(BDLocation location){
-        isFirstLocation = false;
-
-//        FitnessRoomFragment.this.bdLocation = location;
-
-        MyLocationData locData = new MyLocationData.Builder()
-                .accuracy(location.getRadius())
-                // 此处设置开发者获取到的方向信息，顺时针0-360
-                .direction(location.getDirection()).latitude(location.getLatitude())
-                .longitude(location.getLongitude()).build();
-        mBaiduMap.setMyLocationData(locData);
+                title.setVisibility(currentFragment == FIRST ? View.VISIBLE :View.INVISIBLE);
+                item.setIcon(currentFragment == FIRST ? R.drawable.map_list_menu : R.drawable.map_location_menu);
+                break;
+        }
 
 
-        LatLng ll = new LatLng(location.getLatitude(),
-                location.getLongitude());
-
-        MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
-
-        mBaiduMap.animateMapStatus(update);
-    }
-    private BDLocation bdLocation;
-    @Override
-    public void onResume() {
-        bdMap.onResume();
-        super.onResume();
-
+        return true;
     }
 
     @Override
-    public void onPause() {
-        bdMap.onPause();
-        super.onPause();
+    public void initData(@Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
+        toolbar.setBackgroundColor(ContextCompat.getColor(getContext() ,
+                R.color.white));
+//        toolbar.setSubtitle(R.string.fitness_room_title);
+//        toolbar.setTitleTextColor(ContextCompat.getColor(getContext() ,
+//                R.color.text_black));
+//        ((AppCompatActivity)getActivity()).setTitle(R.string.fitness_room_title);
+
+        title.setText(getResources().getString(R.string.fitness_room_title));
+        ISupportFragment fragment = findChildFragment(FitnessRoomMapFragment.class);
+        if (fragment == null) {
+            mFragments[FIRST] = FitnessRoomMapFragment.newInstance();
+            mFragments[SECOND] = FitnessRoomListFragment.newInstance();
+            loadMultipleRootFragment(R.id.fitnessroom_container, FIRST, mFragments[FIRST], mFragments[SECOND]);
+        } else {
+            mFragments[FIRST] = fragment;
+            mFragments[SECOND] = findChildFragment(FitnessRoomListFragment.class);
+        }
     }
 
-    @Override
-    public void onDestroy() {
-
-        mBaiduMap.setMyLocationEnabled(false);
-        bdMap.onDestroy();
-
-        bdMap = null;
-        super.onDestroy();
-
-    }
 
     @Override
     public void setData(@Nullable Object data) {
@@ -242,6 +157,11 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
 
     @Override
     public void killMyself() {
+
+    }
+
+    @Override
+    public void getNearbyFitnessRoomResult(FitnessRoomBean fitnessRoomBean) {
 
     }
 }

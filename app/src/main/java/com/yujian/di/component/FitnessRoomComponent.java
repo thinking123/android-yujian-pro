@@ -10,6 +10,8 @@ import com.yujian.mvp.contract.FitnessRoomContract;
 
 import com.jess.arms.di.scope.FragmentScope;
 import com.yujian.mvp.ui.fragment.main.FitnessRoomFragment;
+import com.yujian.mvp.ui.fragment.main.FitnessRoomListFragment;
+import com.yujian.mvp.ui.fragment.main.FitnessRoomMapFragment;
 
 
 /**
@@ -28,6 +30,8 @@ import com.yujian.mvp.ui.fragment.main.FitnessRoomFragment;
 @Component(modules = FitnessRoomModule.class, dependencies = AppComponent.class)
 public interface FitnessRoomComponent {
     void inject(FitnessRoomFragment fragment);
+    void inject(FitnessRoomListFragment fragment);
+    void inject(FitnessRoomMapFragment fragment);
 
     @Component.Builder
     interface Builder {

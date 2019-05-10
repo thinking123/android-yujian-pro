@@ -14,10 +14,10 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
-import com.yujian.di.component.DaggerFriendComponent;
-import com.yujian.mvp.contract.FriendContract;
-import com.yujian.mvp.model.entity.FriendBean;
-import com.yujian.mvp.presenter.FriendPresenter;
+import com.yujian.di.component.DaggerFitnessRoomComponent;
+import com.yujian.mvp.contract.FitnessRoomContract;
+import com.yujian.mvp.model.entity.FitnessRoomBean;
+import com.yujian.mvp.presenter.FitnessRoomPresenter;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -34,7 +34,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class FitnessRoomListFragment extends BaseSupportFragment<FriendPresenter> implements FriendContract.View {
+public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPresenter> implements FitnessRoomContract.View {
 
     public static FitnessRoomListFragment newInstance() {
         FitnessRoomListFragment fragment = new FitnessRoomListFragment();
@@ -43,7 +43,7 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FriendPresenter
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-        DaggerFriendComponent //如找不到该类,请编译一下项目
+        DaggerFitnessRoomComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
                 .view(this)
@@ -129,13 +129,10 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FriendPresenter
 
     }
 
-    @Override
-    public void goodFriendAllListHotResult(FriendBean friends) {
 
-    }
 
     @Override
-    public void goodFriendAllListResult(FriendBean friends) {
+    public void getNearbyFitnessRoomResult(FitnessRoomBean fitnessRoomBean) {
 
     }
 }

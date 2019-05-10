@@ -10,7 +10,12 @@ import com.jess.arms.di.scope.FragmentScope;
 
 import javax.inject.Inject;
 
+import com.yujian.entity.BaseResponse;
 import com.yujian.mvp.contract.FitnessRoomContract;
+import com.yujian.mvp.model.api.service.FitnessRoomService;
+import com.yujian.mvp.model.entity.FitnessRoomBean;
+
+import io.reactivex.Observable;
 
 
 /**
@@ -42,5 +47,18 @@ public class FitnessRoomModel extends BaseModel implements FitnessRoomContract.M
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<BaseResponse<FitnessRoomBean>> getNearbyFitnessRoom(
+            String longitude,
+            String latitude,
+            String Kilometres
+    ) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).getNearbyFitnessRoom(
+                longitude,
+                latitude,
+                Kilometres
+        );
     }
 }

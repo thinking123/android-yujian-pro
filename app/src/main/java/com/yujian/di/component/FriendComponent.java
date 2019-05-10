@@ -30,8 +30,6 @@ import com.yujian.mvp.ui.fragment.main.FitnessRoomMapFragment;
 @Component(modules = FriendModule.class, dependencies = AppComponent.class)
 public interface FriendComponent {
     void inject(FriendFragment fragment);
-    void inject(FitnessRoomMapFragment fragment);
-    void inject(FitnessRoomListFragment fragment);
 
     @Component.Builder
     interface Builder {
