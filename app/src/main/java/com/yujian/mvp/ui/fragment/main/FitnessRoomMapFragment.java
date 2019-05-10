@@ -233,4 +233,9 @@ public class FitnessRoomMapFragment extends BaseSupportFragment<FitnessRoomPrese
     public void getNearbyFitnessRoomResult(FitnessRoomBean fitnessRoomBean) {
 
     }
+
+    @Override
+    public void attentionResult() {
+
+    }
 }

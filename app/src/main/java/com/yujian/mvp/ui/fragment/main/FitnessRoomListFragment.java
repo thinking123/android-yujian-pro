@@ -22,6 +22,7 @@ import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerFitnessRoomComponent;
 import com.yujian.entity.FitnessRoom;
+import com.yujian.entity.UserRole;
 import com.yujian.mvp.contract.FitnessRoomContract;
 import com.yujian.mvp.model.entity.FitnessRoomBean;
 import com.yujian.mvp.presenter.FitnessRoomPresenter;
@@ -118,6 +119,27 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPres
             public void onLoadMore() {}
         });
 
+
+        fitnessRoomListAdapter.getCardViewClicks().subscribe(new Consumer<FitnessRoom>() {
+            @Override
+            public void accept(FitnessRoom fitnessRoom) throws Exception {
+                showMessage("click cardview");
+            }
+        });
+
+        fitnessRoomListAdapter.getIconClicks().subscribe(new Consumer<FitnessRoom>() {
+            @Override
+            public void accept(FitnessRoom fitnessRoom) throws Exception {
+//                showMessage("click icon");
+                if(mPresenter != null){
+                    mPresenter.attention(
+                            UserRole.FITNESSROOM.toString(),
+                            fitnessRoom.getId()
+                    );
+                }
+            }
+        });
+
         initFitnessRoomList();
     }
 
@@ -178,5 +200,10 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPres
 //        }
         fitnessRoomListAdapter.addAll(fitnessRoomBean.getList());
 //        fitnessRoomListAdapter.addAll(list);
+    }
+
+    @Override
+    public void attentionResult() {
+
     }
 }

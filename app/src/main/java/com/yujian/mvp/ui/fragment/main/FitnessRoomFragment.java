@@ -164,4 +164,9 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
     public void getNearbyFitnessRoomResult(FitnessRoomBean fitnessRoomBean) {
 
     }
+
+    @Override
+    public void attentionResult() {
+
+    }
 }

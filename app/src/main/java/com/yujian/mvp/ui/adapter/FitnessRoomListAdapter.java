@@ -2,6 +2,7 @@ package com.yujian.mvp.ui.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,21 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomListAdapter.ViewHolder> {
     private List<FitnessRoom> values;
 
+    private final PublishSubject<FitnessRoom> onClickSubject = PublishSubject.create();
+    private final PublishSubject<FitnessRoom> onClickSubjectCardView = PublishSubject.create();
+
+    public Observable<FitnessRoom> getIconClicks() {
+        return onClickSubject.hide();
+    }
+    public Observable<FitnessRoom> getCardViewClicks() {
+        return onClickSubjectCardView.hide();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -33,6 +45,7 @@ public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomList
         public ImageView typeIcon;
         public CircleImageView attention;
         public View layout;
+        public CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -46,6 +59,7 @@ public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomList
             bg = (ImageView) itemView.findViewById(R.id.bg);
             typeIcon = (ImageView) itemView.findViewById(R.id.card_type_icon);
             attention = (CircleImageView) itemView.findViewById(R.id.card_attention);
+            cardView = (CardView) itemView.findViewById(R.id.cardview);
         }
     }
 
@@ -81,6 +95,21 @@ public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomList
             viewHolder.type.setVisibility(View.INVISIBLE);
             viewHolder.typeIcon.setVisibility(View.INVISIBLE);
         }
+
+
+        viewHolder.attention.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSubject.onNext(fitnessRoom);
+            }
+        });
+
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSubjectCardView.onNext(fitnessRoom);
+            }
+        });
     }
 
     public void clear() {

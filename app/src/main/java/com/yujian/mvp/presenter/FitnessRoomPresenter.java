@@ -69,6 +69,26 @@ public class FitnessRoomPresenter extends BasePresenter<FitnessRoomContract.Mode
                     }
                 });
     }
+
+    public void attention(String collectType,String collectUserId){
+        mModel.attention(
+                collectType,
+                collectUserId)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.attentionResult();
+
+                        } else{
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import com.yujian.entity.BaseResponse;
 import com.yujian.mvp.contract.FitnessRoomContract;
 import com.yujian.mvp.model.api.service.FitnessRoomService;
+import com.yujian.mvp.model.entity.AttentionRequestBean;
 import com.yujian.mvp.model.entity.FitnessRoomBean;
 
 import io.reactivex.Observable;
@@ -60,5 +61,11 @@ public class FitnessRoomModel extends BaseModel implements FitnessRoomContract.M
                 latitude,
                 Kilometres
         );
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> attention(String collectType,String collectUserId) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).attention(
+             new AttentionRequestBean(collectType , collectUserId));
     }
 }
