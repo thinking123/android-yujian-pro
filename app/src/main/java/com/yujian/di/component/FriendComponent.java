@@ -10,8 +10,8 @@ import com.yujian.mvp.contract.FriendContract;
 
 import com.jess.arms.di.scope.FragmentScope;
 import com.yujian.mvp.ui.fragment.main.FriendFragment;
-import com.yujian.mvp.ui.fragment.main.FriendListFragment;
-import com.yujian.mvp.ui.fragment.main.FriendMapFragment;
+import com.yujian.mvp.ui.fragment.main.FitnessRoomListFragment;
+import com.yujian.mvp.ui.fragment.main.FitnessRoomMapFragment;
 
 
 /**
@@ -30,8 +30,8 @@ import com.yujian.mvp.ui.fragment.main.FriendMapFragment;
 @Component(modules = FriendModule.class, dependencies = AppComponent.class)
 public interface FriendComponent {
     void inject(FriendFragment fragment);
-    void inject(FriendMapFragment fragment);
-    void inject(FriendListFragment fragment);
+    void inject(FitnessRoomMapFragment fragment);
+    void inject(FitnessRoomListFragment fragment);
 
     @Component.Builder
     interface Builder {
