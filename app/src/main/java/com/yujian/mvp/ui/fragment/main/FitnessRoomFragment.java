@@ -8,16 +8,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.LogoPosition;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
@@ -36,6 +42,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 import com.yujian.app.BaseSupportFragment;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -56,8 +63,12 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
     MapView bdMap;
     BaiduMap mBaiduMap;
 
+    @BindView(R.id.location_btn)
+    Button locationBtn;
 //    @BindView(R.id.fitnessroom_bd_map_fragment)
 //    SupportMapFragment supportMapFragment;
+
+    private boolean isFirstLocation = true;
     public static FitnessRoomFragment newInstance() {
         FitnessRoomFragment fragment = new FitnessRoomFragment();
         return fragment;
@@ -71,6 +82,11 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
                 .view(this)
                 .build()
                 .inject(this);
+    }
+
+    @OnClick({R.id.location_btn})
+    public void onClick(View view){
+        updataLocation(bdLocation);
     }
 
     @Override
@@ -98,30 +114,79 @@ public class FitnessRoomFragment extends BaseSupportFragment<FitnessRoomPresente
 //        mBaiduMap = bdMap.getMap();
         mBaiduMap = supportMapFragment.getBaiduMap();
         mBaiduMap.setMyLocationEnabled(true);
-        LatLng GEO_SHANGHAI = new LatLng(31.227, 121.481);
-        MapStatusUpdate status1 = MapStatusUpdateFactory.newLatLng(GEO_SHANGHAI);
-        mBaiduMap.setMapStatus(status1);
-        bdMap.setLogoPosition(LogoPosition.logoPostionleftTop);
+
+
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.zoom(18.0f);
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+//        LatLng GEO_SHANGHAI = new LatLng(31.227, 121.481);
+//        MapStatusUpdate status1 = MapStatusUpdateFactory.newLatLng(GEO_SHANGHAI);
+//        mBaiduMap.setMapStatus(status1);
+//
+//
+//
+//        bdMap.setLogoPosition(LogoPosition.logoPostionleftTop);
+        MyLocationConfiguration myLocationConfiguration = new MyLocationConfiguration(
+                MyLocationConfiguration.LocationMode.NORMAL,
+                false,
+                BitmapDescriptorFactory.fromResource(R.drawable.bd_location_dot),
+                ContextCompat.getColor(getActivity() , R.color.bd_location_border ),
+                ContextCompat.getColor(getActivity() , R.color.bd_location_border )
+        );
+
+        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
 
 
         BaseApp.getInstance().myListener.getBDLocation().subscribe(new Consumer<BDLocation>() {
             @Override
             public void accept(BDLocation location) throws Exception {
-                if(location != null && mBaiduMap != null){
+                if(location != null && mBaiduMap != null && isFirstLocation){
+                    isFirstLocation = false;
+
                     FitnessRoomFragment.this.bdLocation = location;
 
-                    MyLocationData locData = new MyLocationData.Builder()
-                            .accuracy(location.getRadius())
-                            // 此处设置开发者获取到的方向信息，顺时针0-360
-                            .direction(location.getDirection()).latitude(location.getLatitude())
-                            .longitude(location.getLongitude()).build();
+                    updataLocation(location);
+//                    MyLocationData locData = new MyLocationData.Builder()
+//                            .accuracy(location.getRadius())
+//                            // 此处设置开发者获取到的方向信息，顺时针0-360
+//                            .direction(location.getDirection()).latitude(location.getLatitude())
+//                            .longitude(location.getLongitude()).build();
 //                    mBaiduMap.setMyLocationData(locData);
+//
+//
+//                    LatLng ll = new LatLng(location.getLatitude(),
+//                            location.getLongitude());
+//
+//                    MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+//
+//                    mBaiduMap.animateMapStatus(update);
 
                 }
             }
         });
     }
 
+    private void updataLocation(BDLocation location){
+        isFirstLocation = false;
+
+//        FitnessRoomFragment.this.bdLocation = location;
+
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(location.getRadius())
+                // 此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(location.getDirection()).latitude(location.getLatitude())
+                .longitude(location.getLongitude()).build();
+        mBaiduMap.setMyLocationData(locData);
+
+
+        LatLng ll = new LatLng(location.getLatitude(),
+                location.getLongitude());
+
+        MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+
+        mBaiduMap.animateMapStatus(update);
+    }
     private BDLocation bdLocation;
     @Override
     public void onResume() {

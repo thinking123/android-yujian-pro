@@ -10,4 +10,9 @@
     <color name="text_link">#3AC895</color>
     <color name="btn_wx_hint_bg">#3AC895</color>
     <color name="text_black">#333333</color>
+
+    <color name="bd_location_solid">#438AFFE6</color>
+    <color name="bd_location_border">#438AFFE6</color>
+    <color name="bd_location_dot">#438AFF</color>
+
 </resources>
