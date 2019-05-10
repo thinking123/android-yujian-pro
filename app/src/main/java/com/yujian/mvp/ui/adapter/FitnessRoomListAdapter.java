@@ -16,6 +16,7 @@ import com.yujian.utils.Common;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
@@ -28,7 +29,7 @@ public class FitnessRoomListAdapter extends RecyclerView.Adapter<FitnessRoomList
     private final PublishSubject<FitnessRoom> onClickSubjectCardView = PublishSubject.create();
 
     public Observable<FitnessRoom> getIconClicks() {
-        return onClickSubject.hide();
+        return onClickSubject.debounce(1000 , TimeUnit.MILLISECONDS).hide();
     }
     public Observable<FitnessRoom> getCardViewClicks() {
         return onClickSubjectCardView.hide();
