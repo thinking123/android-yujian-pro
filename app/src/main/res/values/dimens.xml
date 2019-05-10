@@ -8,6 +8,7 @@
     <dimen name="btn_circle_wx_dimen">50dp</dimen>
 
     <dimen name="page_title_size">36sp</dimen>
+    <dimen name="page_title_size1">27sp</dimen>
 
     <dimen name="register_radio_margin_left">38dp</dimen>
 

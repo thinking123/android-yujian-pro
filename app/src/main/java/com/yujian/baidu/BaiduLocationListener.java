@@ -6,11 +6,12 @@ import com.baidu.mapapi.map.MyLocationData;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.ReplaySubject;
 
 public class BaiduLocationListener extends BDAbstractLocationListener {
 
     public static BDLocation bdLocation;
-    private final PublishSubject<BDLocation> onBDLocationSubject = PublishSubject.create();
+    private final ReplaySubject<BDLocation> onBDLocationSubject = ReplaySubject.create();
 
     @Override
     public void onReceiveLocation(BDLocation location) {

@@ -24,6 +24,33 @@ public class Common {
         return !user.getToken().isEmpty();
     }
 
+    public static String formatDistanceToKm(String d){
+        final String f = "%sKM";
+        if(TextUtils.isEmpty(d)){
+            return String.format(f , 0);
+        }else{
+            float fd = Float.parseFloat(d);
+            return String.format("$.2fKM" , fd);
+        }
+    }
+    public static String formatAddress(String d){
+        final String f = "地址：%s";
+        if(TextUtils.isEmpty(d)){
+            return String.format(f , "-");
+        }else{
+            return String.format(f , d);
+        }
+    }
+
+    public static String formatTimeRange(String d){
+        final String f = "营业时间：%s";
+        if(TextUtils.isEmpty(d)){
+            return String.format(f , "-");
+        }else{
+            return String.format(f , d);
+        }
+    }
+
     public static int dpToPx(float dp){
         Context context = getContext();
         final float scale = context.getResources().getDisplayMetrics().density;
