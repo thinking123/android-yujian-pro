@@ -238,4 +238,9 @@ public class FitnessRoomMapFragment extends BaseSupportFragment<FitnessRoomPrese
     public void attentionResult() {
 
     }
+
+    @Override
+    public void unfollowResult() {
+
+    }
 }

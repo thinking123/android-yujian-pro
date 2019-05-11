@@ -30,6 +30,7 @@ import com.yujian.mvp.ui.adapter.FitnessRoomListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
@@ -132,10 +133,15 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPres
             public void accept(FitnessRoom fitnessRoom) throws Exception {
 //                showMessage("click icon");
                 if(mPresenter != null){
-                    mPresenter.attention(
-                            UserRole.FITNESSROOM.toString(),
-                            fitnessRoom.getId()
-                    );
+                    if(Objects.equals(fitnessRoom.getIsCollect() , "1")){
+                        mPresenter.unfollow(fitnessRoom.getId());
+                    }else{
+                        mPresenter.attention(
+                                UserRole.FITNESSROOM.toString(),
+                                fitnessRoom.getId()
+                        );
+                    }
+
                 }
             }
         });
@@ -204,6 +210,11 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPres
 
     @Override
     public void attentionResult() {
+        initFitnessRoomList();
+    }
 
+    @Override
+    public void unfollowResult() {
+        initFitnessRoomList();
     }
 }

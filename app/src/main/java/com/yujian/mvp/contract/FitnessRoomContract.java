@@ -6,6 +6,8 @@ import com.yujian.entity.BaseResponse;
 import com.yujian.mvp.model.entity.AttentionRequestBean;
 import com.yujian.mvp.model.entity.FitnessRoomBean;
 
+import java.util.HashMap;
+
 import io.reactivex.Observable;
 
 
@@ -27,6 +29,8 @@ public interface FitnessRoomContract {
         public void getNearbyFitnessRoomResult(FitnessRoomBean fitnessRoomBean);
 
         public void attentionResult();
+        public void unfollowResult();
+
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -39,6 +43,10 @@ public interface FitnessRoomContract {
 
         Observable<BaseResponse<String>> attention(
                 String collectType,String collectUserId
+        );
+
+        Observable<BaseResponse<String>> unfollow(
+                HashMap<String, String> map
         );
     }
 }

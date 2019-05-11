@@ -16,6 +16,8 @@ import com.yujian.mvp.model.api.service.FitnessRoomService;
 import com.yujian.mvp.model.entity.AttentionRequestBean;
 import com.yujian.mvp.model.entity.FitnessRoomBean;
 
+import java.util.HashMap;
+
 import io.reactivex.Observable;
 
 
@@ -67,5 +69,12 @@ public class FitnessRoomModel extends BaseModel implements FitnessRoomContract.M
     public Observable<BaseResponse<String>> attention(String collectType,String collectUserId) {
         return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).attention(
              new AttentionRequestBean(collectType , collectUserId));
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> unfollow(HashMap<String, String> map) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).unfollow(
+                map
+        );
     }
 }

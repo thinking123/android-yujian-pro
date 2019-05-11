@@ -17,6 +17,8 @@ import com.yujian.entity.BaseResponse;
 import com.yujian.mvp.contract.FitnessRoomContract;
 import com.yujian.mvp.model.entity.FitnessRoomBean;
 
+import java.util.HashMap;
+
 
 /**
  * ================================================
@@ -81,6 +83,25 @@ public class FitnessRoomPresenter extends BasePresenter<FitnessRoomContract.Mode
                         if (response.isSuccess()) {
                             mRootView.attentionResult();
 
+                        } else{
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void unfollow(String id){
+        HashMap<String , String> hashMap = new HashMap<String , String>();
+        hashMap.put("id" , id);
+        mModel.unfollow(
+                hashMap)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.unfollowResult();
                         } else{
                             mRootView.showMessage(response.getMsg());
                         }
