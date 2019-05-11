@@ -3,6 +3,7 @@ package com.yujian.mvp.model;
 import android.app.Application;
 
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
@@ -25,7 +26,7 @@ import com.yujian.mvp.contract.UserProfileContract;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-@ActivityScope
+@FragmentScope
 public class UserProfileModel extends BaseModel implements UserProfileContract.Model {
     @Inject
     Gson mGson;

@@ -2,6 +2,7 @@ package com.yujian.mvp.presenter;
 
 import android.app.Application;
 
+import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
@@ -26,7 +27,7 @@ import com.yujian.mvp.contract.UserProfileContract;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-@ActivityScope
+@FragmentScope
 public class UserProfilePresenter extends BasePresenter<UserProfileContract.Model, UserProfileContract.View> {
     @Inject
     RxErrorHandler mErrorHandler;

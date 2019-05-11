@@ -25,7 +25,7 @@ import io.reactivex.subjects.PublishSubject;
 public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHeaderAdapter.ViewHoler> {
 
     private List<Friend> values;
-//    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
+    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
     public FriendListHeaderAdapter(List<Friend> myDataset) {
         values = myDataset;
     }
@@ -63,6 +63,13 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
             }
         });
         viewHoler.textView.setText(name.getName());
+
+        viewHoler.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSubject.onNext(name);
+            }
+        });
     }
 
     public void add(int position, Friend item) {
@@ -94,7 +101,7 @@ public class FriendListHeaderAdapter extends RecyclerView.Adapter<FriendListHead
         }
     }
 
-//    public Observable<Friend> getPositionClicks(){
-//        return onClickSubject.hide();
-//    }
+    public Observable<Friend> getPositionClicks(){
+        return onClickSubject.hide();
+    }
 }

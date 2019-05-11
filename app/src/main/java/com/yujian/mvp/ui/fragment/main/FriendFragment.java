@@ -26,6 +26,7 @@ import com.yujian.entity.UserRole;
 import com.yujian.mvp.contract.FriendContract;
 import com.yujian.mvp.model.entity.FriendBean;
 import com.yujian.mvp.presenter.FriendPresenter;
+import com.yujian.mvp.ui.activity.UserProfileActivity;
 import com.yujian.mvp.ui.adapter.FriendListAdapter;
 import com.yujian.mvp.ui.adapter.RecyclerViewHorizontalButtonListAdapter;
 
@@ -191,6 +192,16 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     private void initFriendList() {
         friendListAdapter = new FriendListAdapter(new ArrayList<Friend>());
 
+        friendListAdapter.getPositionClicks().subscribe(new Consumer<Friend>() {
+            @Override
+            public void accept(Friend friend) throws Exception {
+                Intent intent = new Intent(getActivity() , UserProfileActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("id" , friend.getId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         friendList.setLayoutManager(mLayoutManager);
 

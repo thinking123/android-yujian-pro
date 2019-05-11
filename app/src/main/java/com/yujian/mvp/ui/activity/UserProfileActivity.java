@@ -38,9 +38,15 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class UserProfileActivity extends SupportActivity {
+    private String userId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = getIntent().getExtras();
+
+        userId = bundle.getString("id");
+
         setContentView(R.layout.activity_user_profile);
 
 
@@ -48,7 +54,7 @@ public class UserProfileActivity extends SupportActivity {
 
         if(fragment == null){
             loadRootFragment(R.id.user_profile_container ,
-                    UserProfileMainFragment.newInstance());
+                    UserProfileMainFragment.newInstance(userId));
         }
 
     }

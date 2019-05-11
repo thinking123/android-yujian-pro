@@ -64,4 +64,15 @@
     <string name="user_profile_visitNum">访问量</string>
     <string name="user_profile_fansNum">粉丝量</string>
     <string name="user_profile_collectionNum">关注量</string>
+
+    <string name="user_profile_tab_title1">简介</string>
+    <string name="user_profile_tab_title2">教练课程</string>
+    <string name="user_profile_tab_title3">动态</string>
+    <string-array name="user_profile_tab">
+        <item>@string/user_profile_tab_title1</item>
+        <item>@string/user_profile_tab_title2</item>
+        <item>@string/user_profile_tab_title3</item>
+    </string-array>
+
+
 </resources>

@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 
 public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -30,7 +31,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_ITEM = 1;
     private List<Friend> values;
     private MaterialButton preSelectedBtn;
-//    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
+    private final PublishSubject<Friend> onClickSubject = PublishSubject.create();
     private List<Friend> headerData;
     public FriendListAdapter(List<Friend> myDataset) {
         values = myDataset;
@@ -107,6 +108,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holer.icons.setAdapter(friendListTagAdapter);
             holer.icons.setLayoutManager(layoutManagerBtnList);
 
+
+            holer.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickSubject.onNext(friend);
+                }
+            });
+
         }else if(viewHoler instanceof ViewHolerHeader){
             ViewHolerHeader holer = (ViewHolerHeader)viewHoler;
             FriendListHeaderAdapter friendListHeaderAdapter = new FriendListHeaderAdapter(headerData);
@@ -115,6 +124,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             RecyclerView.LayoutManager layoutManagerBtnList = new LinearLayoutManager(holer.layout.getContext() , LinearLayoutManager.HORIZONTAL , false);
             holer.header.setLayoutManager(layoutManagerBtnList);
+
+            friendListHeaderAdapter.getPositionClicks().subscribe(new Consumer<Friend>() {
+                @Override
+                public void accept(Friend friend) throws Exception {
+                    onClickSubject.onNext(friend);
+                }
+            });
+
         }
 
 
@@ -195,8 +212,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-//    public Observable<Friend> getPositionClicks() {
-//        return onClickSubject.hide();
-//    }
+    public Observable<Friend> getPositionClicks() {
+        return onClickSubject.hide();
+    }
 
 }
