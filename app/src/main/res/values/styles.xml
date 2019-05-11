@@ -49,5 +49,6 @@
     <style name="UserProfileBodyTheme" parent="AppTheme">
         <item name="android:textColor">@color/text_gray1</item>
         <item name="android:textSize">@dimen/tip_text_size2</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>

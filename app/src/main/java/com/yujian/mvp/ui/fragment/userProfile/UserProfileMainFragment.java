@@ -8,7 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,6 +58,8 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     public TabLayout tabLayout;
     @BindView(R.id.viewpager)
     public ViewPager viewPager;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     public static UserProfileMainFragment newInstance(String userId) {
         UserProfileMainFragment fragment = new UserProfileMainFragment();
         Bundle bundle = new Bundle();
@@ -73,6 +80,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_user_profile_main, container, false);
     }
 
@@ -81,17 +89,42 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
 
+
         userId = this.getArguments().getString("id");
         getUserProfile();
 //        userId = savedInstanceState.getString("id");
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.user_profile_main_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.heart_icon:
+
+                break;
+            case R.id.relay_icon:
+
+                break;
+            case R.id.edit_icon:
+
+                break;
+        }
+
+
+        return true;
+    }
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
