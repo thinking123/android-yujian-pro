@@ -16,7 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -35,6 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -60,6 +64,28 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     public ViewPager viewPager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.visitNum)
+    TextView visitNum;
+
+    @BindView(R.id.fansNum)
+    TextView fansNum;
+
+    @BindView(R.id.collectionNum)
+    TextView collectionNum;
+
+
+    @BindView(R.id.header_title)
+    TextView headerTitle;
+
+    @BindView(R.id.header_time)
+    TextView headerTime;
+
+    @BindView(R.id.logo)
+    CircleImageView logo;
+
+    @BindView(R.id.header_bg)
+    ImageView headerBg;
     public static UserProfileMainFragment newInstance(String userId) {
         UserProfileMainFragment fragment = new UserProfileMainFragment();
         Bundle bundle = new Bundle();
@@ -166,12 +192,21 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     }
 
     @Override
-    public void getUserProfileResult(UserProfile userProfile) {
+    public void getUserProfileResult(UserProfile p) {
         String[] tabs = getResources().getStringArray(R.array.user_profile_tab);
-        UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager() , Arrays.asList(tabs) , userProfile);
+        UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager() , Arrays.asList(tabs) , p);
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        visitNum.setText(p.getVisitNum());
+        fansNum.setText(p.getFansNum());
+        collectionNum.setText(p.getCollectionNum());
+        headerTitle.setText(p.getName());
+        headerTime.setText(p.getOpenTime());
+
+        Glide.with(getActivity()).load(p.getHead()).into(logo);
+        Glide.with(getActivity()).load(p.getLogo()).into(headerBg);
     }
 
     @Override
