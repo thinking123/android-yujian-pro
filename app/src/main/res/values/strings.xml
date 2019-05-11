@@ -59,4 +59,9 @@
 
     <string name="friend_header_title">热门教练</string>
     <string name="fitness_room_title">健身房</string>
+    
+    
+    <string name="user_profile_visitNum">访问量</string>
+    <string name="user_profile_fansNum">粉丝量</string>
+    <string name="user_profile_collectionNum">关注量</string>
 </resources>

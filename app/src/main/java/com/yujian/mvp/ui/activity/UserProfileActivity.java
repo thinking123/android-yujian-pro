@@ -15,9 +15,11 @@ import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 
 import com.yujian.R;
+import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
 
 
 import me.yokeyword.fragmentation.ISupportActivity;
+import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivity;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -40,6 +42,17 @@ public class UserProfileActivity extends SupportActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+
+        ISupportFragment fragment = findFragment(UserProfileMainFragment.class);
+
+        if(fragment == null){
+            loadRootFragment(R.id.user_profile_container ,
+                    UserProfileMainFragment.newInstance());
+        }
+
     }
+
+
 
 }
