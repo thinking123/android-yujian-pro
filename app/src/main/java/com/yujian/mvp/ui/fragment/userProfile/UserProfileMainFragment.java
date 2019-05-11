@@ -18,11 +18,16 @@ import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
+import com.yujian.entity.DrillTime;
+import com.yujian.entity.Personaltainer;
+import com.yujian.entity.UserProfile;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.adapter.UserProfileMainViewPagerAdapter;
 
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -43,6 +48,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
+    private String userId;
     @BindView(R.id.viewpager_tablayout)
     public TabLayout tabLayout;
     @BindView(R.id.viewpager)
@@ -70,18 +76,33 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         return inflater.inflate(R.layout.fragment_user_profile_main, container, false);
     }
 
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+
+        userId = this.getArguments().getString("id");
+        getUserProfile();
+//        userId = savedInstanceState.getString("id");
+    }
+
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        String[] tabs = getResources().getStringArray(R.array.user_profile_tab);
-        UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager() , Arrays.asList(tabs));
 
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+
+
+
     }
 
     @Override
     public void setData(@Nullable Object data) {
 
+    }
+
+    private void getUserProfile(){
+        if(mPresenter != null){
+            mPresenter.getUserProfile(userId);
+        }
     }
 
     @Override
@@ -108,6 +129,30 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void killMyself() {
+
+    }
+
+    @Override
+    public void getUserProfileResult(UserProfile userProfile) {
+        String[] tabs = getResources().getStringArray(R.array.user_profile_tab);
+        UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager() , Arrays.asList(tabs) , userProfile);
+
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void getCoachOrUserRelevantResult(GetCoachOrUserRelevantBean getCoachOrUserRelevantBean) {
+
+    }
+
+    @Override
+    public void getGymdetailsCoachResult(List<Personaltainer> list) {
+
+    }
+
+    @Override
+    public void getCurriculumByTimeResult(List<DrillTime> list) {
 
     }
 }

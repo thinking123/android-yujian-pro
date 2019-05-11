@@ -13,7 +13,7 @@ public interface DrillTimeService {
     ///api/curriculum/GetCurriculum
     //获取 操课 根据日期
     @GET("/api/curriculum/GetCurriculum")
-    Observable<BaseResponse<List<DrillTime>>> getGymdetailsCoach(
+    Observable<BaseResponse<List<DrillTime>>> getCurriculumByTime(
             @Query("id") String id,
             @Query("week") String week,
             @Query("time") String time

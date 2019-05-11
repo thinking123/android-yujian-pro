@@ -16,8 +16,14 @@ import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
+import com.yujian.entity.DrillTime;
+import com.yujian.entity.Personaltainer;
+import com.yujian.entity.UserProfile;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+
+import java.util.List;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -126,6 +132,26 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void killMyself() {
+
+    }
+
+    @Override
+    public void getUserProfileResult(UserProfile userProfile) {
+
+    }
+
+    @Override
+    public void getCoachOrUserRelevantResult(GetCoachOrUserRelevantBean getCoachOrUserRelevantBean) {
+
+    }
+
+    @Override
+    public void getGymdetailsCoachResult(List<Personaltainer> list) {
+
+    }
+
+    @Override
+    public void getCurriculumByTimeResult(List<DrillTime> list) {
 
     }
 }

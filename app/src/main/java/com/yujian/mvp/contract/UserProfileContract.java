@@ -2,6 +2,17 @@ package com.yujian.mvp.contract;
 
 import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
+import com.yujian.entity.BaseResponse;
+import com.yujian.entity.DrillTime;
+import com.yujian.entity.Personaltainer;
+import com.yujian.entity.UserProfile;
+import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
+
+import java.util.List;
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 
 /**
@@ -19,11 +30,40 @@ import com.jess.arms.mvp.IModel;
 public interface UserProfileContract {
     //对于经常使用的关于UI的方法可以定义到IView中,如显示隐藏进度条,和显示文字消息
     interface View extends IView {
+        void getUserProfileResult(UserProfile userProfile);
+
+        void getCoachOrUserRelevantResult(GetCoachOrUserRelevantBean getCoachOrUserRelevantBean);
+
+        void getGymdetailsCoachResult(List<Personaltainer> list);
+
+        void getCurriculumByTimeResult(List<DrillTime> list);
 
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
+        @GET("/api/gym/Gymdetails")
+        Observable<BaseResponse<UserProfile>> getUserProfile(
+                String id
+        );
 
+        @GET("/api/gym/GetCoachOrUserRelevant")
+        Observable<BaseResponse<GetCoachOrUserRelevantBean>> getCoachOrUserRelevant(
+                String id
+        );
+
+        //GET /api/gym/GymdetailsCoach
+        //作用:健身房详情--课程-私教 列表 --编号
+        @GET("/api/gym/GymdetailsCoach")
+        Observable<BaseResponse<List<Personaltainer>>> getGymdetailsCoach(
+                String id
+        );
+
+        @GET("/api/curriculum/GetCurriculum")
+        Observable<BaseResponse<List<DrillTime>>> getCurriculumByTime(
+                String id,
+                String week,
+                String time
+        );
     }
 }

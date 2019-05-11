@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 public interface UserProfileService {
     @GET("/api/gym/Gymdetails")
-    Observable<BaseResponse<UserProfile>> goodUserProfile(
+    Observable<BaseResponse<UserProfile>> getUserProfile(
             @Query("id") String id
     );
 

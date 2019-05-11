@@ -11,7 +11,18 @@ import com.jess.arms.di.scope.ActivityScope;
 
 import javax.inject.Inject;
 
+import com.yujian.entity.BaseResponse;
+import com.yujian.entity.DrillTime;
+import com.yujian.entity.Personaltainer;
+import com.yujian.entity.UserProfile;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.api.service.DrillTimeService;
+import com.yujian.mvp.model.api.service.UserProfileService;
+import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
+
+import java.util.List;
+
+import io.reactivex.Observable;
 
 
 /**
@@ -43,5 +54,25 @@ public class UserProfileModel extends BaseModel implements UserProfileContract.M
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<BaseResponse<UserProfile>> getUserProfile(String id) {
+        return mRepositoryManager.obtainRetrofitService(UserProfileService.class).getUserProfile(id);
+    }
+
+    @Override
+    public Observable<BaseResponse<GetCoachOrUserRelevantBean>> getCoachOrUserRelevant(String id) {
+        return mRepositoryManager.obtainRetrofitService(UserProfileService.class).getCoachOrUserRelevant(id);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<Personaltainer>>> getGymdetailsCoach(String id) {
+        return mRepositoryManager.obtainRetrofitService(UserProfileService.class).getGymdetailsCoach(id);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<DrillTime>>> getCurriculumByTime(String id, String week, String time) {
+        return mRepositoryManager.obtainRetrofitService(DrillTimeService.class).getCurriculumByTime(id , week ,time);
     }
 }
