@@ -108,6 +108,7 @@ android:background="@drawable/view_bottom_border"
                 />
 
             <ImageButton
+                android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -120,13 +121,203 @@ android:background="@drawable/view_bottom_border"
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/certificateList"
                 android:layout_width="0dp"
-                android:layout_height="106dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/introduce"
                 app:layout_constraintTop_toBottomOf="@+id/introduce">
 
             </android.support.v7.widget.RecyclerView>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:background="@drawable/view_bottom_border"
+            >
+
+            <TextView
+                android:id="@+id/match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="赛事"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_view_size2"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/left_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/matchList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/match"
+                app:layout_constraintTop_toBottomOf="@+id/match">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:background="@drawable/view_bottom_border"
+            >
+
+            <TextView
+                android:id="@+id/match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="健身卡"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_view_size2"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/left_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cardLists"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/match"
+                app:layout_constraintTop_toBottomOf="@+id/match">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:background="@drawable/view_bottom_border"
+            >
+
+            <TextView
+                android:id="@+id/match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="照片集"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_view_size2"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/left_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pictureSets"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/match"
+                app:layout_constraintTop_toBottomOf="@+id/match">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:background="@drawable/view_bottom_border"
+            >
+
+            <TextView
+                android:id="@+id/match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="地址"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_view_size2"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/left_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+
+
+            <fragment
+                android:id="@+id/addressMap"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/match"
+                app:layout_constraintTop_toBottomOf="@+id/match"
+                class="com.baidu.mapapi.map.SupportMapFragment" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

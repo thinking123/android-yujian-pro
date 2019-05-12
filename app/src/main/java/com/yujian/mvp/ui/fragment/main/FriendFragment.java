@@ -264,7 +264,10 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     @Override
     public void hideLoading() {
-
+        if (isLoadingMore && friendList != null) {
+            isLoadingMore = false;
+            friendList.loadMoreComplete();
+        }
     }
 
     @Override

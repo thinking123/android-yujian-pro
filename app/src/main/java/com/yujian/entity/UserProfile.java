@@ -1,11 +1,7 @@
 package com.yujian.entity;
 
-import com.yujian.utils.Common;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,19 +33,11 @@ public class UserProfile implements Serializable {
     private String userRole;//string, optional): 用户角色 1 健身房 2 教练 3 普通用户 ,
     private String visitNum;//string, optional): 访问数
 
-    public List<UserProfileMatchCertificatePersonalStory> getMatchCertificatePersonalStoryList(String type){
-        if(certificateList != null && certificateList.size() > 0){
-//            CollectionUtils
-//            certificateList.st
-            Predicate<UserProfileMatchCertificatePersonalStory>
-                    predicate = new Predicate<UserProfileMatchCertificatePersonalStory>() {
-                @Override
-                public boolean test(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) {
-                    return false;
-                }
-            }
-        }else{
-            return new ArrayList<>();
-        }
-    }
+//    public List<UserProfileMatchCertificatePersonalStory> getMatchCertificatePersonalStoryList(String type){
+//        if(certificateList != null && certificateList.size() > 0){
+//            Observable.from(matchList)
+//        }else{
+//            return new ArrayList<>();
+//        }
+//    }
 }

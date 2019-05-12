@@ -1,27 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <!--<android.support.v7.widget.CardView-->
+    <!--android:id="@+id/cardview_row"-->
+    <!--android:layout_width="102dp"-->
+    <!--android:layout_height="102dp">-->
+    <!--<FrameLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!--<ImageView-->
+    <!--android:id="@+id/imageView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@color/white1"/>-->
+    <!--<TextView-->
+    <!--android:background="@drawable/rounded_corner_textview_tag"-->
+    <!--android:id="@+id/imageViewCount"-->
+    <!--android:text="12"-->
+    <!--android:backgroundTint="@color/text_gray"-->
+    <!--android:layout_marginRight="8dp"-->
+    <!--android:layout_marginBottom="2dp"-->
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <!--</FrameLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        app:srcCompat="@drawable/bd_location_dot"/>
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:src="@color/white1" />
+
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_marginTop="8dp"
-        android:textSize="@dimen/tip_text_size"
+        android:text="TextView"
         android:textColor="@color/text_black"
+        android:textSize="@dimen/tip_text_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/introduce"

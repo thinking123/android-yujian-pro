@@ -57,15 +57,15 @@
         <include layout="@layout/user_profile_main_body"/>
     </android.support.v4.widget.NestedScrollView>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_marginRight="25dp"
-        android:id="@+id/logo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:layout_anchor="@id/appBar"
-        android:src="@color/text_primary1"
-        app:layout_anchorGravity="bottom|end"
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:layout_marginRight="25dp"-->
+        <!--android:id="@+id/logo"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--app:layout_anchor="@id/appBar"-->
+        <!--android:src="@color/text_primary1"-->
+        <!--app:layout_anchorGravity="bottom|end"-->
 
-        />
+        <!--/>-->
 
 </android.support.design.widget.CoordinatorLayout>

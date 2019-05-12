@@ -84,4 +84,5 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
 
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    implementation 'org.apache.commons:commons-collections4:4.1'
 }

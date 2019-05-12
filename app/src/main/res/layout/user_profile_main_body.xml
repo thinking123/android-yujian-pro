@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+android:clipToPadding="false"
     android:background="@color/white"
     android:backgroundTint="@color/white"
     android:theme="@style/UserProfileBodyTheme">
+
+
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_body"
@@ -103,6 +105,14 @@
                 app:layout_constraintGuide_begin="200dp" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@color/text_primary1"
+        tools:layout_editor_absoluteX="369dp"
+        tools:layout_editor_absoluteY="-38dp" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/viewpager_tablayout"
