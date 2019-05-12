@@ -9,6 +9,10 @@ import com.jess.arms.base.BaseApplication;
 import com.yujian.app.BaseApp;
 import com.yujian.entity.User;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import timber.log.Timber;
 
 public class Common {
@@ -65,6 +69,17 @@ public class Common {
         Toast.makeText(getContext() , msg , Toast.LENGTH_SHORT).show();
     }
 
+
+    public static List<String> splitStringToList(String str , String split){
+        if(TextUtils.isEmpty(str)){
+            return  new ArrayList<>();
+        }
+        if(TextUtils.isEmpty(split)){
+            split = ",";
+        }
+
+        return Arrays.asList(str.split(split));
+    }
     public static boolean isPhone(String phone){
 
         if (TextUtils.isEmpty(phone)){

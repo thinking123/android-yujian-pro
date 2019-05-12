@@ -22,8 +22,12 @@ import com.yujian.entity.UserProfile;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.utils.Common;
+import com.yujian.widget.HorizontalScrollTagList;
 
 import java.util.List;
+
+import butterknife.BindView;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -42,6 +46,9 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class UserProfileFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
     private UserProfile userProfile;
+
+    @BindView(R.id.tags)
+    HorizontalScrollTagList tagList;
     public static UserProfileFragment newInstance(UserProfile userProfile) {
         UserProfileFragment fragment = new UserProfileFragment();
         Bundle bundle = new Bundle();
@@ -70,6 +77,8 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 //        userProfile = (UserProfile) savedInstanceState.getSerializable("userProfile");
 
         userProfile = (UserProfile) this.getArguments().getSerializable("userProfile");
+
+        tagList.setTags(Common.splitStringToList(userProfile.getLabelList() , ""));
     }
 
     @Override

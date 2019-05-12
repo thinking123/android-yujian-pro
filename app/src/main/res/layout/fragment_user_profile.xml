@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -15,6 +14,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tag_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
@@ -22,7 +22,28 @@
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_view_size2"
                 app:layout_constraintStart_toStartOf="parent" />
+
+
+            <com.yujian.widget.HorizontalScrollTagList
+                android:id="@+id/tags"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/tag_title"
+                >
+
+            </com.yujian.widget.HorizontalScrollTagList>
+            <!--<me.next.tagview.TagCloudView-->
+                <!--android:id="@+id/tags"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:tcvItemBorderHorizontal="8dp"-->
+                <!--app:tcvItemBorderVertical="6dp"-->
+                <!--app:tcvBorder="8dp"-->
+                <!--app:tcvTextColor="#123455"-->
+                <!--app:tcvSingleLine="true"-->
+                <!--/>-->
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
-</>
+</LinearLayout>

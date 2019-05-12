@@ -2,12 +2,13 @@ package com.yujian.mvp.ui.fragment.userProfile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
@@ -57,6 +57,10 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
+    @BindView(R.id.nested_view)
+    NestedScrollView nestedScrollView;
+    @BindView(R.id.user_profile_main_container)
+    CoordinatorLayout constraintLayout;
     private String userId;
     @BindView(R.id.viewpager_tablayout)
     public TabLayout tabLayout;
@@ -86,6 +90,9 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @BindView(R.id.header_bg)
     ImageView headerBg;
+
+//    @BindView(R.id.tags)
+//    TagCloudView tags;
     public static UserProfileMainFragment newInstance(String userId) {
         UserProfileMainFragment fragment = new UserProfileMainFragment();
         Bundle bundle = new Bundle();
@@ -198,7 +205,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
+//        viewPager.setOffscreenPageLimit(2);
         visitNum.setText(p.getVisitNum());
         fansNum.setText(p.getFansNum());
         collectionNum.setText(p.getCollectionNum());
@@ -207,6 +214,13 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
         Glide.with(getActivity()).load(p.getHead()).into(logo);
         Glide.with(getActivity()).load(p.getLogo()).into(headerBg);
+
+        constraintLayout.invalidate();
+
+//
+//        List<String> labelList = Arrays.asList(p.getLabelList().split(","));
+//
+//        tags.setTags(labelList);
     }
 
     @Override

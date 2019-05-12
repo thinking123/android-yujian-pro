@@ -115,7 +115,7 @@ public class MainActivity extends BaseSupportActivity<MainPresenter> implements 
             mFragments[2] = FitnessRoomFragment.newInstance();
             mFragments[3] = DynamicFragment.newInstance();
             mFragments[4] = MyFragment.newInstance();
-            loadMultipleRootFragment(R.id.home_container, 0, mFragments);
+            loadMultipleRootFragment(R.id.home_container, 1, mFragments);
         } else {
             mFragments[0] = findFragment(HomeFragment.class);
             mFragments[1] = findFragment(FriendFragment.class);

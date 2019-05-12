@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@android:color/transparent"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:theme="@style/TransprantToolbar"
     app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"
     app:titleTextAppearance="@style/Toolbar_TextAppearance_White"
     app:layout_scrollFlags="scroll|enterAlways"

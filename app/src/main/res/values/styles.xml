@@ -7,6 +7,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/Animation_Activity</item>
     </style>
+    <style name="TransprantAppTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 
     <style name="Animation_Activity">
         <item name="android:activityOpenEnterAnimation">@anim/translate_right_to_center</item>
@@ -51,4 +55,11 @@
         <item name="android:textSize">@dimen/tip_text_size2</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="TransprantToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+
 </resources>
