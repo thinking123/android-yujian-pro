@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
     android:theme="@style/UserProfileBodyTheme">
 
     <android.support.v7.widget.CardView
@@ -106,72 +109,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="fixed"
-        app:layout_constraintTop_toBottomOf="@+id/cardview_body"/>
+        app:layout_constraintTop_toBottomOf="@+id/cardview_body">
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/user_profile_tab_title1"
+            />
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/user_profile_tab_title2"
+            />
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/user_profile_tab_title3"
+            />
+    </android.support.design.widget.TabLayout>
 
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-
-        <!--app:layout_constraintBottom_toTopOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/viewpager_tablayout"-->
-        <!--&gt;-->
-        <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/viewpager"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/colorPrimary"-->
-            <!--android:backgroundTint="@color/colorPrimary"-->
-
-
-            <!--/>-->
-
-    <!--</FrameLayout>-->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_height="0dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/viewpager_tablayout"-->
-        <!--android:backgroundTint="@color/colorPrimary"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--&gt;-->
-        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:src="@drawable/login_btn_wx"&ndash;&gt;-->
-            <!--&lt;!&ndash;/>&ndash;&gt;-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="25sp"-->
-            <!--android:textColor="@color/colorPrimary"-->
-
-            <!--/>-->
-        <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/viewpager"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="visible"-->
-
-            <!--/>-->
-
-    <!--</LinearLayout>-->
 
     <!--<android.support.v4.view.ViewPager-->
         <!--android:id="@+id/viewpager"-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100dp"-->
-        <!--app:layout_constraintVertical_weight="1"-->
+        <!--android:layout_height="match_parent"-->
         <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/viewpager_tablayout"-->
         <!--/>-->
+
+    <FrameLayout
+        app:layout_constraintTop_toBottomOf="@id/viewpager_tablayout"
+        android:id="@+id/viewpager_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

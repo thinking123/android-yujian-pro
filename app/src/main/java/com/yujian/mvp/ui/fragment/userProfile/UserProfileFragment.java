@@ -6,9 +6,12 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
@@ -22,6 +25,7 @@ import com.yujian.entity.UserProfile;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.adapter.CertificateListAdapter;
 import com.yujian.utils.Common;
 import com.yujian.widget.HorizontalScrollTagList;
 
@@ -49,6 +53,14 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
     @BindView(R.id.tags)
     HorizontalScrollTagList tagList;
+
+
+    @BindView(R.id.introduce)
+    TextView introduce;
+
+    @BindView(R.id.certificateList)
+    RecyclerView certificateList;
+
     public static UserProfileFragment newInstance(UserProfile userProfile) {
         UserProfileFragment fragment = new UserProfileFragment();
         Bundle bundle = new Bundle();
@@ -67,6 +79,16 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
                 .inject(this);
     }
 
+    private void initCertificateList(){
+        certificateList.setLayoutManager(new GridLayoutManager(
+                getActivity() ,
+                2
+        ));
+
+        CertificateListAdapter adapter = new CertificateListAdapter(userProfile.getCertificateList());
+
+        certificateList.setAdapter(adapter);
+    }
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_user_profile, container, false);
@@ -76,9 +98,16 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
     public void initData(@Nullable Bundle savedInstanceState) {
 //        userProfile = (UserProfile) savedInstanceState.getSerializable("userProfile");
 
+
+
         userProfile = (UserProfile) this.getArguments().getSerializable("userProfile");
 
         tagList.setTags(Common.splitStringToList(userProfile.getLabelList() , ""));
+
+        introduce.setText(userProfile.getIntroduce());
+
+
+        initCertificateList();
     }
 
     @Override

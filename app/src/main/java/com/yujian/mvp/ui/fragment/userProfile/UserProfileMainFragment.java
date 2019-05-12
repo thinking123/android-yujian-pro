@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,12 +34,14 @@ import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.adapter.UserProfileMainViewPagerAdapter;
+import com.yujian.mvp.ui.fragment.main.DynamicFragment;
 
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.yokeyword.fragmentation.ISupportFragment;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -64,8 +67,11 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     private String userId;
     @BindView(R.id.viewpager_tablayout)
     public TabLayout tabLayout;
-    @BindView(R.id.viewpager)
-    public ViewPager viewPager;
+//    @BindView(R.id.viewpager)
+//    public ViewPager viewPager;
+
+    @BindView(R.id.viewpager_container)
+    FrameLayout frameLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -91,6 +97,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     @BindView(R.id.header_bg)
     ImageView headerBg;
 
+    private ISupportFragment[] mFragments = new ISupportFragment[3];
 //    @BindView(R.id.tags)
 //    TagCloudView tags;
     public static UserProfileMainFragment newInstance(String userId) {
@@ -203,8 +210,8 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         String[] tabs = getResources().getStringArray(R.array.user_profile_tab);
         UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager() , Arrays.asList(tabs) , p);
 
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+//        viewPager.setAdapter(viewPagerAdapter);
+//        tabLayout.setupWithViewPager(viewPager);
 //        viewPager.setOffscreenPageLimit(2);
         visitNum.setText(p.getVisitNum());
         fansNum.setText(p.getFansNum());
@@ -216,6 +223,59 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         Glide.with(getActivity()).load(p.getLogo()).into(headerBg);
 
         constraintLayout.invalidate();
+        ISupportFragment fragment = findChildFragment(UserProfileFragment.class);
+        if(fragment == null){
+            fragment = UserProfileFragment.newInstance(p);
+        }
+
+        loadRootFragment(R.id.viewpager_container , fragment);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                ISupportFragment fragment = null;
+                switch (tab.getPosition()){
+                    case 0:
+                        fragment = findChildFragment(UserProfileFragment.class);
+                        if(fragment == null){
+                            fragment = UserProfileFragment.newInstance(p);
+                        }
+
+                        loadRootFragment(R.id.viewpager_container , fragment);
+                        break;
+                    case 1:
+                        fragment = findChildFragment(CoachLessonFragment.class);
+                        if(fragment == null){
+                            fragment = CoachLessonFragment.newInstance();
+                        }
+
+                        loadRootFragment(R.id.viewpager_container , fragment);
+                        break;
+                    case 2:
+                        fragment = findChildFragment(DynamicFragment.class);
+                        if(fragment == null){
+                            fragment = DynamicFragment.newInstance();
+                        }
+
+                        loadRootFragment(R.id.viewpager_container , fragment);
+                        break;
+                }
+//                if(tab.getPosition() == 0)
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
 
 //
 //        List<String> labelList = Arrays.asList(p.getLabelList().split(","));

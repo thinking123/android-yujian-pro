@@ -73,6 +73,6 @@
         <item>@string/user_profile_tab_title2</item>
         <item>@string/user_profile_tab_title3</item>
     </string-array>
-
+    <string name="user_profile_go_to_introduce">查看此健身房的详情</string>
 
 </resources>

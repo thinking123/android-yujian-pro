@@ -11,94 +11,112 @@ import com.yujian.entity.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import timber.log.Timber;
 
 public class Common {
-    public interface Callback{
+    public interface Callback {
         public void callback();
     }
-    public static Context getContext(){
+
+    public static Context getContext() {
         return BaseApp.getContext();
     }
-    public static boolean isLogin(){
+
+    public static boolean isLogin() {
         User user = User.getInstance();
 
         return !user.getToken().isEmpty();
     }
 
-    public static String formatDistanceToKm(String d){
+    public static String formatDistanceToKm(String d) {
         final String f = "%sKM";
-        if(TextUtils.isEmpty(d)){
-            return String.format(f , 0);
-        }else{
+        if (TextUtils.isEmpty(d)) {
+            return String.format(f, 0);
+        } else {
             float fd = Float.parseFloat(d);
-            return String.format("$.2fKM" , fd);
+            return String.format("$.2fKM", fd);
         }
     }
-    public static String formatAddress(String d){
+
+    public static String formatAddress(String d) {
         final String f = "地址：%s";
-        if(TextUtils.isEmpty(d)){
-            return String.format(f , "-");
-        }else{
-            return String.format(f , d);
+        if (TextUtils.isEmpty(d)) {
+            return String.format(f, "-");
+        } else {
+            return String.format(f, d);
         }
     }
 
-    public static String formatTimeRange(String d){
+    public static String formatTimeRange(String d) {
         final String f = "营业时间：%s";
-        if(TextUtils.isEmpty(d)){
-            return String.format(f , "-");
-        }else{
-            return String.format(f , d);
+        if (TextUtils.isEmpty(d)) {
+            return String.format(f, "-");
+        } else {
+            return String.format(f, d);
         }
     }
 
-    public static int dpToPx(float dp){
+    public static int dpToPx(float dp) {
         Context context = getContext();
         final float scale = context.getResources().getDisplayMetrics().density;
-        int px = (int)(dp * scale + 0.5f);
+        int px = (int) (dp * scale + 0.5f);
 
-        Timber.i("convert dp : %s to px : %s " , dp , px);
+        Timber.i("convert dp : %s to px : %s ", dp, px);
 
         return px;
     }
 
-    public static void showMsg(String msg){
-        Toast.makeText(getContext() , msg , Toast.LENGTH_SHORT).show();
+    public static void showMsg(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    public interface IPredicate<T> {
+        boolean apply(T type);
+    }
 
-    public static List<String> splitStringToList(String str , String split){
-        if(TextUtils.isEmpty(str)){
-            return  new ArrayList<>();
+    public static <T> Collection<T> filter(Collection<T> target, IPredicate<T> predicate) {
+        Collection<T> result = new ArrayList<T>();
+        for (T element : target) {
+            if (predicate.apply(element)) {
+                result.add(element);
+            }
         }
-        if(TextUtils.isEmpty(split)){
+        return result;
+    }
+
+    public static List<String> splitStringToList(String str, String split) {
+        if (TextUtils.isEmpty(str)) {
+            return new ArrayList<>();
+        }
+        if (TextUtils.isEmpty(split)) {
             split = ",";
         }
 
         return Arrays.asList(str.split(split));
     }
-    public static boolean isPhone(String phone){
 
-        if (TextUtils.isEmpty(phone)){
+    public static boolean isPhone(String phone) {
+
+        if (TextUtils.isEmpty(phone)) {
             return false;
-        }else{
+        } else {
             return phone.matches(Constant.Regex.phone);
         }
 
     }
 
-    public static boolean isValidPw(String pw){
-        if (TextUtils.isEmpty(pw)){
+    public static boolean isValidPw(String pw) {
+        if (TextUtils.isEmpty(pw)) {
             return false;
-        }else{
+        } else {
             return pw.matches(Constant.Regex.pw);
         }
     }
 
-    public static boolean isMainThread(){
+    public static boolean isMainThread() {
         return Looper.myLooper() == Looper.getMainLooper();
     }
 //    public static String recourceTo

@@ -2,23 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+       >
         <android.support.constraint.ConstraintLayout
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+android:background="@drawable/view_bottom_border"
+            >
 
             <TextView
                 android:id="@+id/tag_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
-                android:text="sdf水电费了空间"
+                android:text="标签"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_view_size2"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -26,24 +31,102 @@
 
             <com.yujian.widget.HorizontalScrollTagList
                 android:id="@+id/tags"
-                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/tag_title"
                 app:layout_constraintTop_toBottomOf="@+id/tag_title"
+
                 >
 
             </com.yujian.widget.HorizontalScrollTagList>
-            <!--<me.next.tagview.TagCloudView-->
-                <!--android:id="@+id/tags"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--app:tcvItemBorderHorizontal="8dp"-->
-                <!--app:tcvItemBorderVertical="6dp"-->
-                <!--app:tcvBorder="8dp"-->
-                <!--app:tcvTextColor="#123455"-->
-                <!--app:tcvSingleLine="true"-->
-                <!--/>-->
         </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:background="@drawable/view_bottom_border"
+            >
+
+            <TextView
+                android:id="@+id/introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="介绍"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_view_size2"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+            <TextView
+                android:id="@+id/goto_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9.5dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/user_profile_go_to_introduce"
+                android:textColor="@color/text_link"
+                android:textSize="@dimen/text_view_size"
+
+                app:layout_constraintStart_toStartOf="@+id/introduce"
+                app:layout_constraintTop_toBottomOf="@+id/introduce"
+                />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:background="@drawable/view_bottom_border"
+            >
+
+            <TextView
+                android:id="@+id/introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="证书"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_view_size2"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/left_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/certificateList"
+                android:layout_width="0dp"
+                android:layout_height="106dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/introduce"
+                app:layout_constraintTop_toBottomOf="@+id/introduce">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
