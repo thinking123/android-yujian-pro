@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +74,14 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 //    @BindView(R.id.viewpager)
 //    public ViewPager viewPager;
 
+
+    private UserProfile userProfile;
+    @BindView(R.id.appBar)
+    AppBarLayout appBarLayout;
+
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout collapsingToolbar;
+
     @BindView(R.id.viewpager_container)
     FrameLayout frameLayout;
     @BindView(R.id.toolbar)
@@ -91,11 +103,18 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     @BindView(R.id.header_time)
     TextView headerTime;
 
+//    @BindView(R.id.logo)
+//    CircleImageView logo;
+
     @BindView(R.id.logo)
-    CircleImageView logo;
+    FloatingActionButton logo;
+
 
     @BindView(R.id.header_bg)
     ImageView headerBg;
+
+
+
 
     private ISupportFragment[] mFragments = new ISupportFragment[3];
 //    @BindView(R.id.tags)
@@ -165,8 +184,60 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+//        toolbar.setTitle("");
+
+        initAppbarLayout();
     }
 
+    private void initAppbarLayout(){
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.TextAppearance_MyApp_Title_Collapsed);
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.TextAppearance_MyApp_Title_Expanded);
+
+        //This is the most important when you are putting custom textview in CollapsingToolbar
+        collapsingToolbar.setTitle(" ");
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    //when collapsingToolbar at that time display actionbar title
+                    if(userProfile != null){
+                        collapsingToolbar.setTitle(userProfile.getName());
+                    }else{
+                        collapsingToolbar.setTitle(" ");
+                    }
+
+//                    toolbar.setBackgroundColor(ContextCompat.getColor(
+//                            getActivity() , R.color.white
+//                    ));
+//
+//                    toolbar.setTitleTextColor(ContextCompat.getColor(
+//                            getActivity() , R.color.text_black
+//                    ));
+
+                    isShow = true;
+                } else if (isShow) {
+                    //carefull there must a space between double quote otherwise it dose't work
+                    collapsingToolbar.setTitle(" ");
+                    isShow = false;
+                }
+                float range = (float) -appBarLayout.getTotalScrollRange();
+                headerBg.setImageAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
+
+
+
+
+
+            }
+        });
+    }
     @Override
     public void setData(@Nullable Object data) {
 
@@ -207,6 +278,8 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void getUserProfileResult(UserProfile p) {
+
+        this.userProfile = p;
         String[] tabs = getResources().getStringArray(R.array.user_profile_tab);
         UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager() , Arrays.asList(tabs) , p);
 
