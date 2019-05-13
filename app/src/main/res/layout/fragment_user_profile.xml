@@ -129,10 +129,9 @@ android:background="@drawable/view_bottom_border"
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/certificateList"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/introduce"
                 app:layout_constraintTop_toBottomOf="@+id/introduce">
 
@@ -177,10 +176,9 @@ android:background="@drawable/view_bottom_border"
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/matchList"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/match"
                 app:layout_constraintTop_toBottomOf="@+id/match">
 
@@ -273,10 +271,9 @@ android:background="@drawable/view_bottom_border"
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pictureSets"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/match"
                 app:layout_constraintTop_toBottomOf="@+id/match">
 

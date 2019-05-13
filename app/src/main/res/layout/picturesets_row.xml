@@ -13,6 +13,7 @@
 
         <android.support.v7.widget.CardView
             app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -24,7 +25,7 @@
                     android:scaleType="fitXY"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@color/white1"/>
+                    android:src="@color/text_gray"/>
 
                 <TextView
                     android:background="@drawable/rounded_corner_textview_tag1"

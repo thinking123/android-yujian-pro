@@ -8,7 +8,7 @@
     <dimen name="text_view_size1">18sp</dimen>
     <dimen name="text_view_size2">20sp</dimen>
     <dimen name="btn_circle_wx_dimen">50dp</dimen>
-    <dimen name="grid_space">2dp</dimen>
+    <dimen name="grid_space">8dp</dimen>
     <dimen name="page_title_size">36sp</dimen>
     <dimen name="page_title_size1">27sp</dimen>
 
