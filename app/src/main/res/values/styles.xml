@@ -54,6 +54,10 @@
         <item name="android:textColor">@color/text_gray1</item>
         <item name="android:textSize">@dimen/tip_text_size2</item>
         <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorAccent">@color/text_link</item>
     </style>
 
     <style name="TransprantToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

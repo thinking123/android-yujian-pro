@@ -39,6 +39,7 @@ import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.adapter.UserProfileMainViewPagerAdapter;
 import com.yujian.mvp.ui.fragment.main.DynamicFragment;
+import com.yujian.widget.FloatingActionImageView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -107,7 +108,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 //    CircleImageView logo;
 
     @BindView(R.id.logo)
-    FloatingActionButton logo;
+    FloatingActionImageView logo;
 
 
     @BindView(R.id.header_bg)
@@ -293,7 +294,11 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         headerTime.setText(p.getOpenTime());
 
         Glide.with(getActivity()).load(p.getHead()).into(logo);
+
+//        logo.setImage(p.getHead());
+
         Glide.with(getActivity()).load(p.getLogo()).into(headerBg);
+
 
         constraintLayout.invalidate();
         ISupportFragment fragment = findChildFragment(UserProfileFragment.class);

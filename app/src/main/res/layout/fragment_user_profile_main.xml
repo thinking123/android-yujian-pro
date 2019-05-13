@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/user_profile_main_container"
     android:theme="@style/UserProfileBodyTheme"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
@@ -32,7 +33,9 @@
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                 app:layout_collapseMode="parallax"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="25dp"
+                >
 
 
 
@@ -63,25 +66,26 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:layout_marginTop="-15dp"
         android:id="@+id/nested_view"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        android:background="@color/white"
-        android:backgroundTint="@color/white"
         <include layout="@layout/user_profile_main_body"/>
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
+    <!--<com.yujian.widget.FloatingActionImageView-->
+        <!--android:layout_width=""-->
+        <!--android:layout_height="" />-->
+    <!--<android.support.design.widget.FloatingActionButton-->
+    <com.yujian.widget.FloatingActionImageView
         android:id="@+id/logo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:layout_anchorGravity="bottom|end"
         app:layout_anchor="@id/appBar"
         android:layout_marginRight="25dp"
-        android:src="@color/text_primary1"
         />
     <!--<de.hdodenhof.circleimageview.CircleImageView-->
         <!--android:layout_marginRight="25dp"-->
