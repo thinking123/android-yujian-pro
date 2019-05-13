@@ -1,17 +1,14 @@
 package com.yujian.mvp.ui.fragment.userProfile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,17 +35,23 @@ import com.yujian.entity.UserProfile;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.EventBus.EventBusTags;
+import com.yujian.mvp.ui.EventBus.UserProfileEvent;
 import com.yujian.mvp.ui.adapter.UserProfileMainViewPagerAdapter;
 import com.yujian.mvp.ui.fragment.main.DynamicFragment;
 import com.yujian.widget.FloatingActionImageView;
 import com.yujian.widget.ImagePreviewImage;
+
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import me.yokeyword.fragmentation.ISupportFragment;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -118,18 +121,30 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     ImageView headerBg;
 
 
-
-
     private ISupportFragment[] mFragments = new ISupportFragment[3];
-//    @BindView(R.id.tags)
+
+    //    @BindView(R.id.tags)
 //    TagCloudView tags;
     public static UserProfileMainFragment newInstance(String userId) {
         UserProfileMainFragment fragment = new UserProfileMainFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("id" , userId);
+        bundle.putString("id", userId);
         fragment.setArguments(bundle);
         return fragment;
     }
+
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        EventBus.getDefault().register(this);
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        EventBus.getDefault().unregister(this);
+//    }
+
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -157,6 +172,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         getUserProfile();
 //        userId = savedInstanceState.getString("id");
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.user_profile_main_menu, menu);
@@ -183,21 +199,22 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
     }
 
     @OnClick({R.id.logo})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.logo:
-                if(userProfile != null &&
-                        !TextUtils.isEmpty(userProfile.getHead())){
-                    ImagePreviewImage.previewImage(getActivity() , userProfile.getHead());
+                if (userProfile != null &&
+                        !TextUtils.isEmpty(userProfile.getHead())) {
+                    ImagePreviewImage.previewImage(getActivity(), userProfile.getHead());
                 }
 
                 break;
         }
     }
+
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -207,10 +224,9 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         initAppbarLayout();
 
 
-
     }
 
-    private void initAppbarLayout(){
+    private void initAppbarLayout() {
         collapsingToolbar.setCollapsedTitleTextAppearance(R.style.TextAppearance_MyApp_Title_Collapsed);
         collapsingToolbar.setExpandedTitleTextAppearance(R.style.TextAppearance_MyApp_Title_Expanded);
 
@@ -228,9 +244,9 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
                 }
                 if (scrollRange + verticalOffset == 0) {
                     //when collapsingToolbar at that time display actionbar title
-                    if(userProfile != null){
+                    if (userProfile != null) {
                         collapsingToolbar.setTitle(userProfile.getName());
-                    }else{
+                    } else {
                         collapsingToolbar.setTitle(" ");
                     }
 
@@ -252,19 +268,17 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
                 headerBg.setImageAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
 
 
-
-
-
             }
         });
     }
+
     @Override
     public void setData(@Nullable Object data) {
 
     }
 
-    private void getUserProfile(){
-        if(mPresenter != null){
+    private void getUserProfile() {
+        if (mPresenter != null) {
             mPresenter.getUserProfile(userId);
         }
     }
@@ -301,7 +315,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
         this.userProfile = p;
         String[] tabs = getResources().getStringArray(R.array.user_profile_tab);
-        UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager() , Arrays.asList(tabs) , p);
+        UserProfileMainViewPagerAdapter viewPagerAdapter = new UserProfileMainViewPagerAdapter(getChildFragmentManager(), Arrays.asList(tabs), p);
 
 //        viewPager.setAdapter(viewPagerAdapter);
 //        tabLayout.setupWithViewPager(viewPager);
@@ -321,40 +335,40 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
         constraintLayout.invalidate();
         ISupportFragment fragment = findChildFragment(UserProfileFragment.class);
-        if(fragment == null){
+        if (fragment == null) {
             fragment = UserProfileFragment.newInstance(p);
         }
 
-        loadRootFragment(R.id.viewpager_container , fragment);
+        loadRootFragment(R.id.viewpager_container, fragment);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ISupportFragment fragment = null;
-                switch (tab.getPosition()){
+                switch (tab.getPosition()) {
                     case 0:
                         fragment = findChildFragment(UserProfileFragment.class);
-                        if(fragment == null){
+                        if (fragment == null) {
                             fragment = UserProfileFragment.newInstance(p);
                         }
 
-                        loadRootFragment(R.id.viewpager_container , fragment);
+                        loadRootFragment(R.id.viewpager_container, fragment);
                         break;
                     case 1:
                         fragment = findChildFragment(CoachLessonFragment.class);
-                        if(fragment == null){
+                        if (fragment == null) {
                             fragment = CoachLessonFragment.newInstance();
                         }
 
-                        loadRootFragment(R.id.viewpager_container , fragment);
+                        loadRootFragment(R.id.viewpager_container, fragment);
                         break;
                     case 2:
                         fragment = findChildFragment(DynamicFragment.class);
-                        if(fragment == null){
+                        if (fragment == null) {
                             fragment = DynamicFragment.newInstance();
                         }
 
-                        loadRootFragment(R.id.viewpager_container , fragment);
+                        loadRootFragment(R.id.viewpager_container, fragment);
                         break;
                 }
 //                if(tab.getPosition() == 0)
@@ -371,7 +385,6 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
             }
         });
-
 
 
 //

@@ -15,6 +15,7 @@ import com.yujian.mvp.ui.fragment.userProfile.CoachLessonFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserDynamicFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
+import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
 
 
 /**
@@ -36,6 +37,7 @@ public interface UserProfileComponent {
     void inject(UserProfileFragment fragment);
     void inject(UserDynamicFragment fragment);
     void inject(CoachLessonFragment fragment);
+    void inject(UserProfileTimeLineFragment fragment);
     @Component.Builder
     interface Builder {
         @BindsInstance

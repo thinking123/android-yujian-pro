@@ -4,7 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.yujian.R;
+import com.yujian.entity.UserProfile;
+import com.yujian.mvp.ui.EventBus.EventBusTags;
+import com.yujian.mvp.ui.EventBus.UserProfileEvent;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
+import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivity;
@@ -24,6 +32,7 @@ import me.yokeyword.fragmentation.SupportActivity;
  */
 public class UserProfileActivity extends SupportActivity {
     private String userId;
+    ISupportFragment userProfileMainFragment;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +44,48 @@ public class UserProfileActivity extends SupportActivity {
         setContentView(R.layout.activity_user_profile);
 
 
-        ISupportFragment fragment = findFragment(UserProfileMainFragment.class);
+        userProfileMainFragment = findFragment(UserProfileMainFragment.class);
 
-        if(fragment == null){
-            loadRootFragment(R.id.user_profile_container ,
-                    UserProfileMainFragment.newInstance(userId));
+        if (userProfileMainFragment == null) {
+            userProfileMainFragment = UserProfileMainFragment.newInstance(userId);
+            loadRootFragment(R.id.user_profile_container,
+                    userProfileMainFragment);
         }
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UserProfileEvent e) {
+        UserProfile userProfile = e.getMessage();
+        String tag = e.getTag();
+        switch (tag) {
+            case EventBusTags.UserProfile.MATCH:
+            case EventBusTags.UserProfile.CERTIFICATE:
+            case EventBusTags.UserProfile.PERSONALSTORY:
+                ISupportFragment fragment = findFragment(UserProfileTimeLineFragment.class);
+                if (fragment == null) {
+                    fragment = UserProfileTimeLineFragment.newInstance(userProfile , tag);
+                }
+//                showHideFragment(fragment , userProfileMainFragment);
+                start(fragment);
+                break;
+            case EventBusTags.UserProfile.PICTURESET:
+                break;
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
 
 }

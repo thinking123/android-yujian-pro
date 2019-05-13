@@ -36,15 +36,20 @@ import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.UserProfile;
+import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.EventBus.EventBusTags;
+import com.yujian.mvp.ui.EventBus.UserProfileEvent;
 import com.yujian.mvp.ui.adapter.CardListAdapter;
 import com.yujian.mvp.ui.adapter.CertificateListAdapter;
 import com.yujian.mvp.ui.adapter.PictureSetsAdapter;
 import com.yujian.utils.Common;
 import com.yujian.widget.GridSpacesItemDecoration;
 import com.yujian.widget.HorizontalScrollTagList;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -210,9 +215,18 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
                 2
         ));
 
+
+
         CertificateListAdapter adapter = new CertificateListAdapter(userProfile.getCertificateList());
 
         certificateList.setAdapter(adapter);
+
+        adapter.getPositionClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
+            @Override
+            public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.CERTIFICATE));
+            }
+        });
 
         matchList.addItemDecoration(decoration);
         matchList.setLayoutManager(new GridLayoutManager(
@@ -220,9 +234,18 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
                 2
         ));
 
+
+
         CertificateListAdapter adapter1 = new CertificateListAdapter(userProfile.getMatchList());
 
         matchList.setAdapter(adapter1);
+        adapter1.getPositionClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
+            @Override
+            public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.MATCH));
+            }
+        });
+
         pictureSets.addItemDecoration(decoration);
         pictureSets.setLayoutManager(new GridLayoutManager(
                 getActivity() ,
