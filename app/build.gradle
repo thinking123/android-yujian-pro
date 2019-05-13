@@ -85,4 +85,5 @@ dependencies {
 
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
 }

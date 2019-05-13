@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,11 +41,13 @@ import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.adapter.UserProfileMainViewPagerAdapter;
 import com.yujian.mvp.ui.fragment.main.DynamicFragment;
 import com.yujian.widget.FloatingActionImageView;
+import com.yujian.widget.ImagePreviewImage;
 
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.yokeyword.fragmentation.ISupportFragment;
 
@@ -178,6 +181,19 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
         return true;
     }
+
+    @OnClick({R.id.logo})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.logo:
+                if(userProfile != null &&
+                        !TextUtils.isEmpty(userProfile.getHead())){
+                    ImagePreviewImage.previewImage(getActivity() , userProfile.getHead());
+                }
+
+                break;
+        }
+    }
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
@@ -189,6 +205,9 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 //        toolbar.setTitle("");
 
         initAppbarLayout();
+
+
+
     }
 
     private void initAppbarLayout(){
