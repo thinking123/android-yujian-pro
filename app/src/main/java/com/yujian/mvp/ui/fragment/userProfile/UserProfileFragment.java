@@ -35,12 +35,15 @@ import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
+import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
+import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
+import com.yujian.mvp.ui.EventBus.PictureSetEvent;
 import com.yujian.mvp.ui.EventBus.UserProfileEvent;
 import com.yujian.mvp.ui.adapter.CardListAdapter;
 import com.yujian.mvp.ui.adapter.CertificateListAdapter;
@@ -224,7 +227,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         adapter.getPositionClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
             @Override
             public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
-                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.CERTIFICATE));
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.CERTIFICATE, null));
             }
         });
 
@@ -242,7 +245,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         adapter1.getPositionClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
             @Override
             public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
-                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.MATCH));
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.MATCH , null));
             }
         });
 
@@ -256,6 +259,12 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
         pictureSets.setAdapter(adapter2);
 
+        adapter2.getPositionClicks().subscribe(new Consumer<PictureSet>() {
+            @Override
+            public void accept(PictureSet pictureSet) throws Exception {
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.PICTURESET , pictureSet));
+            }
+        });
 
     }
 
@@ -347,6 +356,11 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void getCurriculumByTimeResult(List<DrillTime> list) {
+
+    }
+
+    @Override
+    public void getSetPictureByIdResult(GymPictureBean list) {
 
     }
 }

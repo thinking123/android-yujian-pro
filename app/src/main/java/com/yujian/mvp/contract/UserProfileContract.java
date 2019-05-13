@@ -7,6 +7,7 @@ import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.UserProfile;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
+import com.yujian.mvp.model.entity.GymPictureBean;
 
 import java.util.List;
 
@@ -37,33 +38,37 @@ public interface UserProfileContract {
         void getGymdetailsCoachResult(List<Personaltainer> list);
 
         void getCurriculumByTimeResult(List<DrillTime> list);
+        void getSetPictureByIdResult(GymPictureBean list);
 
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
-        @GET("/api/gym/Gymdetails")
         Observable<BaseResponse<UserProfile>> getUserProfile(
                 String id
         );
 
-        @GET("/api/gym/GetCoachOrUserRelevant")
         Observable<BaseResponse<GetCoachOrUserRelevantBean>> getCoachOrUserRelevant(
                 String id
         );
 
         //GET /api/gym/GymdetailsCoach
         //作用:健身房详情--课程-私教 列表 --编号
-        @GET("/api/gym/GymdetailsCoach")
         Observable<BaseResponse<List<Personaltainer>>> getGymdetailsCoach(
                 String id
         );
 
-        @GET("/api/curriculum/GetCurriculum")
         Observable<BaseResponse<List<DrillTime>>> getCurriculumByTime(
                 String id,
                 String week,
                 String time
+        );
+
+        Observable<BaseResponse<GymPictureBean>> getSetPictureById(
+                String longitude,
+                String latitude,
+                String pageNum,
+               String setId
         );
     }
 }

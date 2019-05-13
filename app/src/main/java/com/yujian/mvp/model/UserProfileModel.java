@@ -19,6 +19,7 @@ import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.api.service.DrillTimeService;
 import com.yujian.mvp.model.api.service.UserProfileService;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
+import com.yujian.mvp.model.entity.GymPictureBean;
 
 import java.util.List;
 
@@ -74,5 +75,12 @@ public class UserProfileModel extends BaseModel implements UserProfileContract.M
     @Override
     public Observable<BaseResponse<List<DrillTime>>> getCurriculumByTime(String id, String week, String time) {
         return mRepositoryManager.obtainRetrofitService(DrillTimeService.class).getCurriculumByTime(id , week ,time);
+    }
+
+    @Override
+    public Observable<BaseResponse<GymPictureBean>> getSetPictureById(String longitude, String latitude, String pageNum, String setId) {
+        return mRepositoryManager.obtainRetrofitService(UserProfileService.class).getSetPictureById(
+                 longitude,  latitude,  pageNum,  setId
+        );
     }
 }

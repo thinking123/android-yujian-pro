@@ -3,6 +3,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="60dp"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--android:text="sd的方式就是对方立刻水电费"/>-->
     <android.support.v7.widget.CardView
         app:cardElevation="0dp"
         app:cardCornerRadius="5dp"

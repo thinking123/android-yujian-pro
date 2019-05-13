@@ -20,6 +20,7 @@ import com.yujian.entity.Personaltainer;
 import com.yujian.entity.UserProfile;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
+import com.yujian.mvp.model.entity.GymPictureBean;
 
 import java.util.List;
 
@@ -111,6 +112,26 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.Mode
                     public void onNext(BaseResponse<List<DrillTime>> response) {
                         if (response.isSuccess()) {
                             mRootView.getCurriculumByTimeResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void getSetPictureById( String longitude,
+                                   String latitude,
+                                   String pageNum,
+                                   String setId) {
+        mModel.getSetPictureById(longitude,  latitude,  pageNum,  setId)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<GymPictureBean>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<GymPictureBean> response) {
+                        if (response.isSuccess()) {
+                            mRootView.getSetPictureByIdResult(response.getData());
 
                         } else {
                             mRootView.showMessage(response.getMsg());

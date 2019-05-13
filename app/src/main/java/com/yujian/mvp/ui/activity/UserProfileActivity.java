@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.yujian.R;
+import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.EventBus.UserProfileEvent;
+import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
 
@@ -57,12 +59,14 @@ public class UserProfileActivity extends SupportActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UserProfileEvent e) {
         UserProfile userProfile = e.getMessage();
+        PictureSet pictureSet = e.getPictureSet();
         String tag = e.getTag();
+        ISupportFragment fragment = null;
         switch (tag) {
             case EventBusTags.UserProfile.MATCH:
             case EventBusTags.UserProfile.CERTIFICATE:
             case EventBusTags.UserProfile.PERSONALSTORY:
-                ISupportFragment fragment = findFragment(UserProfileTimeLineFragment.class);
+                 fragment = findFragment(UserProfileTimeLineFragment.class);
                 if (fragment == null) {
                     fragment = UserProfileTimeLineFragment.newInstance(userProfile , tag);
                 }
@@ -70,6 +74,13 @@ public class UserProfileActivity extends SupportActivity {
                 start(fragment);
                 break;
             case EventBusTags.UserProfile.PICTURESET:
+
+                 fragment = findFragment(PictureSetsFragment.class);
+                if (fragment == null) {
+                    fragment = PictureSetsFragment.newInstance(pictureSet);
+                }
+//                showHideFragment(fragment , userProfileMainFragment);
+                start(fragment);
                 break;
         }
     }
