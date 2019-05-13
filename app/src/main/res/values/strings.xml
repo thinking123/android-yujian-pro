@@ -41,6 +41,8 @@
     <string name="main_nav_menu_dynamic">动态</string>
     <string name="main_nav_menu_my">我的</string>
     <string name="main_friend_title">好友</string>
+    <string name="main_timeline_title1">证书</string>
+    <string name="main_timeline_title2">比赛</string>
 
     <string name="main_friend_btn_list_recommend">推荐</string>
     <string name="main_friend_btn_list_coach">教练</string>
