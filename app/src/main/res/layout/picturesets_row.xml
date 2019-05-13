@@ -10,25 +10,37 @@
         android:id="@+id/cardview_row"
         android:layout_width="102dp"
         android:layout_height="102dp">
-        <FrameLayout
+
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/background"
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@color/white1"/>
-            <TextView
-                android:background="@drawable/rounded_corner_textview_tag"
-                android:id="@+id/gymPictureSetSize"
-                android:text="12"
-                android:backgroundTint="@color/text_gray"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="2dp"
-                android:layout_gravity="bottom|right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/background"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@color/white1"/>
+
+                <TextView
+                    android:background="@drawable/rounded_corner_textview_tag1"
+                    android:id="@+id/gymPictureSetSize"
+                    android:text="12"
+                    android:backgroundTint="@color/text_gray"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_gravity="bottom|right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+
+
+
     </android.support.v7.widget.CardView>
 
 

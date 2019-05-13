@@ -43,6 +43,7 @@ import com.yujian.mvp.ui.adapter.CardListAdapter;
 import com.yujian.mvp.ui.adapter.CertificateListAdapter;
 import com.yujian.mvp.ui.adapter.PictureSetsAdapter;
 import com.yujian.utils.Common;
+import com.yujian.widget.GridSpacesItemDecoration;
 import com.yujian.widget.HorizontalScrollTagList;
 
 import java.util.List;
@@ -74,6 +75,8 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
     @BindView(R.id.introduce)
     TextView introduce;
+    @BindView(R.id.addressInfo)
+    TextView addressInfo;
 
     @BindView(R.id.certificateList)
     RecyclerView certificateList;
@@ -195,9 +198,13 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
                 .inject(this);
     }
 
+
     private void initCertificateMatchList(){
 
 
+        int gridSpace = getResources().getDimensionPixelSize(R.dimen.grid_space);
+        GridSpacesItemDecoration decoration = new GridSpacesItemDecoration(gridSpace);
+        certificateList.addItemDecoration(decoration);
         certificateList.setLayoutManager(new GridLayoutManager(
                 getActivity() ,
                 2
@@ -207,7 +214,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
         certificateList.setAdapter(adapter);
 
-
+        matchList.addItemDecoration(decoration);
         matchList.setLayoutManager(new GridLayoutManager(
                 getActivity() ,
                 2
@@ -216,7 +223,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         CertificateListAdapter adapter1 = new CertificateListAdapter(userProfile.getMatchList());
 
         matchList.setAdapter(adapter1);
-
+        pictureSets.addItemDecoration(decoration);
         pictureSets.setLayoutManager(new GridLayoutManager(
                 getActivity() ,
                 2
@@ -261,6 +268,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         introduce.setText(userProfile.getIntroduce());
 
 
+        addressInfo.setText(userProfile.getAddress());
         initCertificateMatchList();
         initCardLists();
 

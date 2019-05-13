@@ -56,7 +56,7 @@ android:background="@drawable/view_bottom_border"
             >
 
             <TextView
-                android:id="@+id/introduce"
+                android:id="@+id/introducetitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
@@ -66,16 +66,26 @@ android:background="@drawable/view_bottom_border"
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
+            <TextView
+                android:id="@+id/introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="介绍"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/tip_text_size"
+                app:layout_constraintStart_toStartOf="@id/introducetitle"
+                app:layout_constraintTop_toBottomOf="@+id/introducetitle" />
+
 
             <TextView
                 android:id="@+id/goto_introduce"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9.5dp"
-                android:layout_marginLeft="8dp"
                 android:text="@string/user_profile_go_to_introduce"
                 android:textColor="@color/text_link"
-                android:textSize="@dimen/text_view_size"
+                android:textSize="@dimen/tip_text_size"
 
                 app:layout_constraintStart_toStartOf="@+id/introduce"
                 app:layout_constraintTop_toBottomOf="@+id/introduce"
@@ -112,10 +122,9 @@ android:background="@drawable/view_bottom_border"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="25dp"
                 android:src="@drawable/left_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="1dp" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
             <android.support.v7.widget.RecyclerView
@@ -309,14 +318,25 @@ android:background="@drawable/view_bottom_border"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:layout_editor_absoluteY="1dp" />
 
+            <TextView
+                android:id="@+id/addressInfo"
+                android:layout_width="300dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="addressInfo"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/tip_text_size"
+                app:layout_constraintStart_toStartOf="@id/match"
+                app:layout_constraintTop_toBottomOf="@+id/match" />
 
             <fragment
                 android:id="@+id/addressMap"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/match"
-                app:layout_constraintTop_toBottomOf="@+id/match"
+                android:layout_width="300dp"
+                android:layout_height="180dp"
+                app:layout_constraintStart_toStartOf="@+id/addressInfo"
+                app:layout_constraintTop_toBottomOf="@+id/addressInfo"
                 class="com.baidu.mapapi.map.SupportMapFragment" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
