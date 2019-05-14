@@ -240,4 +240,34 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
     public void getSetPictureByIdResult(GymPictureBean list) {
 
     }
+
+    @Override
+    public void uploadImageResult(String url) {
+
+    }
+
+    @Override
+    public void uploadImagesResult(List<String> urls) {
+
+    }
+
+    @Override
+    public void addCoachCredentialsResult(String res) {
+
+    }
+
+    @Override
+    public void delCoachCredentialsResult(String res) {
+
+    }
+
+    @Override
+    public void getMsgByIdToEditResult(UserProfileMatchCertificatePersonalStory res) {
+
+    }
+
+    @Override
+    public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
+
+    }
 }

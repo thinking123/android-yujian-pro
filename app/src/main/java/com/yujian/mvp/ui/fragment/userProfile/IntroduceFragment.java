@@ -21,6 +21,7 @@ import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.UserProfile;
+import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
@@ -183,6 +184,36 @@ public class IntroduceFragment extends BaseSupportFragment<UserProfilePresenter>
 
     @Override
     public void getSetPictureByIdResult(GymPictureBean list) {
+
+    }
+
+    @Override
+    public void uploadImageResult(String url) {
+
+    }
+
+    @Override
+    public void uploadImagesResult(List<String> urls) {
+
+    }
+
+    @Override
+    public void addCoachCredentialsResult(String res) {
+
+    }
+
+    @Override
+    public void delCoachCredentialsResult(String res) {
+
+    }
+
+    @Override
+    public void getMsgByIdToEditResult(UserProfileMatchCertificatePersonalStory res) {
+
+    }
+
+    @Override
+    public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
 
     }
 }

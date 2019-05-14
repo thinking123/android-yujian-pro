@@ -6,13 +6,19 @@ import com.yujian.entity.BaseResponse;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.UserProfile;
+import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 
@@ -38,7 +44,21 @@ public interface UserProfileContract {
         void getGymdetailsCoachResult(List<Personaltainer> list);
 
         void getCurriculumByTimeResult(List<DrillTime> list);
+
         void getSetPictureByIdResult(GymPictureBean list);
+
+
+        void uploadImageResult(String url);
+
+        void uploadImagesResult(List<String> urls);
+
+        void addCoachCredentialsResult(String res);
+
+        void delCoachCredentialsResult(String res);
+
+        void getMsgByIdToEditResult(UserProfileMatchCertificatePersonalStory res);
+
+        void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res);
 
     }
 
@@ -68,7 +88,32 @@ public interface UserProfileContract {
                 String longitude,
                 String latitude,
                 String pageNum,
-               String setId
+                String setId
         );
+
+        Observable<BaseResponse<String>> addCoachCredentials(
+                HashMap<String, String> requestBody
+        );
+
+        Observable<BaseResponse<String>> delCoachCredentials(
+                HashMap<String, String> requestBody
+        );
+
+        Observable<BaseResponse<UserProfileMatchCertificatePersonalStory>> getMsgByIdToEdit(
+                String longitude,
+                String latitude,
+                String id
+        );
+
+        Observable<BaseResponse<List<UserProfileMatchCertificatePersonalStory>>> getMsgByType(
+                String longitude,
+                String latitude,
+                String id,
+                String type
+        );
+
+        Observable<BaseResponse<String>> upLoadImage(MultipartBody.Part upload_file);
+
+        Observable<BaseResponse<String>> uploadImages(List<MultipartBody.Part> upload_file);
     }
 }
