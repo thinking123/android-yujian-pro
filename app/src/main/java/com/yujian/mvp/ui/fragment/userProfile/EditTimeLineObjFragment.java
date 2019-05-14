@@ -142,14 +142,14 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE_CHOOSE && resultCode == Activity.RESULT_OK){
-            List<Uri> uris = Matisse.obtainResult(data);
-            List<String> urls = new ArrayList<>();
-            for(Uri uri : uris){
-                urls.add(uris.toString());
-            }
+            List<String> uris = Matisse.obtainPathResult(data);
+//            List<String> urls = new ArrayList<>();
+//            for(Uri uri : uris){
+//                urls.add(uris.toString());
+//            }
 
             if(mPresenter != null){
-                mPresenter.upLoadImages(urls);
+                mPresenter.upLoadImages(uris);
             }
 
 //            adapter.addAll(urls);
@@ -196,7 +196,7 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
             @Override
             public void accept(Integer integer) throws Exception {
                 Matisse.from(EditTimeLineObjFragment.this)
-                        .choose(MimeType.ofImage())
+                        .choose(MimeType.of(MimeType.JPEG))
                         .countable(true)
                         .maxSelectable(4)
 //                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))

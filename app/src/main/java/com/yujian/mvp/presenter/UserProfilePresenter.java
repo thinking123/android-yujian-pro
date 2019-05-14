@@ -1,6 +1,7 @@
 package com.yujian.mvp.presenter;
 
 import android.app.Application;
+import android.net.Uri;
 
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.AppManager;
@@ -291,6 +292,7 @@ id (string, optional): id 多个id请用逗号分割
 
         List<File> fs = new ArrayList<>();
         for (String file : files) {
+            Uri uri = Uri.parse(file);
             fs.add(new File(file));
         }
         List<MultipartBody.Part> parts = new ArrayList<>();
