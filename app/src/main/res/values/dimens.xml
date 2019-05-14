@@ -22,4 +22,5 @@
     <dimen name="tip_text_size">14sp</dimen>
     <dimen name="tip_text_size2">12sp</dimen>
     <dimen name="tip_text_size1">9sp</dimen>
+    <dimen name="grid_size">86dp</dimen>
 </resources>

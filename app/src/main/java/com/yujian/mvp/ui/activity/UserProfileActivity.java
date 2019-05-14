@@ -81,7 +81,7 @@ public class UserProfileActivity extends SupportActivity {
             case EventBusTags.UserProfile.ADDPERSONALSTORY:
                 fragment = findFragment(EditTimeLineObjFragment.class);
                 if (fragment == null) {
-                    fragment = EditTimeLineObjFragment.newInstance(e == null ? "" : story.getId() , tag);
+                    fragment = EditTimeLineObjFragment.newInstance(story == null ? "" : story.getId() , tag);
                 }
                 start(fragment);
                 break;

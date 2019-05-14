@@ -89,4 +89,5 @@ dependencies {
     implementation 'com.github.vipulasri:timelineview:1.1.0'
     implementation 'com.ycjiang:ImagePreview:2.2.2'
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
+    implementation 'com.zhihu.android:matisse:0.5.2-beta4'
 }
