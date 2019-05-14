@@ -167,7 +167,7 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
                         .setCurrentIndex(pos)
                         .setSingleFling(false)//是否在黑屏区域点击返回
                         .setDrag(false)//是否禁用图片拖拽返回
-                        .setType(GPreviewBuilder.IndicatorType.Dot)//指示器类型
+                        .setType(GPreviewBuilder.IndicatorType.Number)//指示器类型
                         .start();//启动
             }
         });

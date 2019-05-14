@@ -15,25 +15,50 @@ import android.widget.TextView;
 import com.github.vipulasri.timelineview.TimelineView;
 import com.yujian.R;
 import com.yujian.app.BaseApp;
+import com.yujian.app.utils.zoompreview.PreviewImageInfo;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.utils.Common;
+import com.yujian.utils.entity.TwoLevelEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHoler> {
+
 
     private List<UserProfileMatchCertificatePersonalStory> values;
     private MaterialButton preSelectedBtn;
     private final PublishSubject<UserProfileMatchCertificatePersonalStory> onDelSubject = PublishSubject.create();
     private final PublishSubject<UserProfileMatchCertificatePersonalStory> onEditSubject = PublishSubject.create();
 
+    private final PublishSubject<TwoLevelEvent> onGridSubject = PublishSubject.create();
+
     public TimeLineAdapter(List<UserProfileMatchCertificatePersonalStory> myDataset) {
         values = myDataset;
     }
 
+
+    public List<PreviewImageInfo> getPreviewImage(int pos){
+
+        UserProfileMatchCertificatePersonalStory u = values.get(pos);
+        List<PreviewImageInfo> urls = new ArrayList<>();
+
+        for(String p : Common.splitStringToList(u.getUrl(), "")){
+            PreviewImageInfo p1 = new PreviewImageInfo(p);
+            urls.add(p1);
+        }
+        return urls;
+//        return Observable.fromIterable(values).map(new Function<GymPicture, String>() {
+//            @Override
+//            public String apply(GymPicture gymPicture) throws Exception {
+//                return gymPicture.getUrl();
+//            }
+//        }).toList().to;
+    }
     @NonNull
     @Override
     public ViewHoler onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -85,6 +110,15 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
         ThreeColumnGridAdapter adapter = new ThreeColumnGridAdapter(Common.splitStringToList(p.getUrl(), ""));
 
+        adapter.getPositionClicks().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                TwoLevelEvent e = new TwoLevelEvent();
+                e.setChildIndex(integer);
+                e.setParentIndex(position);
+                onGridSubject.onNext(e);
+            }
+        });
         viewHoler.images.setAdapter(adapter);
 
         viewHoler.images.setLayoutManager(new GridLayoutManager(viewHoler.layout.getContext(),
@@ -157,5 +191,8 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
     public Observable<UserProfileMatchCertificatePersonalStory> getEditClicks() {
         return onEditSubject.hide();
+    }
+    public Observable<TwoLevelEvent> getGridClicks() {
+        return onGridSubject.hide();
     }
 }

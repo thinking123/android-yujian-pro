@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.previewlibrary.GPreviewBuilder;
 import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
@@ -34,6 +35,7 @@ import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.adapter.TimeLineAdapter;
+import com.yujian.utils.entity.TwoLevelEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,13 +131,13 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
         type = this.getArguments().getString("type");
 
 
-        if(type == EventBusTags.UserProfile.CERTIFICATE){
-            List<UserProfileMatchCertificatePersonalStory> list =
-                    userProfile.getCertificateList();
-
-            TimeLineAdapter adapter = new TimeLineAdapter(list);
-            timelineList.setAdapter(adapter);
-        }
+//        if(type == EventBusTags.UserProfile.CERTIFICATE){
+//            List<UserProfileMatchCertificatePersonalStory> list =
+//                    userProfile.getCertificateList();
+//
+//            TimeLineAdapter adapter = new TimeLineAdapter(list);
+//            timelineList.setAdapter(adapter);
+//        }
 
 
         List<UserProfileMatchCertificatePersonalStory> list = new ArrayList<>();
@@ -149,6 +151,20 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
         }
 
         TimeLineAdapter adapter = new TimeLineAdapter(list);
+        adapter.getGridClicks().subscribe(new Consumer<TwoLevelEvent>() {
+            @Override
+            public void accept(TwoLevelEvent integer) throws Exception {
+                GPreviewBuilder.from(getActivity())//activity实例必须
+//                        .to(CustomActivity.class)//自定义Activity 使用默认的预览不需要
+                        .setData(adapter.getPreviewImage(integer.getParentIndex()))//集合
+//                        .setUserFragment(ZoomPreviewFragment.class)//自定义Fragment 使用默认的预览不需要
+                        .setCurrentIndex(integer.getChildIndex())
+                        .setSingleFling(false)//是否在黑屏区域点击返回
+                        .setDrag(false)//是否禁用图片拖拽返回
+                        .setType(GPreviewBuilder.IndicatorType.Number)//指示器类型
+                        .start();//启动
+            }
+        });
         timelineList.setAdapter(adapter);
 
         timelineList.setLayoutManager(new LinearLayoutManager(getActivity()));

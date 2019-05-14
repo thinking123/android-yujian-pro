@@ -21,7 +21,7 @@ import io.reactivex.subjects.PublishSubject;
 public class ThreeColumnGridAdapter extends RecyclerView.Adapter<ThreeColumnGridAdapter.ViewHoler> {
 
     private List<String> values;
-    private final PublishSubject<String> onClickSubject = PublishSubject.create();
+    private final PublishSubject<Integer> onClickSubject = PublishSubject.create();
     public ThreeColumnGridAdapter(List<String> myDataset) {
         values = myDataset;
     }
@@ -46,7 +46,7 @@ public class ThreeColumnGridAdapter extends RecyclerView.Adapter<ThreeColumnGrid
         viewHoler.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickSubject.onNext(name);
+                onClickSubject.onNext(position);
             }
         });
     }
@@ -78,7 +78,7 @@ public class ThreeColumnGridAdapter extends RecyclerView.Adapter<ThreeColumnGrid
         }
     }
 
-    public Observable<String> getPositionClicks(){
+    public Observable<Integer> getPositionClicks(){
         return onClickSubject.hide();
     }
 }
