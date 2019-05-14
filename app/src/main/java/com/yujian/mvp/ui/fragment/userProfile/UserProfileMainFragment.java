@@ -334,7 +334,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         Glide.with(getActivity()).load(p.getLogo()).into(headerBg);
 
 
-        constraintLayout.invalidate();
+//        constraintLayout.invalidate();
         ISupportFragment fragment = findChildFragment(UserProfileFragment.class);
         if (fragment == null) {
             fragment = UserProfileFragment.newInstance(p);

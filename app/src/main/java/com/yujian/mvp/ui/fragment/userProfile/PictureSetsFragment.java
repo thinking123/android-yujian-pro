@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.baidu.location.BDLocation;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -38,12 +39,14 @@ import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.adapter.ImageListAdapter;
 import com.yujian.mvp.ui.fragment.main.FriendFragment;
 import com.yujian.mvp.ui.fragment.zoompreivew.ZoomPreviewFragment;
+import com.yujian.widget.XRecyclerViewEx;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -73,9 +76,10 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
     @BindView(R.id.gymPictureSetName)
     TextView gymPictureSetName;
     @BindView(R.id.imageList)
-    XRecyclerView imageList;
+    XRecyclerViewEx imageList;
     boolean isLoadingMore = false, isRefreshing = false;
     private ImageListAdapter imageListAdapter;
+
     public static PictureSetsFragment newInstance(PictureSet pictureSet) {
         PictureSetsFragment fragment = new PictureSetsFragment();
         Bundle bundle = new Bundle();
@@ -94,11 +98,15 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
                 .inject(this);
     }
 
+    View header = null;
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+//         header =  inflater.inflate(R.layout.xrecylerview_header_row, container,false);
         return inflater.inflate(R.layout.fragment_picture_sets, container, false);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -111,8 +119,9 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
 
         return true;
     }
-    private void initImageSetData(){
-        if(mPresenter != null && bdLocation != null){
+
+    private void initImageSetData() {
+        if (mPresenter != null && bdLocation != null) {
             imageListAdapter.clear();
             mPresenter.getSetPictureById(
                     Double.toString(bdLocation.getLongitude()),
@@ -122,6 +131,7 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
             );
         }
     }
+
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initToolbarForActionbar(toolbar);
@@ -131,7 +141,7 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
         BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
             @Override
             public void accept(BDLocation location) throws Exception {
-                if(location != null){
+                if (location != null) {
 
                     PictureSetsFragment.this.bdLocation = location;
                     initImageSetData();
@@ -141,15 +151,13 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
 
     }
 
-    private void initXRecyclerView(){
+    private void initXRecyclerView() {
         imageListAdapter = new ImageListAdapter(new ArrayList<GymPicture>());
 
         imageListAdapter.getPositionClicks().subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer pos) throws Exception {
                 int p = pos;
-
-
 
 
                 GPreviewBuilder.from(getActivity())//activity实例必须
@@ -164,22 +172,35 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
             }
         });
 
+
+//        imageList.addHeaderView(header);
+        imageList.setLimitNumberToCallLoadMore(2);
         int gridSpace = getResources().getDimensionPixelSize(R.dimen.grid_space);
 
         imageList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                int pos = parent.getChildLayoutPosition(view);
-                if (pos % 3 != 2) {
+                //xreceview 有header 和 footer
+                final int itemCount = state.getItemCount();
+                int pos = parent.getChildAdapterPosition(view);
+                if (pos == RecyclerView.NO_POSITION ||
+                        pos == 0 ||
+                        pos == (itemCount - 1)) {
+                    return;
+                }
+                int rePos = pos - 1;
+                if (rePos % 3 != 2) {
                     outRect.right = gridSpace;
+                    Timber.i("pos % 3 != 2 current pos : " + rePos);
                 }
 
-                if(pos > 2){
+                if (rePos > 2) {
                     outRect.top = gridSpace;
+                    Timber.i("pos > 2 current pos : " + rePos);
                 }
             }
         });
-        imageList.setLayoutManager(new GridLayoutManager(getActivity() , 3));
+        imageList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
 //        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 //        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -220,8 +241,8 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
 //        imageList.refresh();
     }
 
-    private void getMoreData(int pageNum){
-        if(mPresenter != null){
+    private void getMoreData(int pageNum) {
+        if (mPresenter != null) {
             mPresenter.getSetPictureById(
                     Double.toString(bdLocation.getLongitude()),
                     Double.toString(bdLocation.getLatitude()),
@@ -230,6 +251,7 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
             );
         }
     }
+
     @Override
     public void setData(@Nullable Object data) {
 

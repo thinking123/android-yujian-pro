@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-    <include layout="@layout/toolbar"/>
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/toolbar" />
 
     <TextView
         android:id="@+id/gymPictureSetName"
@@ -13,28 +17,35 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:text="sdfdsf"
         android:textColor="@color/text_black"
         android:textSize="@dimen/page_title_size"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"
-        />
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/include3"
+        app:layout_constraintTop_toBottomOf="@+id/include3" />
 
     <TextView
+        android:id="@+id/settag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/user_profile_picture_sets_tag"
         android:textColor="@color/text_gray"
         android:textSize="@dimen/tip_text_size"
-        android:layout_marginBottom="8dp"
-        />
+        app:layout_constraintStart_toStartOf="@+id/gymPictureSetName"
+        app:layout_constraintTop_toBottomOf="@+id/gymPictureSetName" />
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
+    <com.yujian.widget.XRecyclerViewEx
         android:id="@+id/imageList"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/settag"
+        app:layout_constraintTop_toBottomOf="@+id/settag"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
 
-    </com.jcodecraeer.xrecyclerview.XRecyclerView>
+    </com.yujian.widget.XRecyclerViewEx>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
