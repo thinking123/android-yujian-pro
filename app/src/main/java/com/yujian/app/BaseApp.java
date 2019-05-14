@@ -15,7 +15,9 @@ import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.Preconditions;
+import com.previewlibrary.ZoomMediaLoader;
 import com.yujian.BugHandler;
+import com.yujian.app.utils.zoompreview.ZoomPreivewImageLoader;
 import com.yujian.baidu.BaiduLocationListener;
 import com.yujian.entity.User;
 import com.yujian.utils.Common;
@@ -57,6 +59,7 @@ public class BaseApp extends Application implements App {
         context = getApplicationContext();
         baseApp = this;
 
+        ZoomMediaLoader.getInstance().init(new ZoomPreivewImageLoader());
         initBdMap();
         BugHandler handler = BugHandler.getInstance(this);
         Thread.setDefaultUncaughtExceptionHandler(handler);

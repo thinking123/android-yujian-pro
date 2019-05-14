@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yujian.R;
+import com.yujian.app.utils.zoompreview.PreviewImageInfo;
 import com.yujian.entity.GymPicture;
 
 import java.util.ArrayList;
@@ -21,12 +22,30 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.subjects.PublishSubject;
 
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ViewHoler> {
     private List<GymPicture> values;
-    private final PublishSubject<GymPicture> onClickSubject = PublishSubject.create();
+    private final PublishSubject<Integer> onClickSubject = PublishSubject.create();
 
+    public List<PreviewImageInfo> getPreviewImage(){
+
+        List<PreviewImageInfo> urls = new ArrayList<>();
+
+        for(GymPicture p : values){
+            PreviewImageInfo p1 = new PreviewImageInfo(p.getUrl());
+            urls.add(p1);
+        }
+        return urls;
+//        return Observable.fromIterable(values).map(new Function<GymPicture, String>() {
+//            @Override
+//            public String apply(GymPicture gymPicture) throws Exception {
+//                return gymPicture.getUrl();
+//            }
+//        }).toList().to;
+    }
     public ImageListAdapter(List<GymPicture> myDataset) {
         values = myDataset;
     }
@@ -53,7 +72,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.View
         viewHoler.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickSubject.onNext(name);
+                onClickSubject.onNext(Integer.valueOf(position));
             }
         });
 
@@ -108,7 +127,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.View
         }
     }
 
-    public Observable<GymPicture> getPositionClicks() {
+    public Observable<Integer> getPositionClicks() {
         return onClickSubject.hide();
     }
 

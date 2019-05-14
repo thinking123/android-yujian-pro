@@ -21,6 +21,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+        <activity android:name="com.previewlibrary.GPreviewActivity">
+
+        </activity>
         <activity android:name=".mvp.ui.activity.UserProfileActivity"></activity>
         <activity android:name=".mvp.ui.activity.LoginActivity" />
         <activity

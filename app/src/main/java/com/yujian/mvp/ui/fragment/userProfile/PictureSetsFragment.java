@@ -21,6 +21,7 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.previewlibrary.GPreviewBuilder;
 import com.yujian.R;
 import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
@@ -36,6 +37,7 @@ import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.adapter.ImageListAdapter;
 import com.yujian.mvp.ui.fragment.main.FriendFragment;
+import com.yujian.mvp.ui.fragment.zoompreivew.ZoomPreviewFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,10 +144,23 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
     private void initXRecyclerView(){
         imageListAdapter = new ImageListAdapter(new ArrayList<GymPicture>());
 
-        imageListAdapter.getPositionClicks().subscribe(new Consumer<GymPicture>() {
+        imageListAdapter.getPositionClicks().subscribe(new Consumer<Integer>() {
             @Override
-            public void accept(GymPicture friend) throws Exception {
+            public void accept(Integer pos) throws Exception {
+                int p = pos;
 
+
+
+
+                GPreviewBuilder.from(getActivity())//activity实例必须
+//                        .to(CustomActivity.class)//自定义Activity 使用默认的预览不需要
+                        .setData(imageListAdapter.getPreviewImage())//集合
+//                        .setUserFragment(ZoomPreviewFragment.class)//自定义Fragment 使用默认的预览不需要
+                        .setCurrentIndex(pos)
+                        .setSingleFling(false)//是否在黑屏区域点击返回
+                        .setDrag(false)//是否禁用图片拖拽返回
+                        .setType(GPreviewBuilder.IndicatorType.Dot)//指示器类型
+                        .start();//启动
             }
         });
 
