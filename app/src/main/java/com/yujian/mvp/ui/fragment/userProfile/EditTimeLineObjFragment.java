@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
@@ -30,11 +33,17 @@ import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
+import com.yujian.utils.Constant;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -60,6 +69,10 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.time)
+    TextView time;
+
+    TimePickerView pvTime;
     public static EditTimeLineObjFragment newInstance(String id,String type) {
         EditTimeLineObjFragment fragment = new EditTimeLineObjFragment();
         Bundle bundle = new Bundle();
@@ -90,6 +103,14 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
 
         return true;
     }
+    @OnClick({R.id.timepicker})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.timepicker:
+                pvTime.show();
+                break;
+        }
+    }
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_edit_time_line_obj, container, false);
@@ -98,6 +119,17 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initToolbarForActionbar(toolbar);
+
+        pvTime = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+//                Constant.Common.DAYDATEPATTERN;
+                DateFormat df = new SimpleDateFormat(Constant.Common.DAYDATEPATTERN);
+
+                time.setText(df.format(date));
+            }
+        }).build();
+
         id = this.getArguments().getString("id");
         type = this.getArguments().getString("type");
 
@@ -130,6 +162,9 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
                 }
             });
         }
+
+
+
     }
 
     private void initTimelineObj(){
@@ -220,7 +255,7 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void getMsgByIdToEditResult(UserProfileMatchCertificatePersonalStory res) {
-
+        Timber.i("UserProfileMatchCertificatePersonalStory");
     }
 
     @Override

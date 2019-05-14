@@ -25,6 +25,7 @@ public class Constant {
 
     public interface Common{
         public static String PRE_HEADER_TOKEN = "Bearer ";
+        public static String DAYDATEPATTERN = "yyyy-MM-dd";
     }
 
 }

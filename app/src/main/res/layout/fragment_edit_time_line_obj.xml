@@ -35,13 +35,100 @@
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="325dp"
-        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:hint="@string/input_please_input"
         android:textColor="@color/text_black"
         android:textColorHint="@color/text_gray"
         android:textSize="@dimen/text_view_size1"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/twoLineTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="TextView"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/tip_text_size"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="325dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="@+id/twoLineTip"
+        app:layout_constraintTop_toBottomOf="@+id/twoLineTip"
+        android:id="@+id/timepicker"
+        >
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="300dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:text="选择参赛时间"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_view_size1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/left_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="1dp"  />
+        <View android:background="@color/white1"
+            android:layout_width = "match_parent"
+            android:layout_height="1dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="介绍"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/tip_text_size"
+        app:layout_constraintStart_toStartOf="@+id/timepicker"
+        app:layout_constraintTop_toBottomOf="@+id/timepicker" />
+
+    <EditText
+        android:id="@+id/introduce"
+
+        android:layout_width="325dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:hint="@string/input_please_input"
+        android:maxLines="3"
+
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/text_gray"
+        android:textSize="@dimen/text_view_size1"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="上传图片"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/tip_text_size"
+        app:layout_constraintStart_toStartOf="@+id/introduce"
+        app:layout_constraintTop_toBottomOf="@+id/introduce" />
+
 </android.support.constraint.ConstraintLayout>
