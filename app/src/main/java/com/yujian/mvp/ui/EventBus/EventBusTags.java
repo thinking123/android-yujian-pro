@@ -6,5 +6,8 @@ public interface EventBusTags {
         public String CERTIFICATE = "CERTIFICATE";
         public String PERSONALSTORY = "PERSONALSTORY";
         public String PICTURESET = "PICTURESET";
+        public String GOTOPICTURESETS = "GOTOPICTURESETS";
+        public String GOTOINTRODUCE = "GOTOINTRODUCE";
+        public String gotointroduce = "gotointroduce";
     }
 }

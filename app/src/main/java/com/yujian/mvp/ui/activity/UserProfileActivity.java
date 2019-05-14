@@ -8,6 +8,7 @@ import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.EventBus.UserProfileEvent;
+import com.yujian.mvp.ui.fragment.userProfile.IntroduceFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
@@ -70,7 +71,6 @@ public class UserProfileActivity extends SupportActivity {
                 if (fragment == null) {
                     fragment = UserProfileTimeLineFragment.newInstance(userProfile , tag);
                 }
-//                showHideFragment(fragment , userProfileMainFragment);
                 start(fragment);
                 break;
             case EventBusTags.UserProfile.PICTURESET:
@@ -79,7 +79,15 @@ public class UserProfileActivity extends SupportActivity {
                 if (fragment == null) {
                     fragment = PictureSetsFragment.newInstance(pictureSet);
                 }
-//                showHideFragment(fragment , userProfileMainFragment);
+                start(fragment);
+                break;
+
+
+            case EventBusTags.UserProfile.GOTOINTRODUCE:
+                fragment = findFragment(IntroduceFragment.class);
+                if (fragment == null) {
+                    fragment = IntroduceFragment.newInstance(userProfile);
+                }
                 start(fragment);
                 break;
         }

@@ -118,6 +118,7 @@ android:background="@drawable/view_bottom_border"
                 />
 
             <ImageButton
+                android:id="@+id/goto_certificateList"
                 android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -164,6 +165,7 @@ android:background="@drawable/view_bottom_border"
                 />
 
             <ImageButton
+                android:id="@+id/goto_matchList"
                 android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -211,6 +213,7 @@ android:background="@drawable/view_bottom_border"
                 />
 
             <ImageButton
+                android:id="@+id/goto_cardLists"
                 android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -259,6 +262,7 @@ android:background="@drawable/view_bottom_border"
                 />
 
             <ImageButton
+                android:id="@+id/goto_pictureSets"
                 android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

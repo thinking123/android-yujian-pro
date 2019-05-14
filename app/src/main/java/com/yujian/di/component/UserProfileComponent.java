@@ -12,6 +12,7 @@ import com.yujian.mvp.contract.UserProfileContract;
 import com.jess.arms.di.scope.ActivityScope;
 import com.yujian.mvp.ui.activity.UserProfileActivity;
 import com.yujian.mvp.ui.fragment.userProfile.CoachLessonFragment;
+import com.yujian.mvp.ui.fragment.userProfile.IntroduceFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserDynamicFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileFragment;
@@ -40,6 +41,7 @@ public interface UserProfileComponent {
     void inject(CoachLessonFragment fragment);
     void inject(UserProfileTimeLineFragment fragment);
     void inject(PictureSetsFragment fragment);
+    void inject(IntroduceFragment fragment);
     @Component.Builder
     interface Builder {
         @BindsInstance

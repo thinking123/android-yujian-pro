@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:layout_height="wrap_content"
@@ -62,34 +63,53 @@
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
-            <LinearLayout
+
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp"
-                >
+                android:layout_marginTop="8dp">
+
                 <android.support.design.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:id="@+id/deleteBtn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    app:iconTint="@color/text_gray"
+                    android:textColor="@color/text_gray"
                     android:text="删除"
                     app:icon="@drawable/del_btn_icon"
-                    android:layout_marginLeft="20dp"
-                    />
+                    app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <android.support.design.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:id="@+id/editBtn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
-                    android:text="编辑"
+                    android:layout_marginStart="8dp"
 
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="编辑"
                     app:icon="@drawable/edit_btn_icon"
-                    android:layout_marginRight="20dp"
-                    />
-            </LinearLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
         <!---->
         <!--<android.support.v7.widget.CardView-->

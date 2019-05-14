@@ -57,6 +57,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -99,20 +100,53 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
     RecyclerView pictureSets;
 
 
+    @BindView(R.id.goto_introduce)
+    TextView getIntroduce;
     MapView bdMap;
     BaiduMap mBaiduMap;
 
     private BDLocation bdLocation;
     private boolean isFirstLocation = true;
+
     public static UserProfileFragment newInstance(UserProfile userProfile) {
         UserProfileFragment fragment = new UserProfileFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("userProfile" , userProfile);
+        bundle.putSerializable("userProfile", userProfile);
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    private void initMap(){
+    @OnClick({R.id.goto_introduce,
+    R.id.goto_certificateList,
+    R.id.goto_matchList,
+    R.id.goto_cardLists,
+    R.id.goto_pictureSets,
+    })
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.goto_introduce:
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,
+                        EventBusTags.UserProfile.GOTOINTRODUCE,
+                        null));
+                break;
+            case R.id.goto_certificateList:
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,
+                        EventBusTags.UserProfile.CERTIFICATE,
+                        null));
+                break;
+            case R.id.goto_matchList:
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,
+                        EventBusTags.UserProfile.MATCH,
+                        null));
+                break;
+            case R.id.goto_pictureSets:
+                EventBus.getDefault().post(new UserProfileEvent(userProfile ,
+                        EventBusTags.UserProfile.GOTOPICTURESETS,
+                        null));
+                break;
+        }
+    }
+    private void initMap() {
         SupportMapFragment supportMapFragment = (SupportMapFragment) (getChildFragmentManager()
                 .findFragmentById(R.id.addressMap));
 
@@ -140,8 +174,8 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
                 MyLocationConfiguration.LocationMode.NORMAL,
                 false,
                 BitmapDescriptorFactory.fromResource(R.drawable.bd_location_dot),
-                ContextCompat.getColor(getActivity() , R.color.bd_location_border ),
-                ContextCompat.getColor(getActivity() , R.color.bd_location_border )
+                ContextCompat.getColor(getActivity(), R.color.bd_location_border),
+                ContextCompat.getColor(getActivity(), R.color.bd_location_border)
         );
 
         mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
@@ -150,7 +184,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
             @Override
             public void accept(BDLocation location) throws Exception {
-                if(location != null && mBaiduMap != null && isFirstLocation){
+                if (location != null && mBaiduMap != null && isFirstLocation) {
                     isFirstLocation = false;
 
                     UserProfileFragment.this.bdLocation = location;
@@ -176,7 +210,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         });
     }
 
-    private void updataLocation(BDLocation location){
+    private void updataLocation(BDLocation location) {
         isFirstLocation = false;
 
 //        FitnessRoomFragment.this.bdLocation = location;
@@ -196,6 +230,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
         mBaiduMap.animateMapStatus(update);
     }
+
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
         DaggerUserProfileComponent //如找不到该类,请编译一下项目
@@ -207,17 +242,16 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
     }
 
 
-    private void initCertificateMatchList(){
+    private void initCertificateMatchList() {
 
 
         int gridSpace = getResources().getDimensionPixelSize(R.dimen.grid_space);
         GridSpacesItemDecoration decoration = new GridSpacesItemDecoration(gridSpace);
         certificateList.addItemDecoration(decoration);
         certificateList.setLayoutManager(new GridLayoutManager(
-                getActivity() ,
+                getActivity(),
                 2
         ));
-
 
 
         CertificateListAdapter adapter = new CertificateListAdapter(userProfile.getCertificateList());
@@ -227,16 +261,15 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         adapter.getPositionClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
             @Override
             public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
-                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.CERTIFICATE, null));
+                EventBus.getDefault().post(new UserProfileEvent(userProfile, EventBusTags.UserProfile.CERTIFICATE, null));
             }
         });
 
         matchList.addItemDecoration(decoration);
         matchList.setLayoutManager(new GridLayoutManager(
-                getActivity() ,
+                getActivity(),
                 2
         ));
-
 
 
         CertificateListAdapter adapter1 = new CertificateListAdapter(userProfile.getMatchList());
@@ -245,13 +278,13 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         adapter1.getPositionClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
             @Override
             public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
-                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.MATCH , null));
+                EventBus.getDefault().post(new UserProfileEvent(userProfile, EventBusTags.UserProfile.MATCH, null));
             }
         });
 
         pictureSets.addItemDecoration(decoration);
         pictureSets.setLayoutManager(new GridLayoutManager(
-                getActivity() ,
+                getActivity(),
                 2
         ));
 
@@ -262,7 +295,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         adapter2.getPositionClicks().subscribe(new Consumer<PictureSet>() {
             @Override
             public void accept(PictureSet pictureSet) throws Exception {
-                EventBus.getDefault().post(new UserProfileEvent(userProfile ,EventBusTags.UserProfile.PICTURESET , pictureSet));
+                EventBus.getDefault().post(new UserProfileEvent(userProfile, EventBusTags.UserProfile.PICTURESET, pictureSet));
             }
         });
 
@@ -272,7 +305,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
     private void initCardLists() {
 
 
-        cardLists.setLayoutManager(new LinearLayoutManager(getActivity() , LinearLayoutManager.VERTICAL ,false));
+        cardLists.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         CardListAdapter adapter = new CardListAdapter(userProfile.getCardLists());
 
@@ -292,10 +325,9 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 //        userProfile = (UserProfile) savedInstanceState.getSerializable("userProfile");
 
 
-
         userProfile = (UserProfile) this.getArguments().getSerializable("userProfile");
 
-        tagList.setTags(Common.splitStringToList(userProfile.getLabelList() , ""));
+        tagList.setTags(Common.splitStringToList(userProfile.getLabelList(), ""));
 
         introduce.setText(userProfile.getIntroduce());
 
