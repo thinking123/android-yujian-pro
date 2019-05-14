@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import com.yujian.R;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
+import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.EventBus.UserProfileEvent;
+import com.yujian.mvp.ui.fragment.userProfile.EditTimeLineObjFragment;
 import com.yujian.mvp.ui.fragment.userProfile.IntroduceFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
@@ -61,6 +63,7 @@ public class UserProfileActivity extends SupportActivity {
     public void onEvent(UserProfileEvent e) {
         UserProfile userProfile = e.getMessage();
         PictureSet pictureSet = e.getPictureSet();
+        UserProfileMatchCertificatePersonalStory story = e.getUserProfileMatchCertificatePersonalStory();
         String tag = e.getTag();
         ISupportFragment fragment = null;
         switch (tag) {
@@ -70,6 +73,15 @@ public class UserProfileActivity extends SupportActivity {
                  fragment = findFragment(UserProfileTimeLineFragment.class);
                 if (fragment == null) {
                     fragment = UserProfileTimeLineFragment.newInstance(userProfile , tag);
+                }
+                start(fragment);
+                break;
+            case EventBusTags.UserProfile.ADDMATCH:
+            case EventBusTags.UserProfile.ADDCERTIFICATE:
+            case EventBusTags.UserProfile.ADDPERSONALSTORY:
+                fragment = findFragment(EditTimeLineObjFragment.class);
+                if (fragment == null) {
+                    fragment = EditTimeLineObjFragment.newInstance(e == null ? "" : story.getId() , tag);
                 }
                 start(fragment);
                 break;

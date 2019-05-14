@@ -153,7 +153,16 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         notifyItemRemoved(position);
     }
 
+    public void clear(){
+        values.clear();
 
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<UserProfileMatchCertificatePersonalStory> list){
+        values.addAll(list);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return values.size();

@@ -27,7 +27,7 @@ public interface UploadService {
     * */
 
     @POST("/api/upload/upload")
-    Observable<BaseResponse<String>> uploadImages(
+    Observable<BaseResponse<List<String>>> uploadImages(
             @Part List<MultipartBody.Part> upload_file
     );
 }

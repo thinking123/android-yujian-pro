@@ -114,6 +114,6 @@ public interface UserProfileContract {
 
         Observable<BaseResponse<String>> upLoadImage(MultipartBody.Part upload_file);
 
-        Observable<BaseResponse<String>> uploadImages(List<MultipartBody.Part> upload_file);
+        Observable<BaseResponse<List<String>>> uploadImages(List<MultipartBody.Part> upload_file);
     }
 }

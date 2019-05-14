@@ -125,7 +125,7 @@ public class UserProfileModel extends BaseModel implements UserProfileContract.M
     }
 
     @Override
-    public Observable<BaseResponse<String>> uploadImages(List<MultipartBody.Part> upload_file) {
+    public Observable<BaseResponse<List<String>>> uploadImages(List<MultipartBody.Part> upload_file) {
         return mRepositoryManager.obtainRetrofitService(UploadService.class).uploadImages(
                 upload_file
         );

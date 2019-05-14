@@ -17,11 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.location.BDLocation;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.previewlibrary.GPreviewBuilder;
 import com.yujian.R;
+import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
@@ -34,8 +36,11 @@ import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
+import com.yujian.mvp.ui.EventBus.UserProfileEvent;
 import com.yujian.mvp.ui.adapter.TimeLineAdapter;
 import com.yujian.utils.entity.TwoLevelEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +67,12 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
 
     private UserProfile userProfile;
     private String type;
-
+    /*1 认证证书 2参加赛事 3个人事迹*/
+    private String innerType = "1";
     @BindView(R.id.timelineList)
     RecyclerView timelineList;
-
-
+    private TimeLineAdapter adapter;
+    private BDLocation bdLocation;
     public static UserProfileTimeLineFragment newInstance(UserProfile userProfile, String type) {
         UserProfileTimeLineFragment fragment = new UserProfileTimeLineFragment();
         Bundle bundle = new Bundle();
@@ -103,7 +109,8 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
 
         switch (item.getItemId()) {
             case R.id.add_icon:
-
+                String et = String.format("add%s" ,type).toUpperCase();
+                EventBus.getDefault().post(new UserProfileEvent(et));
                 break;
             case android.R.id.home:
                 _mActivity.onBackPressed();
@@ -131,26 +138,24 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
         type = this.getArguments().getString("type");
 
 
-//        if(type == EventBusTags.UserProfile.CERTIFICATE){
-//            List<UserProfileMatchCertificatePersonalStory> list =
-//                    userProfile.getCertificateList();
-//
-//            TimeLineAdapter adapter = new TimeLineAdapter(list);
-//            timelineList.setAdapter(adapter);
-//        }
 
 
         List<UserProfileMatchCertificatePersonalStory> list = new ArrayList<>();
         switch (type){
             case EventBusTags.UserProfile.CERTIFICATE:
                 list = userProfile.getCertificateList();
+                innerType = "1";
                 break;
             case EventBusTags.UserProfile.MATCH:
                 list = userProfile.getMatchList();
+                innerType = "2";
+                break;
+            case EventBusTags.UserProfile.PERSONALSTORY:
+                innerType = "3";
                 break;
         }
 
-        TimeLineAdapter adapter = new TimeLineAdapter(list);
+        adapter = new TimeLineAdapter(list);
         adapter.getGridClicks().subscribe(new Consumer<TwoLevelEvent>() {
             @Override
             public void accept(TwoLevelEvent integer) throws Exception {
@@ -172,16 +177,44 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
         adapter.getDelClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
             @Override
             public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
-
+                if(mPresenter != null){
+                    mPresenter.delCoachCredentials(userProfileMatchCertificatePersonalStory.getId());
+                }
             }
         });
 
         adapter.getEditClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
             @Override
             public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
-
+                String et = String.format("add%s" ,type).toUpperCase();
+                UserProfileEvent event = new UserProfileEvent(et);
+                event.setUserProfileMatchCertificatePersonalStory(userProfileMatchCertificatePersonalStory);
+                EventBus.getDefault().post(event);
             }
         });
+
+        BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
+            @Override
+            public void accept(BDLocation location) throws Exception {
+                if(location != null ){
+
+                    UserProfileTimeLineFragment.this.bdLocation = location;
+                    initTimelineData();
+                }
+            }
+        });
+    }
+
+    private void initTimelineData(){
+        if (mPresenter != null && bdLocation != null) {
+            adapter.clear();
+            mPresenter.getMsgByType(
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    userProfile.getId(),
+                    innerType
+            );
+        }
     }
 
     @Override
@@ -258,7 +291,7 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
 
     @Override
     public void delCoachCredentialsResult(String res) {
-
+        initTimelineData();
     }
 
     @Override
@@ -268,6 +301,6 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
 
     @Override
     public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
-
+        adapter.addAll(res);
     }
 }
