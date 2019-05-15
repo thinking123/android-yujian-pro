@@ -27,6 +27,7 @@ import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.google.gson.JsonElement;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -38,6 +39,7 @@ import com.yujian.app.utils.matisse.MyGlideEngine;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
+import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
@@ -458,6 +460,36 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
+
+    }
+
+    @Override
+    public void addSetResult(PictureSet requestBody) {
+
+    }
+
+    @Override
+    public void addSetPictureResult(JsonElement requestBody) {
+
+    }
+
+    @Override
+    public void delSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void editBackGroundResult(String requestBody) {
+
+    }
+
+    @Override
+    public void setAllResult(List<PictureSet> list) {
+
+    }
+
+    @Override
+    public void sortSetPictureResult(String requestBody) {
 
     }
 }

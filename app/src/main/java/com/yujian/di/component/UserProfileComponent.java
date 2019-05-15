@@ -14,7 +14,9 @@ import com.yujian.mvp.ui.activity.UserProfileActivity;
 import com.yujian.mvp.ui.fragment.userProfile.CoachLessonFragment;
 import com.yujian.mvp.ui.fragment.userProfile.EditTimeLineObjFragment;
 import com.yujian.mvp.ui.fragment.userProfile.IntroduceFragment;
+import com.yujian.mvp.ui.fragment.userProfile.PictureSetsEditFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
+import com.yujian.mvp.ui.fragment.userProfile.PictureSetsManageFragmentFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserDynamicFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
@@ -44,6 +46,8 @@ public interface UserProfileComponent {
     void inject(PictureSetsFragment fragment);
     void inject(IntroduceFragment fragment);
     void inject(EditTimeLineObjFragment fragment);
+    void inject(PictureSetsManageFragmentFragment fragment);
+    void inject(PictureSetsEditFragment fragment);
     @Component.Builder
     interface Builder {
         @BindsInstance

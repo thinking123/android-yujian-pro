@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.google.gson.JsonElement;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.di.component.AppComponent;
@@ -352,6 +353,36 @@ public class PictureSetsFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
+
+    }
+
+    @Override
+    public void addSetResult(PictureSet requestBody) {
+
+    }
+
+    @Override
+    public void addSetPictureResult(JsonElement requestBody) {
+
+    }
+
+    @Override
+    public void delSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void editBackGroundResult(String requestBody) {
+
+    }
+
+    @Override
+    public void setAllResult(List<PictureSet> list) {
+
+    }
+
+    @Override
+    public void sortSetPictureResult(String requestBody) {
 
     }
 }

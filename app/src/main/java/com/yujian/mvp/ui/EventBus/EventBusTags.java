@@ -10,6 +10,7 @@ public interface EventBusTags {
         public String ADDPERSONALSTORY = "ADDPERSONALSTORY";
         public String PICTURESET = "PICTURESET";
         public String GOTOPICTURESETS = "GOTOPICTURESETS";
+        public String GOTOPICTURESETSMANGEE = "GOTOPICTURESETSMANGEE";
         public String GOTOINTRODUCE = "GOTOINTRODUCE";
         public String gotointroduce = "gotointroduce";
     }

@@ -6,12 +6,9 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.gson.JsonElement;
 import com.jess.arms.di.component.AppComponent;
@@ -31,8 +28,6 @@ import com.yujian.mvp.presenter.UserProfilePresenter;
 
 import java.util.List;
 
-import butterknife.BindView;
-
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
@@ -40,7 +35,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 05/14/2019 14:13
+ * Created by MVPArmsTemplate on 05/15/2019 13:05
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -48,17 +43,10 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class IntroduceFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
-    private UserProfile userProfile;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.introduce)
-    TextView introduce;
-    public static IntroduceFragment newInstance(UserProfile userProfile) {
-        IntroduceFragment fragment = new IntroduceFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("userProfile", userProfile);
-        fragment.setArguments(bundle);
+public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
+
+    public static PictureSetsManageFragmentFragment newInstance() {
+        PictureSetsManageFragmentFragment fragment = new PictureSetsManageFragmentFragment();
         return fragment;
     }
 
@@ -74,26 +62,12 @@ public class IntroduceFragment extends BaseSupportFragment<UserProfilePresenter>
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_introduce, container, false);
+        return inflater.inflate(R.layout.fragment_picture_sets_manage, container, false);
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                _mActivity.onBackPressed();
-                break;
-        }
-
-
-        return true;
-    }
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        initToolbar(toolbar);
-        userProfile = (UserProfile) this.getArguments().getSerializable("userProfile");
-        introduce.setText(userProfile.getIntroduce());
+
     }
 
     /**

@@ -12,6 +12,7 @@ import com.yujian.mvp.ui.EventBus.UserProfileEvent;
 import com.yujian.mvp.ui.fragment.userProfile.EditTimeLineObjFragment;
 import com.yujian.mvp.ui.fragment.userProfile.IntroduceFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
+import com.yujian.mvp.ui.fragment.userProfile.PictureSetsManageFragmentFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
 
@@ -90,6 +91,15 @@ public class UserProfileActivity extends SupportActivity {
                  fragment = findFragment(PictureSetsFragment.class);
                 if (fragment == null) {
                     fragment = PictureSetsFragment.newInstance(pictureSet);
+                }
+                start(fragment);
+                break;
+
+            case EventBusTags.UserProfile.GOTOPICTURESETSMANGEE:
+
+                fragment = findFragment(PictureSetsManageFragmentFragment.class);
+                if (fragment == null) {
+                    fragment = PictureSetsManageFragmentFragment.newInstance();
                 }
                 start(fragment);
                 break;

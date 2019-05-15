@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.google.gson.JsonElement;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -316,5 +317,35 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
     @Override
     public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
         adapter.addAll(res);
+    }
+
+    @Override
+    public void addSetResult(PictureSet requestBody) {
+
+    }
+
+    @Override
+    public void addSetPictureResult(JsonElement requestBody) {
+
+    }
+
+    @Override
+    public void delSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void editBackGroundResult(String requestBody) {
+
+    }
+
+    @Override
+    public void setAllResult(List<PictureSet> list) {
+
+    }
+
+    @Override
+    public void sortSetPictureResult(String requestBody) {
+
     }
 }

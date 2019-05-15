@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonElement;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
@@ -31,6 +32,7 @@ import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
+import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
@@ -442,6 +444,36 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
+
+    }
+
+    @Override
+    public void addSetResult(PictureSet requestBody) {
+
+    }
+
+    @Override
+    public void addSetPictureResult(JsonElement requestBody) {
+
+    }
+
+    @Override
+    public void delSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void editBackGroundResult(String requestBody) {
+
+    }
+
+    @Override
+    public void setAllResult(List<PictureSet> list) {
+
+    }
+
+    @Override
+    public void sortSetPictureResult(String requestBody) {
 
     }
 }

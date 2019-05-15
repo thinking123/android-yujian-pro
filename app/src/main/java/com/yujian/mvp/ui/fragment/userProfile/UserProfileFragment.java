@@ -26,6 +26,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
+import com.google.gson.JsonElement;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -141,7 +142,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
                 break;
             case R.id.goto_pictureSets:
                 EventBus.getDefault().post(new UserProfileEvent(userProfile ,
-                        EventBusTags.UserProfile.GOTOPICTURESETS,
+                        EventBusTags.UserProfile.GOTOPICTURESETSMANGEE,
                         null));
                 break;
         }
@@ -423,6 +424,36 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void getMsgByTypeResult(List<UserProfileMatchCertificatePersonalStory> res) {
+
+    }
+
+    @Override
+    public void addSetResult(PictureSet requestBody) {
+
+    }
+
+    @Override
+    public void addSetPictureResult(JsonElement requestBody) {
+
+    }
+
+    @Override
+    public void delSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void editBackGroundResult(String requestBody) {
+
+    }
+
+    @Override
+    public void setAllResult(List<PictureSet> list) {
+
+    }
+
+    @Override
+    public void sortSetPictureResult(String requestBody) {
 
     }
 }

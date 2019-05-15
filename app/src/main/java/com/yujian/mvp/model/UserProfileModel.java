@@ -3,6 +3,7 @@ package com.yujian.mvp.model;
 import android.app.Application;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
@@ -14,11 +15,13 @@ import javax.inject.Inject;
 import com.yujian.entity.BaseResponse;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
+import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.api.service.CoashService;
 import com.yujian.mvp.model.api.service.DrillTimeService;
+import com.yujian.mvp.model.api.service.FitnessRoomService;
 import com.yujian.mvp.model.api.service.UploadService;
 import com.yujian.mvp.model.api.service.UserProfileService;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
@@ -128,6 +131,50 @@ public class UserProfileModel extends BaseModel implements UserProfileContract.M
     public Observable<BaseResponse<List<String>>> uploadImages(List<MultipartBody.Part> upload_file) {
         return mRepositoryManager.obtainRetrofitService(UploadService.class).uploadImages(
                 upload_file
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<PictureSet>> addSet(PictureSet requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).addSet(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<JsonElement>> addSetPicture(HashMap<String, String> requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).addSetPicture(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> delSetPicture(HashMap<String, String> requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).delSetPicture(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> editBackGround(HashMap<String, String> requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).editBackGround(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<List<PictureSet>>> setAll(String longitude, String latitude, String id) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).setAll(
+                 longitude,
+                 latitude,
+                 id
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> sortSetPicture(HashMap<String, String> requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).sortSetPicture(
+                requestBody
         );
     }
 }
