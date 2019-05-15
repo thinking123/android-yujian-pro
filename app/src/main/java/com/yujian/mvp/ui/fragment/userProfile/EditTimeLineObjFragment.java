@@ -45,6 +45,7 @@ import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.adapter.ImageListSelectAdapter;
 import com.yujian.utils.Constant;
+import com.yujian.widget.PrimaryRadiusBtn;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -55,10 +56,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -84,7 +87,7 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     private boolean isEdit = false;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.title)
+    @BindView(R.id.pagetitle)
     TextView pagetitle;
     @BindView(R.id.twoLineTip)
     TextView twoLineTip;
@@ -92,8 +95,12 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     TextView time;
     @BindView(R.id.imageList)
     RecyclerView imageList;
+    @BindView(R.id.submit)
+    PrimaryRadiusBtn submit;
     ImageListSelectAdapter adapter;
     TimePickerView pvTime;
+
+    private PublishSubject<Void> submitSubject = PublishSubject.create();
     public static EditTimeLineObjFragment newInstance(String id,String type) {
         EditTimeLineObjFragment fragment = new EditTimeLineObjFragment();
         Bundle bundle = new Bundle();
@@ -124,13 +131,20 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
 
         return true;
     }
-    @OnClick({R.id.timepicker})
+    @OnClick({R.id.timepicker , R.id.submit})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.timepicker:
                 pvTime.show();
                 break;
+            case R.id.submit:
+                submitSubject.debounce(500 , TimeUnit.MILLISECONDS);
+                break;
         }
+    }
+
+    private void submit(){
+
     }
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -196,7 +210,7 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
             @Override
             public void accept(Integer integer) throws Exception {
                 Matisse.from(EditTimeLineObjFragment.this)
-                        .choose(MimeType.of(MimeType.JPEG))
+                        .choose(MimeType.ofImage())
                         .countable(true)
                         .maxSelectable(4)
 //                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))

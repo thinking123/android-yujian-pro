@@ -148,6 +148,21 @@
                 app:layout_constraintStart_toStartOf="@+id/textView11"
                 app:layout_constraintTop_toBottomOf="@+id/textView11"
                 />
+
+            <com.yujian.widget.PrimaryRadiusBtn
+                android:id="@+id/submit"
+                android:layout_width="325dp"
+                android:layout_height="@dimen/btn_corner_height_login"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_view_size"
+                app:backgroundTint="@color/btn_wx_hint_bg"
+                app:cornerRadius="@dimen/btn_corner_radius_login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageList" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
