@@ -99,7 +99,7 @@ public class UserProfileActivity extends SupportActivity {
 
                 fragment = findFragment(PictureSetsManageFragmentFragment.class);
                 if (fragment == null) {
-                    fragment = PictureSetsManageFragmentFragment.newInstance();
+                    fragment = PictureSetsManageFragmentFragment.newInstance(userProfile.getId());
                 }
                 start(fragment);
                 break;

@@ -1,19 +1,30 @@
 package com.yujian.mvp.ui.fragment.userProfile;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.location.BDLocation;
 import com.google.gson.JsonElement;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
+import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
@@ -25,8 +36,15 @@ import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.adapter.PictureSetsManageAdapter;
+import com.yujian.widget.XRecyclerViewEx;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -45,8 +63,18 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
-    public static PictureSetsManageFragmentFragment newInstance() {
+    @BindView(R.id.imageList)
+    private XRecyclerViewEx imageList;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    PictureSetsManageAdapter adapter;
+    private BDLocation bdLocation;
+    private String userId;
+    public static PictureSetsManageFragmentFragment newInstance(String userId) {
         PictureSetsManageFragmentFragment fragment = new PictureSetsManageFragmentFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", userId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -62,50 +90,103 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_picture_sets_manage, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        initToolbarForActionbar(toolbar);
 
+        userId = this.getArguments().getString("id");
+        adapter = new PictureSetsManageAdapter(new ArrayList<>());
+        imageList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        imageList.setRefreshProgressStyle(ProgressStyle.BallZigZag); //设定下拉刷新样式
+        imageList.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);//设定上拉加载样式
+        imageList.setPullRefreshEnabled(true);
+        imageList.setLoadingMoreEnabled(false);
+        imageList.setAdapter(adapter);
+        int gridSpaceRight = getResources().getDimensionPixelSize(R.dimen.grid_space_right_14);
+        int gridSpaceBottom = getResources().getDimensionPixelSize(R.dimen.grid_space_bottom_10);
+        imageList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                //xreceview 有header 和 footer
+                final int itemCount = state.getItemCount();
+                int pos = parent.getChildAdapterPosition(view);
+                if (pos == RecyclerView.NO_POSITION ||
+                        pos == 0 ||
+                        pos == (itemCount - 1)) {
+                    return;
+                }
+                int rePos = pos - 1;
+                if (rePos % 2 == 0) {
+                    outRect.right = gridSpaceRight;
+                    outRect.bottom = gridSpaceBottom;
+                }else{
+                    outRect.bottom = gridSpaceBottom;
+                }
+
+            }
+        });
+        imageList.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                initPictureSetsManageData();
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
+
+
+
+        BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
+            @Override
+            public void accept(BDLocation location) throws Exception {
+                if (location != null) {
+
+                    PictureSetsManageFragmentFragment.this.bdLocation = location;
+                    initPictureSetsManageData();
+                }
+            }
+        });
     }
 
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
+    private void initPictureSetsManageData() {
+        if (mPresenter != null && bdLocation != null) {
+            adapter.clear();
+            mPresenter.setAll(
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    userId
+            );
+        }
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.add_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                _mActivity.onBackPressed();
+                break;
+            case R.menu.add_menu:
+
+                break;
+        }
+
+
+        return true;
+    }
+
     @Override
     public void setData(@Nullable Object data) {
 
@@ -118,7 +199,9 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
 
     @Override
     public void hideLoading() {
-
+        if(imageList != null){
+            imageList.refreshComplete();
+        }
     }
 
     @Override
@@ -215,7 +298,10 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
 
     @Override
     public void setAllResult(List<PictureSet> list) {
-
+        if(imageList != null){
+            imageList.refreshComplete();
+        }
+        adapter.addAll(list);
     }
 
     @Override

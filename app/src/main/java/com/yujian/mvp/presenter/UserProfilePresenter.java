@@ -3,12 +3,14 @@ package com.yujian.mvp.presenter;
 import android.app.Application;
 import android.net.Uri;
 
+import com.google.gson.JsonElement;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
 
+import io.reactivex.Observable;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import okhttp3.MediaType;
@@ -21,9 +23,11 @@ import com.yujian.app.utils.RxUtils;
 import com.yujian.entity.BaseResponse;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
+import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.api.service.FitnessRoomService;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 
@@ -322,6 +326,137 @@ id (string, optional): id 多个id请用逗号分割
 
     }
 
+
+    
+    public void addSet(PictureSet requestBody) {
+        mModel.addSet(requestBody)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<PictureSet>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<PictureSet> response) {
+                        if (response.isSuccess()) {
+                            mRootView.addSetResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void addSetPicture(String gymPictureSetId , String url) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("gymPictureSetId", gymPictureSetId);
+        map.put("url", url);
+
+
+        mModel.addSetPicture(map)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<JsonElement>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<JsonElement> response) {
+                        if (response.isSuccess()) {
+                            mRootView.addSetPictureResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void delSetPicture(String id) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
+
+
+        mModel.delSetPicture(map)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.delSetPictureResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void editBackGround(String id , String url){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("url", url);
+
+
+        mModel.editBackGround(map)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.editBackGroundResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void setAll(String longitude,
+                       String latitude,
+                       String id) {
+
+        mModel.setAll(longitude, latitude, id)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<List<PictureSet>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<List<PictureSet>> response) {
+                        if (response.isSuccess()) {
+                            mRootView.setAllResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void sortSetPicture(String gymPictureSetId , String url , String newSrot) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("gymPictureSetId", gymPictureSetId);
+        map.put("url", url);
+        map.put("newSrot", newSrot);
+
+
+        mModel.sortSetPicture(map)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.sortSetPictureResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

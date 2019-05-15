@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/background"
+        android:scaleType="fitXY"
+        android:layout_width="@dimen/grid_size_1"
+        android:layout_height="@dimen/grid_size_1"
+        android:src="@drawable/empty_grid_bg"/>
+
+    <TextView
+        android:id="@+id/gymPictureSetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5.5dp"
+        android:text="TextView"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/tip_text_size_15"
+        app:layout_constraintStart_toStartOf="@+id/background"
+        app:layout_constraintTop_toBottomOf="@+id/background" />
+
+    <TextView
+        android:id="@+id/gymPictureSetSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="@dimen/tip_text_size_15"
+        android:textColor="@color/text_gray"
+        android:layout_marginTop="5.5dp"
+        app:layout_constraintStart_toStartOf="@+id/gymPictureSetName"
+        app:layout_constraintTop_toBottomOf="@+id/gymPictureSetName" />
+
+
+
+</android.support.constraint.ConstraintLayout>
