@@ -67,7 +67,9 @@ url (string, optional): url 逗号分割
 
     @POST("/api/gym/AddSetPicture")
     Observable<BaseResponse<JsonElement>> addSetPicture(
-            @Body HashMap<String, String> requestBody
+            @Body HashMap<String, String> requestBody,
+            @Header("longitude") String longitude,
+            @Header("latitude") String latitude
     );
 
     /*/api/gym/DelSetPicture

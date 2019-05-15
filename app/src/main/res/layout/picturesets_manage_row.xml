@@ -6,12 +6,28 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/background"
-        android:scaleType="fitXY"
+    <FrameLayout
+        android:id="@+id/framelayout"
         android:layout_width="@dimen/grid_size_1"
-        android:layout_height="@dimen/grid_size_1"
-        android:src="@drawable/empty_grid_bg"/>
+        android:layout_height="@dimen/grid_size_1">
+        <ImageView
+            android:id="@+id/background"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/empty_grid_bg"/>
+        <!--<ImageView-->
+            <!--android:visibility="invisible"-->
+            <!--android:id="@+id/selectedIcon"-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:layout_gravity="bottom|right"-->
+            <!--android:layout_marginRight="11.5dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:src="@drawable/selected_icon"-->
+            <!--/>-->
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/gymPictureSetName"
@@ -21,8 +37,8 @@
         android:text="TextView"
         android:textColor="@color/text_black"
         android:textSize="@dimen/tip_text_size_15"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toBottomOf="@+id/background" />
+        app:layout_constraintStart_toStartOf="@+id/framelayout"
+        app:layout_constraintTop_toBottomOf="@+id/framelayout" />
 
     <TextView
         android:id="@+id/gymPictureSetSize"

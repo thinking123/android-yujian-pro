@@ -1,5 +1,6 @@
 package com.yujian.mvp.ui.fragment.userProfile;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.google.gson.JsonElement;
@@ -37,6 +40,8 @@ import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.adapter.PictureSetsManageAdapter;
+import com.yujian.utils.Common;
+import com.yujian.widget.PrimaryRadiusBtn;
 import com.yujian.widget.XRecyclerViewEx;
 
 import java.util.ArrayList;
@@ -64,12 +69,14 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
     @BindView(R.id.imageList)
-    private XRecyclerViewEx imageList;
+    XRecyclerViewEx imageList;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     PictureSetsManageAdapter adapter;
     private BDLocation bdLocation;
     private String userId;
+    private Dialog dialog;
+
     public static PictureSetsManageFragmentFragment newInstance(String userId) {
         PictureSetsManageFragmentFragment fragment = new PictureSetsManageFragmentFragment();
         Bundle bundle = new Bundle();
@@ -94,12 +101,49 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
         return inflater.inflate(R.layout.fragment_picture_sets_manage, container, false);
     }
 
+    private void initDialog() {
+        dialog = new Dialog(getActivity() , R.style.PauseDialog);
+        dialog.setContentView(R.layout.dialog_edit_name);
+        dialog.setTitle("自定义");
+        // set the custom dialog components - text, image and button
+//        TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialogTitle);
+        EditText inputName = (EditText) dialog.findViewById(R.id.inputName);
+
+        PrimaryRadiusBtn cancleBtn = (PrimaryRadiusBtn) dialog.findViewById(R.id.cancleBtn);
+        PrimaryRadiusBtn submitBtn = (PrimaryRadiusBtn) dialog.findViewById(R.id.submitBtn);
+        // if button is clicked, close the custom dialog
+        cancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initToolbarForActionbar(toolbar);
-
+        initDialog();
         userId = this.getArguments().getString("id");
         adapter = new PictureSetsManageAdapter(new ArrayList<>());
+        adapter.getPositionClicks().subscribe(new Consumer<PictureSet>() {
+            @Override
+            public void accept(PictureSet pictureSet) throws Exception {
+
+            }
+        });
+        adapter.getMenuClicks().subscribe(new Consumer<PictureSet>() {
+            @Override
+            public void accept(PictureSet pictureSet) throws Exception {
+                dialog.show();
+            }
+        });
         imageList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         imageList.setRefreshProgressStyle(ProgressStyle.BallZigZag); //设定下拉刷新样式
         imageList.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);//设定上拉加载样式
@@ -123,7 +167,7 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
                 if (rePos % 2 == 0) {
                     outRect.right = gridSpaceRight;
                     outRect.bottom = gridSpaceBottom;
-                }else{
+                } else {
                     outRect.bottom = gridSpaceBottom;
                 }
 
@@ -140,7 +184,6 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
 
             }
         });
-
 
 
         BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
@@ -165,6 +208,7 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
             );
         }
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.add_menu, menu);
@@ -199,7 +243,7 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
 
     @Override
     public void hideLoading() {
-        if(imageList != null){
+        if (imageList != null) {
             imageList.refreshComplete();
         }
     }
@@ -298,7 +342,7 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
 
     @Override
     public void setAllResult(List<PictureSet> list) {
-        if(imageList != null){
+        if (imageList != null) {
             imageList.refreshComplete();
         }
         adapter.addAll(list);

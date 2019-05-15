@@ -100,6 +100,10 @@ public class Common {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
+//    public static void showDialog(Context context ,
+//                                  int customView ,
+//                                  String title)
+
     public interface IPredicate<T> {
         boolean apply(T type);
     }

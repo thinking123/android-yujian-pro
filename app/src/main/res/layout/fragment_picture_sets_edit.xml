@@ -1,37 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    >
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-    <include
-        android:id="@+id/include3"
-        layout="@layout/toolbar"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/gymPictureSetName"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="sdfdsf"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/page_title_size"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/include3"
-        app:layout_constraintTop_toBottomOf="@+id/include3" />
-    <TextView
-        android:id="@+id/settag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/user_profile_picture_sets_tag"
-        android:textColor="@color/text_gray"
-        android:textSize="@dimen/tip_text_size"
-        app:layout_constraintStart_toStartOf="@+id/gymPictureSetName"
-        app:layout_constraintTop_toBottomOf="@+id/gymPictureSetName" />
-</android.support.constraint.ConstraintLayout>
+        <include
+            android:id="@+id/include3"
+            layout="@layout/toolbar"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/gymPictureSetName"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="sdfdsf"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/page_title_size"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/include3"
+            app:layout_constraintTop_toBottomOf="@+id/include3" />
+        <TextView
+            android:id="@+id/settag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="*清晰、美观的照片更有助于展示您的健身房"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/tip_text_size"
+            app:layout_constraintStart_toStartOf="@+id/gymPictureSetName"
+            app:layout_constraintTop_toBottomOf="@+id/gymPictureSetName" />
+
+        <com.yujian.widget.XRecyclerViewEx
+            android:id="@+id/imageList"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/settag"
+            app:layout_constraintTop_toBottomOf="@+id/settag"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.yujian.widget.PrimaryRadiusBtn
+        android:visibility="invisible"
+        android:id="@+id/submit"
+        android:layout_width="300dp"
+        android:layout_height="@dimen/btn_corner_height_login"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="23dp"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_view_size"
+        app:backgroundTint="@color/btn_wx_hint_bg"
+        app:cornerRadius="@dimen/btn_corner_radius_login"
+        android:layout_gravity="bottom|center_horizontal"
+        />
+</FrameLayout>

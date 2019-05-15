@@ -183,7 +183,9 @@ url (string, optional): url 逗号分割
 
 
         Observable<BaseResponse<JsonElement>> addSetPicture(
-                HashMap<String, String> requestBody
+                HashMap<String, String> requestBody,
+                String longitude,
+                String latitude
         );
 
         /*/api/gym/DelSetPicture

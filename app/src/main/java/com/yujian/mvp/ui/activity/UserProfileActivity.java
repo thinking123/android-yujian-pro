@@ -3,6 +3,7 @@ package com.yujian.mvp.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.github.nisrulz.sensey.Sensey;
 import com.yujian.R;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
@@ -57,6 +58,9 @@ public class UserProfileActivity extends SupportActivity {
             loadRootFragment(R.id.user_profile_container,
                     userProfileMainFragment);
         }
+
+
+//        Sensey.getInstance().init(this);
 
     }
 
@@ -128,5 +132,9 @@ public class UserProfileActivity extends SupportActivity {
         EventBus.getDefault().unregister(this);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        Sensey.getInstance().stop();
+    }
 }

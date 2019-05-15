@@ -1,8 +1,14 @@
 package com.yujian.mvp.ui.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +29,22 @@ public class PictureSetsManageAdapter extends RecyclerView.Adapter<PictureSetsMa
 
     private List<PictureSet> values;
     private final PublishSubject<PictureSet> onClickSubject = PublishSubject.create();
+    private final PublishSubject<PictureSet> onMenuSubject = PublishSubject.create();
+    private boolean isEdit = false;
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
+
+    final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
+        public void onLongPress(MotionEvent e) {
+            Log.e("", "Longpress detected");
+        }
+    });
     public PictureSetsManageAdapter(List<PictureSet> myDataset) {
         values = myDataset == null ? new ArrayList<>() : myDataset;
     }
@@ -33,7 +55,7 @@ public class PictureSetsManageAdapter extends RecyclerView.Adapter<PictureSetsMa
         LayoutInflater inflater = LayoutInflater.from(
                 viewGroup.getContext());
         View v =
-                inflater.inflate(R.layout.picturesets_row, viewGroup, false);
+                inflater.inflate(R.layout.picturesets_manage_row, viewGroup, false);
 
         ViewHoler viewHoler = new ViewHoler(v);
 
@@ -51,6 +73,40 @@ public class PictureSetsManageAdapter extends RecyclerView.Adapter<PictureSetsMa
             @Override
             public void onClick(View v) {
                 onClickSubject.onNext(obj);
+                if(isEdit){
+//                    if(viewHoler.selectedIcon.getVisibility() == View.VISIBLE){
+//                        viewHoler.selectedIcon.setVisibility(View.INVISIBLE);
+//                    }else{
+//                        viewHoler.selectedIcon.setVisibility(View.VISIBLE);
+//                    }
+                }
+            }
+        });
+
+        viewHoler.background.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(viewHoler.layout.getContext(), viewHoler.background);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.options_menu_rename);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.rename_menu:
+                                //handle menu1 click
+                                onMenuSubject.onNext(obj);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+
+                return false;
             }
         });
     }
@@ -78,10 +134,11 @@ public class PictureSetsManageAdapter extends RecyclerView.Adapter<PictureSetsMa
         return values.size();
     }
 
-    public class ViewHoler extends RecyclerView.ViewHolder{
+    public class ViewHoler extends RecyclerView.ViewHolder {
 
         @BindView(R.id.background)
         public ImageView background;
+        public ImageView selectedIcon;
         @BindView(R.id.gymPictureSetName)
         public TextView gymPictureSetName;
         @BindView(R.id.gymPictureSetSize)
@@ -93,12 +150,20 @@ public class PictureSetsManageAdapter extends RecyclerView.Adapter<PictureSetsMa
 
 
             background = (ImageView)itemView.findViewById(R.id.background);
+            selectedIcon = (ImageView)itemView.findViewById(R.id.selectedIcon);
             gymPictureSetName = (TextView)itemView.findViewById(R.id.gymPictureSetName);
             gymPictureSetSize = (TextView)itemView.findViewById(R.id.gymPictureSetSize);
+
         }
+
+
     }
 
     public Observable<PictureSet> getPositionClicks(){
         return onClickSubject.hide();
+    }
+
+    public Observable<PictureSet> getMenuClicks(){
+        return onMenuSubject.hide();
     }
 }

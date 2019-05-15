@@ -1,22 +1,35 @@
 package com.yujian.mvp.ui.fragment.userProfile;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.baidu.location.BDLocation;
 import com.google.gson.JsonElement;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.previewlibrary.GPreviewBuilder;
 import com.yujian.R;
+import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
+import com.yujian.app.utils.matisse.MyGlideEngine;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
+import com.yujian.entity.GymPicture;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
@@ -25,8 +38,20 @@ import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.adapter.PictureSetsEditAdapter;
+import com.yujian.mvp.ui.adapter.PictureSetsManageAdapter;
+import com.yujian.utils.Common;
+import com.yujian.widget.PrimaryRadiusBtn;
+import com.yujian.widget.XRecyclerViewEx;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -45,8 +70,30 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
-    public static PictureSetsEditFragment newInstance() {
+    @BindView(R.id.gymPictureSetName)
+    EditText gymPictureSetName;
+    @BindView(R.id.submit)
+    PrimaryRadiusBtn submit;
+    @BindView(R.id.imageList)
+    XRecyclerViewEx imageList;
+
+    PictureSetsEditAdapter adapter;
+
+    private BDLocation bdLocation;
+    int pageNum = 1;
+    int pages = 0;
+    int total = 0;
+    boolean isLoadingMore = false, isRefreshing = false;
+    private boolean isEdit = false;
+    private String id;
+    public final int REQUEST_CODE_CHOOSE = 1;
+
+    public static PictureSetsEditFragment newInstance(String id) {
+
         PictureSetsEditFragment fragment = new PictureSetsEditFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -65,47 +112,185 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
         return inflater.inflate(R.layout.fragment_picture_sets_edit, container, false);
     }
 
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
-
+    private void initImageSetData() {
+        if (mPresenter != null && bdLocation != null) {
+            adapter.clear();
+            mPresenter.getSetPictureById(
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    Integer.toString(pageNum),
+                    id
+            );
+        }
     }
 
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
+    private void getMoreData(int pageNum) {
+        if (mPresenter != null) {
+            mPresenter.getSetPictureById(
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    Integer.toString(pageNum),
+                    id
+            );
+        }
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+        id = this.getArguments().getString("id");
+        initXRecyclerView();
+        BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
+            @Override
+            public void accept(BDLocation location) throws Exception {
+                if (location != null) {
+
+                    PictureSetsEditFragment.this.bdLocation = location;
+                    initImageSetData();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == Activity.RESULT_OK) {
+            List<String> uris = Matisse.obtainPathResult(data);
+//            List<String> urls = new ArrayList<>();
+//            for(Uri uri : uris){
+//                urls.add(uris.toString());
+//            }
+
+            if (mPresenter != null) {
+                mPresenter.upLoadImages(uris);
+            }
+
+//            adapter.addAll(urls);
+        }
+    }
+
+    private void initXRecyclerView() {
+        adapter = new PictureSetsEditAdapter(new ArrayList<GymPicture>());
+
+        adapter.getPositionClicks().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer pos) throws Exception {
+                if (isEdit) {
+                    return;
+                }
+                int p = pos;
+
+
+                GPreviewBuilder.from(getActivity())//activity实例必须
+//                        .to(CustomActivity.class)//自定义Activity 使用默认的预览不需要
+                        .setData(adapter.getPreviewImage())//集合
+//                        .setUserFragment(ZoomPreviewFragment.class)//自定义Fragment 使用默认的预览不需要
+                        .setCurrentIndex(pos)
+                        .setSingleFling(false)//是否在黑屏区域点击返回
+                        .setDrag(false)//是否禁用图片拖拽返回
+                        .setType(GPreviewBuilder.IndicatorType.Number)//指示器类型
+                        .start();//启动
+            }
+        });
+
+
+        adapter.getAddClicks().subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer pos) throws Exception {
+                if (isEdit) {
+                    return;
+                }
+                Matisse.from(PictureSetsEditFragment.this)
+                        .choose(MimeType.ofImage())
+                        .countable(true)
+                        .maxSelectable(4)
+//                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_size))
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new MyGlideEngine())
+                        .forResult(REQUEST_CODE_CHOOSE);
+
+            }
+        });
+
+
+//        imageList.addHeaderView(header);
+        imageList.setLimitNumberToCallLoadMore(2);
+        int gridSpace = getResources().getDimensionPixelSize(R.dimen.grid_space);
+
+        imageList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                //xreceview 有header 和 footer
+                final int itemCount = state.getItemCount();
+                int pos = parent.getChildAdapterPosition(view);
+                if (pos == RecyclerView.NO_POSITION ||
+                        pos == 0 ||
+                        pos == (itemCount - 1)) {
+                    return;
+                }
+                int rePos = pos - 1;
+                if (rePos % 3 != 2) {
+                    outRect.right = gridSpace;
+                    Timber.i("pos % 3 != 2 current pos : " + rePos);
+                }
+
+                if (rePos > 2) {
+                    outRect.top = gridSpace;
+                    Timber.i("pos > 2 current pos : " + rePos);
+                }
+            }
+        });
+        imageList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//
+//        imageList.setLayoutManager(linearLayoutManager);
+//        imageList.setIte
+        imageList.setRefreshProgressStyle(ProgressStyle.BallZigZag); //设定下拉刷新样式
+        imageList.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);//设定上拉加载样式
+//        friendList.setArrowImageView(R.drawable.qwe);
+
+        imageList.setPullRefreshEnabled(true);
+
+        imageList.setLoadingMoreEnabled(true);
+
+        imageList.setAdapter(adapter);
+
+
+        imageList.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                initImageSetData();
+            }
+
+            @Override
+            public void onLoadMore() {
+
+                if (pageNum < pages) {
+                    getMoreData(pageNum + 1);
+                } else {
+                    showMessage("没有更多了");
+                    imageList.loadMoreComplete();
+                }
+            }
+        });
+
+//        imageList.refresh();
+    }
+
+    private void uploadPictureSetImage(List<String> url){
+        if(mPresenter != null && bdLocation != null){
+            mPresenter.addSetPicture(
+                    id ,
+                    Common.joinList(url , ""),
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude())
+                    );
+        }
+    }
     @Override
     public void setData(@Nullable Object data) {
 
@@ -118,7 +303,10 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void hideLoading() {
-
+        if (imageList != null) {
+            imageList.refreshComplete();
+            imageList.loadMoreComplete();
+        }
     }
 
     @Override
@@ -160,7 +348,16 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void getSetPictureByIdResult(GymPictureBean list) {
+        if (imageList != null) {
+            imageList.refreshComplete();
+            imageList.loadMoreComplete();
+        }
 
+        pageNum = Integer.parseInt(list.getPageNum());
+        pages = Integer.parseInt(list.getPages());
+        total = Integer.parseInt(list.getTotal());
+
+        adapter.addAll(list.getList());
     }
 
     @Override
@@ -170,7 +367,8 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void uploadImagesResult(List<String> urls) {
-
+//        adapter.addAll(urls);
+        uploadPictureSetImage(urls);
     }
 
     @Override

@@ -346,13 +346,14 @@ id (string, optional): id 多个id请用逗号分割
     }
 
     
-    public void addSetPicture(String gymPictureSetId , String url) {
+    public void addSetPicture(String gymPictureSetId , String url ,String longitude,
+                              String latitude) {
         HashMap<String, String> map = new HashMap<>();
         map.put("gymPictureSetId", gymPictureSetId);
         map.put("url", url);
 
 
-        mModel.addSetPicture(map)
+        mModel.addSetPicture(map , longitude ,latitude )
                 .compose(RxUtils.applySchedulers(mRootView))
                 .subscribe(new ErrorHandleSubscriber<BaseResponse<JsonElement>>(mErrorHandler) {
                     @Override
