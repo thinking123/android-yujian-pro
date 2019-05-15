@@ -6,7 +6,9 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -56,7 +58,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class UserProfileFeedbackFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.editText)
     EditText editText;
 
@@ -72,6 +75,18 @@ public class UserProfileFeedbackFragment extends BaseSupportFragment<UserProfile
         return fragment;
     }
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                _mActivity.onBackPressed();
+                break;
+        }
+
+
+        return true;
+    }
+    @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
         DaggerUserProfileComponent //如找不到该类,请编译一下项目
                 .builder()
@@ -83,11 +98,13 @@ public class UserProfileFeedbackFragment extends BaseSupportFragment<UserProfile
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_user_profile_feedback, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        initToolbarForActionbar(toolbar);
         id = this.getArguments().getString("id");
 
         RxView.clicks(submit).throttleFirst(500 , TimeUnit.MILLISECONDS)
@@ -102,6 +119,10 @@ public class UserProfileFeedbackFragment extends BaseSupportFragment<UserProfile
     }
     private void submitData(){
         if(mPresenter != null && validSubmit()){
+            FeedbackInfo info = new FeedbackInfo();
+            info.setGymId(id);
+            info.setMsg(editText.getText().toString());
+            mPresenter.addFeedback(info);
 //            mPresenter.addCoachCredentials(
 //                    "",
 //                    introduce.getText().toString(),
@@ -251,7 +272,7 @@ public class UserProfileFeedbackFragment extends BaseSupportFragment<UserProfile
 
     @Override
     public void addFeedbackResult(FeedbackInfo res) {
-
+        _mActivity.onBackPressed();
     }
 
     @Override

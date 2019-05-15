@@ -34,6 +34,7 @@ import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
+import com.yujian.entity.User;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
@@ -55,6 +56,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -185,18 +187,31 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    private void follow() {
+        if (userProfile != null && mPresenter != null) {
+            if (Objects.equals(userProfile.getIsCollect(), "1")) {
+                mPresenter.unfollow(User.getInstance().getId());
+            } else {
+                mPresenter.attention(userProfile.getUserRole() , User.getInstance().getId());
+            }
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.heart_icon:
-
+                follow();
                 break;
             case R.id.relay_icon:
 
                 break;
             case R.id.edit_icon:
-
+                EventBus.getDefault().post(new UserProfileEvent( userProfile , EventBusTags.UserProfile.GOTOADDFEEDBACK , null));
+                break;
+            case android.R.id.home:
+                _mActivity.onBackPressed();
                 break;
         }
 
@@ -229,6 +244,9 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
         initAppbarLayout();
 
+        if (mPresenter != null) {
+            mPresenter.addVisitNum(User.getInstance().getId());
+        }
 
     }
 
@@ -481,12 +499,12 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void attentionResult(String res) {
-
+        showMessage("attentionResult");
     }
 
     @Override
     public void unfollowResult(String res) {
-
+        showMessage("unfollowResult");
     }
 
     @Override
@@ -501,6 +519,6 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void addVisitNumResult(String res) {
-
+        showMessage("addVisitNumResult");
     }
 }

@@ -12,6 +12,6 @@ public interface EventBusTags {
         public String GOTOPICTURESETS = "GOTOPICTURESETS";
         public String GOTOPICTURESETSMANGEE = "GOTOPICTURESETSMANGEE";
         public String GOTOINTRODUCE = "GOTOINTRODUCE";
-        public String gotointroduce = "gotointroduce";
+        public String GOTOADDFEEDBACK = "GOTOADDFEEDBACK";
     }
 }

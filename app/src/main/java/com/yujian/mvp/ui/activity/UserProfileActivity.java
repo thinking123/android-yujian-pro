@@ -14,6 +14,7 @@ import com.yujian.mvp.ui.fragment.userProfile.EditTimeLineObjFragment;
 import com.yujian.mvp.ui.fragment.userProfile.IntroduceFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsManageFragmentFragment;
+import com.yujian.mvp.ui.fragment.userProfile.UserProfileFeedbackFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
 
@@ -40,6 +41,7 @@ import me.yokeyword.fragmentation.SupportActivity;
 public class UserProfileActivity extends SupportActivity {
     private String userId;
     ISupportFragment userProfileMainFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +77,9 @@ public class UserProfileActivity extends SupportActivity {
             case EventBusTags.UserProfile.MATCH:
             case EventBusTags.UserProfile.CERTIFICATE:
             case EventBusTags.UserProfile.PERSONALSTORY:
-                 fragment = findFragment(UserProfileTimeLineFragment.class);
+                fragment = findFragment(UserProfileTimeLineFragment.class);
                 if (fragment == null) {
-                    fragment = UserProfileTimeLineFragment.newInstance(userProfile , tag);
+                    fragment = UserProfileTimeLineFragment.newInstance(userProfile, tag);
                 }
                 start(fragment);
                 break;
@@ -86,13 +88,13 @@ public class UserProfileActivity extends SupportActivity {
             case EventBusTags.UserProfile.ADDPERSONALSTORY:
                 fragment = findFragment(EditTimeLineObjFragment.class);
                 if (fragment == null) {
-                    fragment = EditTimeLineObjFragment.newInstance(story == null ? "" : story.getId() , tag);
+                    fragment = EditTimeLineObjFragment.newInstance(story == null ? "" : story.getId(), tag);
                 }
                 start(fragment);
                 break;
             case EventBusTags.UserProfile.PICTURESET:
 
-                 fragment = findFragment(PictureSetsFragment.class);
+                fragment = findFragment(PictureSetsFragment.class);
                 if (fragment == null) {
                     fragment = PictureSetsFragment.newInstance(pictureSet);
                 }
@@ -113,6 +115,13 @@ public class UserProfileActivity extends SupportActivity {
                 fragment = findFragment(IntroduceFragment.class);
                 if (fragment == null) {
                     fragment = IntroduceFragment.newInstance(userProfile);
+                }
+                start(fragment);
+                break;
+            case EventBusTags.UserProfile.GOTOADDFEEDBACK:
+                fragment = findFragment(UserProfileFeedbackFragment.class);
+                if (fragment == null) {
+                    fragment = UserProfileFeedbackFragment.newInstance(userProfile.getId());
                 }
                 start(fragment);
                 break;
