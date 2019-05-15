@@ -18,12 +18,14 @@ import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
@@ -234,6 +236,31 @@ public class UserProfileFeedbackFragment extends BaseSupportFragment<UserProfile
 
     @Override
     public void sortSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void attentionResult(String res) {
+
+    }
+
+    @Override
+    public void unfollowResult(String res) {
+
+    }
+
+    @Override
+    public void addFeedbackResult(FeedbackInfo res) {
+
+    }
+
+    @Override
+    public void feedbackAllListResult(FeedbackInfoBean res) {
+
+    }
+
+    @Override
+    public void addVisitNumResult(String res) {
 
     }
 }

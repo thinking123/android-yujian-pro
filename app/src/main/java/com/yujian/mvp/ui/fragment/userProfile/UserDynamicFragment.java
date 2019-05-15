@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
@@ -24,6 +25,7 @@ import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
@@ -222,6 +224,31 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void sortSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void attentionResult(String res) {
+
+    }
+
+    @Override
+    public void unfollowResult(String res) {
+
+    }
+
+    @Override
+    public void addFeedbackResult(FeedbackInfo res) {
+
+    }
+
+    @Override
+    public void feedbackAllListResult(FeedbackInfoBean res) {
+
+    }
+
+    @Override
+    public void addVisitNumResult(String res) {
 
     }
 }

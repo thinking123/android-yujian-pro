@@ -27,6 +27,7 @@ import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.jess.arms.di.component.AppComponent;
@@ -43,6 +44,7 @@ import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
@@ -490,6 +492,31 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void sortSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void attentionResult(String res) {
+
+    }
+
+    @Override
+    public void unfollowResult(String res) {
+
+    }
+
+    @Override
+    public void addFeedbackResult(FeedbackInfo res) {
+
+    }
+
+    @Override
+    public void feedbackAllListResult(FeedbackInfoBean res) {
+
+    }
+
+    @Override
+    public void addVisitNumResult(String res) {
 
     }
 }

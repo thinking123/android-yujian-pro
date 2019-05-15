@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.jakewharton.rxbinding3.view.RxView;
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -41,6 +42,7 @@ import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
@@ -497,6 +499,31 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void sortSetPictureResult(String requestBody) {
+
+    }
+
+    @Override
+    public void attentionResult(String res) {
+
+    }
+
+    @Override
+    public void unfollowResult(String res) {
+
+    }
+
+    @Override
+    public void addFeedbackResult(FeedbackInfo res) {
+
+    }
+
+    @Override
+    public void feedbackAllListResult(FeedbackInfoBean res) {
+
+    }
+
+    @Override
+    public void addVisitNumResult(String res) {
 
     }
 }
