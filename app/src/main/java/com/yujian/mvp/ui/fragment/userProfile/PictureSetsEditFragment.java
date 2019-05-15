@@ -11,12 +11,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.jakewharton.rxbinding3.view.RxView;
 import com.yujian.entity.GymPicture;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -48,9 +54,12 @@ import com.zhihu.matisse.MimeType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import kotlin.Unit;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -71,12 +80,13 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
     @BindView(R.id.gymPictureSetName)
-    EditText gymPictureSetName;
+    TextView gymPictureSetName;
     @BindView(R.id.submit)
     PrimaryRadiusBtn submit;
     @BindView(R.id.imageList)
     XRecyclerViewEx imageList;
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     PictureSetsEditAdapter adapter;
 
     private BDLocation bdLocation;
@@ -85,14 +95,13 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
     int total = 0;
     boolean isLoadingMore = false, isRefreshing = false;
     private boolean isEdit = false;
-    private String id;
+    private PictureSet pictureSet;
     public final int REQUEST_CODE_CHOOSE = 1;
 
-    public static PictureSetsEditFragment newInstance(String id) {
-
+    public static PictureSetsEditFragment newInstance(PictureSet pictureSet) {
         PictureSetsEditFragment fragment = new PictureSetsEditFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("id", id);
+        bundle.putSerializable("pictureSet", pictureSet);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -108,18 +117,57 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.edit_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                setFragmentResult(RESULT_OK , new Bundle());
+                _mActivity.onBackPressed();
+                break;
+            case R.id.edit_icon:
+                if (isEdit) {
+                    isEdit = false;
+                    item.setTitle(getResources().getString(R.string.menu_cancel));
+                } else {
+                    isEdit = true;
+                    item.setTitle(getResources().getString(R.string.menu_edit));
+                }
+
+                if(isEdit){
+                    submit.setVisibility(View.VISIBLE);
+                    adapter.setEdit(true);
+                }else{
+                    submit.setVisibility(View.INVISIBLE);
+                    adapter.setEdit(false);
+                }
+                break;
+        }
+
+
+        return true;
+    }
+
+    @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_picture_sets_edit, container, false);
     }
 
     private void initImageSetData() {
         if (mPresenter != null && bdLocation != null) {
             adapter.clear();
+            adapter.notifyDataSetChanged();
             mPresenter.getSetPictureById(
                     Double.toString(bdLocation.getLongitude()),
                     Double.toString(bdLocation.getLatitude()),
                     Integer.toString(pageNum),
-                    id
+                    pictureSet.getId()
             );
         }
     }
@@ -130,14 +178,34 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
                     Double.toString(bdLocation.getLongitude()),
                     Double.toString(bdLocation.getLatitude()),
                     Integer.toString(pageNum),
-                    id
+                    pictureSet.getId()
             );
+        }
+    }
+
+    private boolean validSubmit() {
+        return adapter.getEditValues().size() > 0;
+    }
+
+    private void submitData() {
+        if (mPresenter != null && validSubmit()) {
+            List<GymPicture> list = adapter.getEditValues();
+            List<String> dels = new ArrayList<>();
+
+            for (GymPicture p : list) {
+                dels.add(p.getId());
+            }
+
+            String ids = Common.joinList(dels, "");
+            mPresenter.delSetPicture(ids);
         }
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        id = this.getArguments().getString("id");
+        initToolbarForActionbar(toolbar);
+        pictureSet = (PictureSet) this.getArguments().getSerializable("pictureSet");
+        gymPictureSetName.setText(pictureSet.getGymPictureSetName());
         initXRecyclerView();
         BaseApp.getInstance().myListener.getBDLocation().take(1).subscribe(new Consumer<BDLocation>() {
             @Override
@@ -149,6 +217,16 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
                 }
             }
         });
+
+        RxView.clicks(submit).throttleFirst(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Unit>() {
+                    @Override
+                    public void accept(Unit unit) throws Exception {
+                        submitData();
+                    }
+                });
     }
 
     @Override
@@ -281,16 +359,17 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
 //        imageList.refresh();
     }
 
-    private void uploadPictureSetImage(List<String> url){
-        if(mPresenter != null && bdLocation != null){
+    private void uploadPictureSetImage(List<String> url) {
+        if (mPresenter != null && bdLocation != null) {
             mPresenter.addSetPicture(
-                    id ,
-                    Common.joinList(url , ""),
+                    pictureSet.getId(),
+                    Common.joinList(url, ""),
                     Double.toString(bdLocation.getLongitude()),
                     Double.toString(bdLocation.getLatitude())
-                    );
+            );
         }
     }
+
     @Override
     public void setData(@Nullable Object data) {
 
@@ -398,12 +477,12 @@ public class PictureSetsEditFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void addSetPictureResult(List<GymPicture> requestBody) {
-
+        adapter.addAll(requestBody);
     }
 
     @Override
     public void delSetPictureResult(String requestBody) {
-
+        initImageSetData();
     }
 
     @Override

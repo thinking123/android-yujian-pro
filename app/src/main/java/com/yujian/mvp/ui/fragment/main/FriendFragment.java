@@ -268,6 +268,10 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
             isLoadingMore = false;
             friendList.loadMoreComplete();
         }
+        if (isRefreshing && friendList != null) {
+            isRefreshing = false;
+            friendList.refreshComplete();
+        }
     }
 
     @Override

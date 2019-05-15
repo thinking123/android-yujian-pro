@@ -10,12 +10,14 @@ import com.yujian.app.BaseApp;
 import com.yujian.entity.User;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +25,10 @@ import timber.log.Timber;
 
 public class Common {
 
-    public static class Filter{
-        public static String userProfileMatchCertificatePersonalStoryTypeFilter(String eventBusType){
+    public static class Filter {
+        public static String userProfileMatchCertificatePersonalStoryTypeFilter(String eventBusType) {
             String type = "0";
-            switch (eventBusType){
+            switch (eventBusType) {
                 case EventBusTags.UserProfile.CERTIFICATE:
                 case EventBusTags.UserProfile.ADDCERTIFICATE:
                     type = "1";
@@ -44,6 +46,7 @@ public class Common {
             return type;
         }
     }
+
     public interface Callback {
         public void callback();
     }
@@ -86,6 +89,13 @@ public class Common {
         }
     }
 
+
+    public static String dateToString(Date date) {
+        DateFormat df = new SimpleDateFormat(Constant.Common.DAYDATEPATTERN);
+
+        return df.format(date);
+    }
+
     public static int dpToPx(float dp) {
         Context context = getContext();
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -118,29 +128,29 @@ public class Common {
         return result;
     }
 
-    public static Calendar strToCalendar(String str){
+    public static Calendar strToCalendar(String str) {
         Calendar cal = Calendar.getInstance();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(Constant.Common.DAYDATEPATTERN);
             cal.setTime(sdf.parse(str));// all done
-        }catch (ParseException e){
+        } catch (ParseException e) {
             Timber.e(e.getMessage());
         }
 
-        return  cal;
+        return cal;
 
     }
 
-    public static boolean isUIEmpty(CharSequence input){
+    public static boolean isUIEmpty(CharSequence input) {
         return input == null || TextUtils.isEmpty(input.toString().trim());
     }
 
-    public static String joinList(List<String> list , String join){
-        if(list == null){
+    public static String joinList(List<String> list, String join) {
+        if (list == null) {
             return "";
         }
 
-        if(TextUtils.isEmpty(join)){
+        if (TextUtils.isEmpty(join)) {
             join = ",";
         }
 //        String res = "";
@@ -161,7 +171,7 @@ public class Common {
 
         }
 
-        Timber.i("joined string : %s" , sb.toString());
+        Timber.i("joined string : %s", sb.toString());
         return sb.toString();
     }
 

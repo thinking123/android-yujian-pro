@@ -1,6 +1,7 @@
 package com.yujian.mvp.ui.fragment.userProfile;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -247,13 +249,27 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
 
 
         int gridSpace = getResources().getDimensionPixelSize(R.dimen.grid_space);
-        GridSpacesItemDecoration decoration = new GridSpacesItemDecoration(gridSpace);
-        certificateList.addItemDecoration(decoration);
-        certificateList.setLayoutManager(new GridLayoutManager(
-                getActivity(),
-                2
-        ));
+//        GridSpacesItemDecoration decoration = new GridSpacesItemDecoration(gridSpace);
+        RecyclerView.ItemDecoration decoration = new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+//                super.getItemOffsets(outRect, view, parent, state);
+                int pos = parent.getChildLayoutPosition(view);
+//                if(pos != 0){
+//
+//                }
 
+                outRect.top = outRect.bottom = outRect.right = gridSpace;
+            }
+        };
+        certificateList.addItemDecoration(decoration);
+//        certificateList.setLayoutManager(new GridLayoutManager(
+//                getActivity(),
+//                2
+//        ));
+        certificateList.setLayoutManager(new LinearLayoutManager(
+                getActivity(),
+                LinearLayout.HORIZONTAL , false));
 
         CertificateListAdapter adapter = new CertificateListAdapter(userProfile.getCertificateList());
 
@@ -267,11 +283,13 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         });
 
         matchList.addItemDecoration(decoration);
-        matchList.setLayoutManager(new GridLayoutManager(
+//        matchList.setLayoutManager(new GridLayoutManager(
+//                getActivity(),
+//                2
+//        ));
+        matchList.setLayoutManager(new LinearLayoutManager(
                 getActivity(),
-                2
-        ));
-
+                LinearLayout.HORIZONTAL , false));
 
         CertificateListAdapter adapter1 = new CertificateListAdapter(userProfile.getMatchList());
 
@@ -284,11 +302,13 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
         });
 
         pictureSets.addItemDecoration(decoration);
-        pictureSets.setLayoutManager(new GridLayoutManager(
+//        pictureSets.setLayoutManager(new GridLayoutManager(
+//                getActivity(),
+//                2
+//        ));
+        pictureSets.setLayoutManager(new LinearLayoutManager(
                 getActivity(),
-                2
-        ));
-
+                LinearLayout.HORIZONTAL , false));
         PictureSetsAdapter adapter2 = new PictureSetsAdapter(userProfile.getPictureSets());
 
         pictureSets.setAdapter(adapter2);
@@ -300,17 +320,26 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
             }
         });
 
+
+        cardLists.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        CardListAdapter adapter3 = new CardListAdapter(userProfile.getCardLists());
+
+        cardLists.addItemDecoration(decoration);
+
+        cardLists.setAdapter(adapter3);
+
     }
 
 
     private void initCardLists() {
 
 
-        cardLists.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-        CardListAdapter adapter = new CardListAdapter(userProfile.getCardLists());
-
-        cardLists.setAdapter(adapter);
+//        cardLists.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+//
+//        CardListAdapter adapter = new CardListAdapter(userProfile.getCardLists());
+//
+//        cardLists.setAdapter(adapter);
 
 
     }

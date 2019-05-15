@@ -40,6 +40,7 @@ public class PictureSetsEditAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public PictureSetsEditAdapter(List<GymPicture> myDataset) {
 
 
+        values = new ArrayList<>();
         for(GymPicture p : myDataset){
             values.add(new GymPictureWrap(p));
         }
@@ -56,6 +57,8 @@ public class PictureSetsEditAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             for(GymPictureWrap w : values){
                 w.setSelected(false);
             }
+
+            notifyDataSetChanged();
         }
     }
 
@@ -69,7 +72,7 @@ public class PictureSetsEditAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (i == TYPE_BTN) {
 
             View v =
-                    inflater.inflate(R.layout.three_column_select_btn_grid_row,
+                    inflater.inflate(R.layout.three_column_select_btn_grid_big_row,
                             viewGroup, false);
 
             ViewHolerBtn viewHoler = new ViewHolerBtn(v);
@@ -217,7 +220,7 @@ public class PictureSetsEditAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public ViewHoler(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            imageView = (ImageView) itemView.findViewById(R.id.image);
+            imageView = (ImageView) itemView.findViewById(R.id.background);
             selectedIcon = (ImageView) itemView.findViewById(R.id.selectedIcon);
         }
     }

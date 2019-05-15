@@ -3,6 +3,7 @@ package com.yujian.mvp.ui.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
@@ -66,7 +67,10 @@ public class PictureSetsManageAdapter extends RecyclerView.Adapter<PictureSetsMa
     public void onBindViewHolder(@NonNull ViewHoler viewHoler, int position) {
         final PictureSet obj = values.get(position);
 
-        Glide.with(viewHoler.layout.getContext()).load(obj.getBackground()).into(viewHoler.background);
+        if(!TextUtils.isEmpty(obj.getBackground())){
+            Glide.with(viewHoler.layout.getContext()).load(obj.getBackground()).into(viewHoler.background);
+        }
+
         viewHoler.gymPictureSetName.setText(obj.getGymPictureSetName());
         viewHoler.gymPictureSetSize.setText(obj.getGymPictureSetSize());
         viewHoler.background.setOnClickListener(new View.OnClickListener() {

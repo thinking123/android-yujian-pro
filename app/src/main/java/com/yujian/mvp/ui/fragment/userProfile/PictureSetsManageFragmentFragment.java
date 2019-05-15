@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,10 +46,13 @@ import com.yujian.widget.PrimaryRadiusBtn;
 import com.yujian.widget.XRecyclerViewEx;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
+import me.yokeyword.fragmentation.ISupportFragment;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -68,6 +72,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
+    public final int RES_CODE_START_EDIT_FRAGMENT = 1;
     @BindView(R.id.imageList)
     XRecyclerViewEx imageList;
     @BindView(R.id.toolbar)
@@ -76,7 +81,7 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
     private BDLocation bdLocation;
     private String userId;
     private Dialog dialog;
-
+    private PictureSet currentEditPictureSet = null;
     public static PictureSetsManageFragmentFragment newInstance(String userId) {
         PictureSetsManageFragmentFragment fragment = new PictureSetsManageFragmentFragment();
         Bundle bundle = new Bundle();
@@ -121,9 +126,48 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mPresenter != null){
+                    EditText inputName = (EditText) dialog.findViewById(R.id.inputName);
+                    String name = inputName.getText().toString().trim();
+                    if(TextUtils.isEmpty(name)){
+                        showMessage("请输入名称");
+                        return;
+                    }
 
+
+                    if(currentEditPictureSet != null &&
+                            Objects.equals(name.trim() , currentEditPictureSet.getGymPictureSetName())){
+                        return;
+                    }
+
+
+                    PictureSet editSet = new PictureSet();
+                    editSet.setGymPictureSetName(name);
+                    if(currentEditPictureSet != null){
+                        editSet.setBackground(currentEditPictureSet.getBackground());
+                        editSet.setCreateTime(currentEditPictureSet.getCreateTime());
+                        editSet.setGymId(currentEditPictureSet.getGymId());
+                        editSet.setId(currentEditPictureSet.getId());
+                        editSet.setGymPictureSetSize(currentEditPictureSet.getGymPictureSetSize());
+                    }else{
+                        editSet.setCreateTime(Common.dateToString(new Date()));
+                        editSet.setGymId(userId);
+                    }
+                    dialog.dismiss();
+                    mPresenter.addSet(editSet);
+                }
             }
         });
+    }
+
+    @Override
+    public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK &&
+        requestCode == RES_CODE_START_EDIT_FRAGMENT){
+            initPictureSetsManageData();
+        }
     }
 
     @Override
@@ -135,12 +179,16 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
         adapter.getPositionClicks().subscribe(new Consumer<PictureSet>() {
             @Override
             public void accept(PictureSet pictureSet) throws Exception {
-
+                ISupportFragment fragment = PictureSetsEditFragment.newInstance(pictureSet);
+                startForResult(fragment , RES_CODE_START_EDIT_FRAGMENT);
             }
         });
         adapter.getMenuClicks().subscribe(new Consumer<PictureSet>() {
             @Override
             public void accept(PictureSet pictureSet) throws Exception {
+                currentEditPictureSet = pictureSet;
+                EditText inputName = (EditText) dialog.findViewById(R.id.inputName);
+                inputName.setText(pictureSet.getGymPictureSetName());
                 dialog.show();
             }
         });
@@ -222,8 +270,10 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
             case android.R.id.home:
                 _mActivity.onBackPressed();
                 break;
-            case R.menu.add_menu:
-
+            case R.id.add_icon:
+                EditText inputName = (EditText) dialog.findViewById(R.id.inputName);
+                inputName.setText("");
+                dialog.show();
                 break;
         }
 
@@ -322,7 +372,7 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
 
     @Override
     public void addSetResult(PictureSet requestBody) {
-
+        initPictureSetsManageData();
     }
 
     @Override
