@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.jess.arms.base.BaseFragment;
@@ -123,6 +124,8 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
     }
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.textView2)
+    TextView pageTitle;
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
@@ -146,10 +149,12 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
             case EventBusTags.UserProfile.CERTIFICATE:
                 list = userProfile.getCertificateList();
                 innerType = "1";
+                pageTitle.setText(getResources().getString(R.string.main_timeline_title1));
                 break;
             case EventBusTags.UserProfile.MATCH:
                 list = userProfile.getMatchList();
                 innerType = "2";
+                pageTitle.setText(getResources().getString(R.string.main_timeline_title2));
                 break;
             case EventBusTags.UserProfile.PERSONALSTORY:
                 innerType = "3";
