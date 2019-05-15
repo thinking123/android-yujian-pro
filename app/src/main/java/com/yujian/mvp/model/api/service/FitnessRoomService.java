@@ -1,10 +1,12 @@
 package com.yujian.mvp.model.api.service;
 
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.yujian.entity.BaseResponse;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.model.entity.AttentionRequestBean;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.FitnessRoomBean;
 
 import java.util.HashMap;
@@ -120,5 +122,37 @@ newSrot (string, optional): 新的排序位置
             @Body HashMap<String, String> requestBody
     );
 
+    /*/api/gym/AddFeedback
+新增/反馈信息
+creatTime (string, optional): 列表返回 反馈时间 ,
+gymId (integer, optional): 新增（必填） 被反馈的健身房id ,
+id (integer, optional): id 新增/列表 返回 ,
+msg (string, optional): 新增（必填） 反馈信息
+ * */
+    @POST("/api/gym/AddFeedback")
+    Observable<BaseResponse<FeedbackInfo>> addFeedback(
+            @Body FeedbackInfo requestBody
+    );
 
+    /*/api/gym/FeedbackAllList
+作用:反馈信息 列表
+ *
+ * */
+    @GET("/api/gym/FeedbackAllList")
+    Observable<BaseResponse<FeedbackInfoBean>> feedbackAllList(
+            @Header("longitude") String longitude,
+            @Header("latitude") String latitude,
+            @Query("pageNum") String pageNum
+    );
+
+
+    /*/api/gym/AddVisitNum
+新增访问量
+id (integer, optional): 健身房id/教练id
+    *
+    * */
+    @POST("/api/gym/AddVisitNum")
+    Observable<BaseResponse<String>> addVisitNum(
+            @Body HashMap<String, String> requestBody
+    );
 }

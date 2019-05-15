@@ -3,6 +3,7 @@ package com.yujian.mvp.presenter;
 import android.app.Application;
 import android.net.Uri;
 
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.AppManager;
@@ -28,6 +29,8 @@ import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.api.service.FitnessRoomService;
+import com.yujian.mvp.model.entity.AttentionRequestBean;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 
@@ -458,6 +461,112 @@ id (string, optional): id 多个id请用逗号分割
                     }
                 });
     }
+
+    
+    public void attention( String collectType,//: 收藏类型 1 健身房 2 教练 3用户 ,
+             String collectUserId ) {
+
+        AttentionRequestBean bean = new AttentionRequestBean();
+        bean.setCollectType(collectType);
+        bean.setCollectUserId(collectUserId);
+        mModel.attention(bean)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.attentionResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void unfollow(String id) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
+
+
+        mModel.unfollow(map)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.unfollowResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void addFeedback(FeedbackInfo requestBody) {
+        mModel.addFeedback(requestBody)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<FeedbackInfo>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<FeedbackInfo> response) {
+                        if (response.isSuccess()) {
+                            mRootView.addFeedbackResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void feedbackAllList(String longitude, String latitude, String pageNum) {
+        mModel.feedbackAllList( longitude,  latitude,  pageNum)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<FeedbackInfoBean>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<FeedbackInfoBean> response) {
+                        if (response.isSuccess()) {
+                            mRootView.feedbackAllListResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    
+    public void addVisitNum(String id) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
+
+
+        mModel.addVisitNum(map)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.addVisitNumResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+    
+    
+    
     @Override
     public void onDestroy() {
         super.onDestroy();

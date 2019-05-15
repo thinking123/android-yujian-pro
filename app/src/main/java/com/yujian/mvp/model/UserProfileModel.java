@@ -3,6 +3,7 @@ package com.yujian.mvp.model;
 import android.app.Application;
 
 import com.google.gson.Gson;
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.IRepositoryManager;
@@ -24,6 +25,8 @@ import com.yujian.mvp.model.api.service.DrillTimeService;
 import com.yujian.mvp.model.api.service.FitnessRoomService;
 import com.yujian.mvp.model.api.service.UploadService;
 import com.yujian.mvp.model.api.service.UserProfileService;
+import com.yujian.mvp.model.entity.AttentionRequestBean;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 
@@ -176,6 +179,41 @@ public class UserProfileModel extends BaseModel implements UserProfileContract.M
     @Override
     public Observable<BaseResponse<String>> sortSetPicture(HashMap<String, String> requestBody) {
         return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).sortSetPicture(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> attention(AttentionRequestBean requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).attention(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> unfollow(HashMap<String, String> requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).unfollow(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<FeedbackInfo>> addFeedback(FeedbackInfo requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).addFeedback(
+                requestBody
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<FeedbackInfoBean>> feedbackAllList(String longitude, String latitude, String pageNum) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).feedbackAllList(
+                 longitude,  latitude,  pageNum
+        );
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> addVisitNum(HashMap<String, String> requestBody) {
+        return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).addVisitNum(
                 requestBody
         );
     }

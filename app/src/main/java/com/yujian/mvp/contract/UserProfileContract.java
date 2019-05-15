@@ -1,5 +1,6 @@
 package com.yujian.mvp.contract;
 
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
@@ -9,6 +10,8 @@ import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
+import com.yujian.mvp.model.entity.AttentionRequestBean;
+import com.yujian.mvp.model.entity.FeedbackInfoBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 
@@ -86,12 +89,36 @@ public interface UserProfileContract {
         void setAllResult(
                 List<PictureSet> list
         );
-      
+
 
         void sortSetPictureResult(
                 String requestBody
         );
 
+
+        void attentionResult(
+                String res
+        );
+
+
+        void unfollowResult(
+                String res
+        );
+
+
+        void addFeedbackResult(
+                FeedbackInfo res
+        );
+
+        void feedbackAllListResult(
+                FeedbackInfoBean res
+        );
+
+
+        void addVisitNumResult(
+                String res
+        );
+        
 
     }
 
@@ -233,6 +260,32 @@ url (string, optional): url 逗号分割
         * */
 
         Observable<BaseResponse<String>> sortSetPicture(
+                HashMap<String, String> requestBody
+        );
+
+
+        Observable<BaseResponse<String>> attention(
+                AttentionRequestBean requestBody
+        );
+
+
+        Observable<BaseResponse<String>> unfollow(
+                HashMap<String, String> requestBody
+        );
+
+
+        Observable<BaseResponse<FeedbackInfo>> addFeedback(
+                FeedbackInfo requestBody
+        );
+
+        Observable<BaseResponse<FeedbackInfoBean>> feedbackAllList(
+                String longitude,
+                String latitude,
+                String pageNum
+        );
+
+
+        Observable<BaseResponse<String>> addVisitNum(
                 HashMap<String, String> requestBody
         );
     }

@@ -13,4 +13,5 @@ public class AttentionRequestBean {
         this.collectUserId = collectUserId;
     }
 
+    public AttentionRequestBean(){}
 }

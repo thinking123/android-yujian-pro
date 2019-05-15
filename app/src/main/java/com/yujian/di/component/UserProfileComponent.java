@@ -18,6 +18,7 @@ import com.yujian.mvp.ui.fragment.userProfile.PictureSetsEditFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsManageFragmentFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserDynamicFragment;
+import com.yujian.mvp.ui.fragment.userProfile.UserProfileFeedbackFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
@@ -48,6 +49,7 @@ public interface UserProfileComponent {
     void inject(EditTimeLineObjFragment fragment);
     void inject(PictureSetsManageFragmentFragment fragment);
     void inject(PictureSetsEditFragment fragment);
+    void inject(UserProfileFeedbackFragment fragment);
     @Component.Builder
     interface Builder {
         @BindsInstance

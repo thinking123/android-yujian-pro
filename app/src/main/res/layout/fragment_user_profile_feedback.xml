@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/include3"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/pagetitle"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/title_feedback_information"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/page_title_size"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/include3" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="325dp"
+        android:layout_height="251dp"
+        android:layout_marginTop="18dp"
+        android:hint="@string/input_please_input_feedback"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/text_gray"
+        android:textSize="@dimen/tip_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pagetitle"
+        app:layout_constraintTop_toBottomOf="@+id/pagetitle" />
+
+    <com.yujian.widget.PrimaryRadiusBtn
+        android:id="@+id/submit"
+        android:layout_width="325dp"
+        android:layout_height="@dimen/btn_corner_height_login"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_view_size"
+        app:backgroundTint="@color/btn_wx_hint_bg"
+        app:cornerRadius="@dimen/btn_corner_radius_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+</android.support.constraint.ConstraintLayout>

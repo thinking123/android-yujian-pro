@@ -78,7 +78,9 @@
     <string name="user_profile_go_to_introduce">查看此健身房的详情</string>
 
     <string name="input_please_input">请输入</string>
+    <string name="input_please_input_feedback">请输入要反馈的信息</string>
 
     <string name="menu_edit">编辑</string>
     <string name="menu_cancel">取消</string>
+    <string name="title_feedback_information">反馈信息</string>
 </resources>
