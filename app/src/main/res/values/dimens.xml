@@ -24,10 +24,13 @@
     <dimen name="tip_text_size">14sp</dimen>
     <dimen name="tip_text_size_15">15sp</dimen>
     <dimen name="tip_text_size2">12sp</dimen>
+    <dimen name="tip_text_size3">11sp</dimen>
     <dimen name="tip_text_size1">9sp</dimen>
     <dimen name="grid_size">86dp</dimen>
     <dimen name="grid_size_1">155dp</dimen>
     <dimen name="grid_size_2">102dp</dimen>
+
+    <dimen name="line_width">325dp</dimen>
 
 
 </resources>
