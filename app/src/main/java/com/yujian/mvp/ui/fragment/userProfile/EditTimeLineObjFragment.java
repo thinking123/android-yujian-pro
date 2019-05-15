@@ -27,7 +27,7 @@ import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -469,7 +469,7 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     }
 
     @Override
-    public void addSetPictureResult(JsonElement requestBody) {
+    public void addSetPictureResult(List<GymPicture> requestBody) {
 
     }
 

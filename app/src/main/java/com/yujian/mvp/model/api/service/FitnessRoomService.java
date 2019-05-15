@@ -1,6 +1,6 @@
 package com.yujian.mvp.model.api.service;
 
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.yujian.entity.BaseResponse;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
@@ -66,7 +66,7 @@ url (string, optional): url 逗号分割
     * */
 
     @POST("/api/gym/AddSetPicture")
-    Observable<BaseResponse<JsonElement>> addSetPicture(
+    Observable<BaseResponse<List<GymPicture>>> addSetPicture(
             @Body HashMap<String, String> requestBody,
             @Header("longitude") String longitude,
             @Header("latitude") String latitude

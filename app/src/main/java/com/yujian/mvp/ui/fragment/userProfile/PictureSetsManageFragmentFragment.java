@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.di.component.AppComponent;
@@ -326,7 +326,7 @@ public class PictureSetsManageFragmentFragment extends BaseSupportFragment<UserP
     }
 
     @Override
-    public void addSetPictureResult(JsonElement requestBody) {
+    public void addSetPictureResult(List<GymPicture> requestBody) {
 
     }
 

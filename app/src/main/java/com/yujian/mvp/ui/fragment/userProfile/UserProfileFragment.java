@@ -26,7 +26,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -433,7 +433,7 @@ public class UserProfileFragment extends BaseSupportFragment<UserProfilePresente
     }
 
     @Override
-    public void addSetPictureResult(JsonElement requestBody) {
+    public void addSetPictureResult(List<GymPicture> requestBody) {
 
     }
 

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
@@ -225,7 +225,7 @@ public class IntroduceFragment extends BaseSupportFragment<UserProfilePresenter>
     }
 
     @Override
-    public void addSetPictureResult(JsonElement requestBody) {
+    public void addSetPictureResult(List<GymPicture> requestBody) {
 
     }
 

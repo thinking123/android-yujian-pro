@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -200,7 +200,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
     }
 
     @Override
-    public void addSetPictureResult(JsonElement requestBody) {
+    public void addSetPictureResult(List<GymPicture> requestBody) {
 
     }
 

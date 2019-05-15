@@ -3,7 +3,7 @@ package com.yujian.mvp.presenter;
 import android.app.Application;
 import android.net.Uri;
 
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
@@ -355,9 +355,9 @@ id (string, optional): id 多个id请用逗号分割
 
         mModel.addSetPicture(map , longitude ,latitude )
                 .compose(RxUtils.applySchedulers(mRootView))
-                .subscribe(new ErrorHandleSubscriber<BaseResponse<JsonElement>>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<List<GymPicture>>>(mErrorHandler) {
                     @Override
-                    public void onNext(BaseResponse<JsonElement> response) {
+                    public void onNext(BaseResponse<List<GymPicture>> response) {
                         if (response.isSuccess()) {
                             mRootView.addSetPictureResult(response.getData());
 

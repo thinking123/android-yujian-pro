@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -18,6 +18,7 @@ import com.yujian.R;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
+import com.yujian.entity.GymPicture;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
 import com.yujian.entity.UserProfile;
@@ -200,7 +201,7 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
     }
 
     @Override
-    public void addSetPictureResult(JsonElement requestBody) {
+    public void addSetPictureResult(List<GymPicture> requestBody) {
 
     }
 

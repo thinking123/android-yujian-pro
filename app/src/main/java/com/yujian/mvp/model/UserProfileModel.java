@@ -3,7 +3,7 @@ package com.yujian.mvp.model;
 import android.app.Application;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
@@ -141,10 +141,12 @@ public class UserProfileModel extends BaseModel implements UserProfileContract.M
         );
     }
 
+
+
     @Override
-    public Observable<BaseResponse<JsonElement>> addSetPicture(HashMap<String, String> requestBody) {
+    public Observable<BaseResponse<List<GymPicture>>> addSetPicture(HashMap<String, String> requestBody, String longitude, String latitude) {
         return mRepositoryManager.obtainRetrofitService(FitnessRoomService.class).addSetPicture(
-                requestBody
+                requestBody,longitude,latitude
         );
     }
 

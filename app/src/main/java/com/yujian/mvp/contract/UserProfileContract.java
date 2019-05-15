@@ -1,6 +1,6 @@
 package com.yujian.mvp.contract;
 
-import com.google.gson.JsonElement;
+import com.yujian.entity.GymPicture;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
 import com.yujian.entity.BaseResponse;
@@ -69,7 +69,7 @@ public interface UserProfileContract {
 
 
         void addSetPictureResult(
-                JsonElement requestBody
+                List<GymPicture> requestBody
         );
 
 
@@ -182,7 +182,7 @@ url (string, optional): url 逗号分割
     * */
 
 
-        Observable<BaseResponse<JsonElement>> addSetPicture(
+        Observable<BaseResponse<List<GymPicture>>> addSetPicture(
                 HashMap<String, String> requestBody,
                 String longitude,
                 String latitude
