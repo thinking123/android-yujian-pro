@@ -140,7 +140,8 @@ public class ImageListSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public void remove(int position) {
         values.remove(position);
-        notifyItemRemoved(position);
+//        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
 
@@ -149,6 +150,9 @@ public class ImageListSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return values.size() + 1;
     }
 
+    public List<String> getValues(){
+        return values;
+    }
     public class ViewHoler extends RecyclerView.ViewHolder {
 
         public ImageView imageView;

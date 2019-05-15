@@ -13,6 +13,7 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.mvp.IPresenter;
 import com.yujian.R;
 
+import io.reactivex.disposables.Disposable;
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragmentDelegate;
@@ -381,4 +382,6 @@ public abstract class BaseSupportFragment <P extends IPresenter> extends BaseFra
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.nav_btn_back);
     }
+
+
 }

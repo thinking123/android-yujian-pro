@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -183,6 +184,8 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
             }
         });
 
+
+
         adapter.getEditClicks().subscribe(new Consumer<UserProfileMatchCertificatePersonalStory>() {
             @Override
             public void accept(UserProfileMatchCertificatePersonalStory userProfileMatchCertificatePersonalStory) throws Exception {
@@ -199,7 +202,7 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
                 if(location != null ){
 
                     UserProfileTimeLineFragment.this.bdLocation = location;
-                    initTimelineData();
+//                    initTimelineData();
                 }
             }
         });
@@ -215,6 +218,12 @@ public class UserProfileTimeLineFragment extends BaseSupportFragment<UserProfile
                     innerType
             );
         }
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        initTimelineData();
     }
 
     @Override

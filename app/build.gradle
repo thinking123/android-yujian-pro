@@ -90,4 +90,7 @@ dependencies {
     implementation 'com.ycjiang:ImagePreview:2.2.2'
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
     implementation 'com.zhihu.android:matisse:0.5.2-beta4'
+
+
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
 }

@@ -299,7 +299,7 @@ id (string, optional): id 多个id请用逗号分割
 
         for (File file : fs) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
-            MultipartBody.Part part = MultipartBody.Part.createFormData("upload_file", file.getName(), requestBody);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("files", file.getName(), requestBody);
             parts.add(part);
         }
 

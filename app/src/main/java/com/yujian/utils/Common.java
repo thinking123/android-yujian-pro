@@ -8,15 +8,42 @@ import android.widget.Toast;
 import com.jess.arms.base.BaseApplication;
 import com.yujian.app.BaseApp;
 import com.yujian.entity.User;
+import com.yujian.mvp.ui.EventBus.EventBusTags;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import timber.log.Timber;
 
 public class Common {
+
+    public static class Filter{
+        public static String userProfileMatchCertificatePersonalStoryTypeFilter(String eventBusType){
+            String type = "0";
+            switch (eventBusType){
+                case EventBusTags.UserProfile.CERTIFICATE:
+                case EventBusTags.UserProfile.ADDCERTIFICATE:
+                    type = "1";
+                    break;
+                case EventBusTags.UserProfile.MATCH:
+                case EventBusTags.UserProfile.ADDMATCH:
+                    type = "2";
+                    break;
+                case EventBusTags.UserProfile.PERSONALSTORY:
+                case EventBusTags.UserProfile.ADDPERSONALSTORY:
+                    type = "3";
+                    break;
+            }
+
+            return type;
+        }
+    }
     public interface Callback {
         public void callback();
     }
@@ -85,6 +112,53 @@ public class Common {
             }
         }
         return result;
+    }
+
+    public static Calendar strToCalendar(String str){
+        Calendar cal = Calendar.getInstance();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(Constant.Common.DAYDATEPATTERN);
+            cal.setTime(sdf.parse(str));// all done
+        }catch (ParseException e){
+            Timber.e(e.getMessage());
+        }
+
+        return  cal;
+
+    }
+
+    public static boolean isUIEmpty(CharSequence input){
+        return input == null || TextUtils.isEmpty(input.toString().trim());
+    }
+
+    public static String joinList(List<String> list , String join){
+        if(list == null){
+            return "";
+        }
+
+        if(TextUtils.isEmpty(join)){
+            join = ",";
+        }
+//        String res = "";
+//        for(String l : list){
+//            res =
+//        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < list.size(); i++) {
+
+            sb.append(list.get(i));
+
+            // if not the last item
+            if (i != list.size() - 1) {
+                sb.append(join);
+            }
+
+        }
+
+        Timber.i("joined string : %s" , sb.toString());
+        return sb.toString();
     }
 
     public static List<String> splitStringToList(String str, String split) {

@@ -20,12 +20,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.jakewharton.rxbinding3.view.RxView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.previewlibrary.GPreviewBuilder;
@@ -44,6 +46,7 @@ import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.adapter.ImageListSelectAdapter;
+import com.yujian.utils.Common;
 import com.yujian.utils.Constant;
 import com.yujian.widget.PrimaryRadiusBtn;
 import com.zhihu.matisse.Matisse;
@@ -60,8 +63,10 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
+import kotlin.Unit;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -93,12 +98,25 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     TextView twoLineTip;
     @BindView(R.id.time)
     TextView time;
+
+    @BindView(R.id.editText)
+    EditText editText;
+    @BindView(R.id.introduce)
+    EditText introduce;
+
     @BindView(R.id.imageList)
     RecyclerView imageList;
     @BindView(R.id.submit)
     PrimaryRadiusBtn submit;
+
+
+
+
     ImageListSelectAdapter adapter;
     TimePickerView pvTime;
+
+
+
 
     private PublishSubject<Void> submitSubject = PublishSubject.create();
     public static EditTimeLineObjFragment newInstance(String id,String type) {
@@ -135,16 +153,50 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     public void onClick(View view){
         switch (view.getId()){
             case R.id.timepicker:
+                hideSoftInput();
                 pvTime.show();
                 break;
-            case R.id.submit:
-                submitSubject.debounce(500 , TimeUnit.MILLISECONDS);
-                break;
+//            case R.id.submit:
+//                submitSubject.debounce(500 , TimeUnit.MILLISECONDS);
+//                break;
         }
     }
 
-    private void submit(){
+    private void submitData(){
+        if(mPresenter != null && validSubmit()){
+            mPresenter.addCoachCredentials(
+                    "",
+                    introduce.getText().toString(),
+                    editText.getText().toString(),
+                    time.getText().toString(),
+                    Common.Filter.userProfileMatchCertificatePersonalStoryTypeFilter(type),
+                    Common.joinList(adapter.getValues() , "")
+            );
+        }
+    }
 
+    private boolean validSubmit(){
+        boolean isOk = false;
+
+        if(Common.isUIEmpty(editText.getText())){
+            showMessage("请输入名称");
+            return isOk;
+        }
+        if(Common.isUIEmpty(introduce.getText())){
+            showMessage("请输入介绍");
+            return isOk;
+        }
+        if(Common.isUIEmpty(time.getText())){
+            showMessage("请选择时间");
+            return isOk;
+        }
+
+        if(adapter.getValues().size() == 0){
+            showMessage("请选择图片");
+            return isOk;
+        }
+
+        return true;
     }
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -174,6 +226,15 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     public void initData(@Nullable Bundle savedInstanceState) {
         initToolbarForActionbar(toolbar);
 
+        RxView.clicks(submit).throttleFirst(500 , TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Unit>() {
+            @Override
+            public void accept(Unit unit) throws Exception {
+                submitData();
+            }
+        });
         pvTime = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
@@ -374,7 +435,7 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void addCoachCredentialsResult(String res) {
-
+        pop();
     }
 
     @Override
@@ -385,6 +446,14 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     @Override
     public void getMsgByIdToEditResult(UserProfileMatchCertificatePersonalStory res) {
         Timber.i("UserProfileMatchCertificatePersonalStory");
+
+            editText.setText(res.getName());
+            introduce.setText(res.getIntroduce());
+            time.setText(res.getTimes());
+            time.setTextColor(ContextCompat.getColor(getActivity() , R.color.text_black));
+            pvTime.setDate(Common.strToCalendar(res.getTimes()));
+            adapter.addAll(Common.splitStringToList(res.getUrl() , ""));
+
     }
 
     @Override
