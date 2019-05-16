@@ -18,6 +18,29 @@ public class FitnessRoom {
     private String longitude;
     private String nowTimeIsOpen;
     private String openTime;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //从GET /api/gym/GetCoachOrUserRelevant接口返回的数据
+    private String background;// (string, optional): 背景图 ,
+
+    private String  hoursEnd ;//(string, optional): 结束营业时间 ,
+    private String hoursStart ;//(string, optional): 开始营业时间 ,
+
     /*
     * advertisement (string, optional): 广告 ,
 distance (string, optional): 距离 ,

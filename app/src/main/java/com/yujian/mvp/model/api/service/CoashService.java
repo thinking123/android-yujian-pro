@@ -1,7 +1,10 @@
 package com.yujian.mvp.model.api.service;
 
 import com.yujian.entity.BaseResponse;
+import com.yujian.entity.Personaltainer;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
+import com.yujian.mvp.model.entity.FollowUserBean;
+import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,4 +74,39 @@ id (string, optional): id 多个id请用逗号分割
     );
 
 
+    /*
+/api/gym/FollowAllList
+作用:关注列表
+ */
+    @GET("/api/gym/FollowAllList")
+    Observable<BaseResponse<FollowUserBean>> followAllList(
+            @Header("longitude") String longitude,
+            @Header("latitude") String latitude,
+            @Query("pageNum") String pageNum,
+            @Query("type") String type
+    );
+
+
+    /*
+/api/gym/GetCoachOrUserRelevant
+作用: 教练/用户 详情--与他相关教练/健身房 列表
+   */
+    @GET("/api/gym/GetCoachOrUserRelevant")
+    Observable<BaseResponse<GetCoachOrUserRelevantBean>> getCoachOrUserRelevant(
+            @Header("longitude") String longitude,
+            @Header("latitude") String latitude,
+            @Query("id") String id
+    );
+
+
+    /*
+/api/gym/GymdetailsCoach
+作用:健身房详情--课程-私教 列表
+*/
+    @GET("/api/gym/GymdetailsCoach")
+    Observable<BaseResponse<List<Personaltainer>>> gymdetailsCoach(
+            @Header("longitude") String longitude,
+            @Header("latitude") String latitude,
+            @Query("id") String id
+    );
 }
