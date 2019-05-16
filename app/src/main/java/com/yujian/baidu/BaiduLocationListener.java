@@ -3,6 +3,7 @@ package com.yujian.baidu;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.MyLocationData;
+import com.yujian.app.BaseApp;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
@@ -55,6 +56,7 @@ public class BaiduLocationListener extends BDAbstractLocationListener {
         String district = location.getDistrict();    //获取区县
         String street = location.getStreet();    //获取街道信息
 
+        BaseApp.getInstance().bdLocation = location;
         onBDLocationSubject.onNext(location);
     }
 

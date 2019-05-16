@@ -33,6 +33,7 @@ import com.yujian.mvp.ui.adapter.RecyclerViewHorizontalButtonListAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
@@ -70,6 +71,12 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     boolean isLoadingMore = false, isRefreshing = false;
     private boolean isFirstLocation = true;
     private BDLocation bdLocation;
+
+    /*
+    *
+    * 用户角色 1 健身房 2 教练 3 普通用户 4我关注的 5关注我的 6推荐（关注数）
+    * */
+//    private String role = "6";
     public static FriendFragment newInstance() {
         FriendFragment fragment = new FriendFragment();
         return fragment;
@@ -114,8 +121,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
     public void getFriendListData(int pageNum,
                                   String memberId,
-                                  String name,
-                                  String role) {
+                                  String name) {
 //        role = "6";
         if (mPresenter != null && bdLocation != null) {
             mPresenter.goodFriendAllList(
@@ -124,7 +130,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
                     Double.toString(GPSLocation.getInstance().getLatitude()),
                     "",
                     "",
-                    "6",
+                    userRole.toString(),
                     User.getInstance().getId()
             );
         }
@@ -146,15 +152,15 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
     }
 
     private UserRole selectedUserRole(String s){
-        if(s == getResources().getString(R.string.main_friend_btn_list_fans)){
+        if(Objects.equals(s, getResources().getString(R.string.main_friend_btn_list_fans))){
             return UserRole.FANS;
-        }else if(s == getResources().getString(R.string.main_friend_btn_list_coach)){
+        }else if(Objects.equals(s,getResources().getString(R.string.main_friend_btn_list_coach))){
             return UserRole.COACH;
-        }else if(s == getResources().getString(R.string.main_friend_btn_list_fitnessroom)){
+        }else if(Objects.equals(s,getResources().getString(R.string.main_friend_btn_list_fitnessroom))){
             return UserRole.FITNESSROOM;
-        }else if(s == getResources().getString(R.string.main_friend_btn_list_user)){
+        }else if(Objects.equals(s,getResources().getString(R.string.main_friend_btn_list_user))){
             return UserRole.USER;
-        }else if(s == getResources().getString(R.string.main_friend_btn_list_attention)){
+        }else if(Objects.equals(s,getResources().getString(R.string.main_friend_btn_list_attention))){
             return UserRole.ATTENTION;
         }else {
             return UserRole.RECOMMEND;
@@ -235,7 +241,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
 
                 if (pageNum < pages) {
                     isLoadingMore = true;
-                    getFriendListData(pageNum + 1, "", "", "");
+                    getFriendListData(pageNum + 1, "", "");
                 } else {
                     showMessage("没有更多了");
                     friendList.loadMoreComplete();

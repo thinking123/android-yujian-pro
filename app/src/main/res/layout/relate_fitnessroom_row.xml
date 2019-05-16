@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    app:cardCornerRadius="12dp"
+
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/background"
+            android:src="@color/white1"
+            />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/white"
+            android:layout_gravity="bottom"
+            >
+
+            <TextView
+                android:id="@+id/gymName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="gymName"
+                android:textColor="@color/white"
+                android:textSize="@dimen/page_title_size1"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/edit_btn_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/gymName"
+                app:layout_constraintLeft_toLeftOf="@id/gymName"
+                app:layout_constraintStart_toEndOf="@+id/gymName"
+                app:layout_constraintTop_toTopOf="@+id/gymName" />
+            <TextView
+                android:id="@+id/gymAddressDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="gymAddressDetails"
+                android:textColor="@color/white"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/text_view_size"
+                app:layout_constraintStart_toStartOf="@+id/gymName"
+                app:layout_constraintTop_toBottomOf="@+id/gymName"
+                />
+
+            <TextView
+                android:id="@+id/workTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_view_size"
+                android:text="workTime"
+                app:layout_constraintStart_toStartOf="@+id/gymAddressDetails"
+                app:layout_constraintTop_toBottomOf="@+id/gymAddressDetails" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

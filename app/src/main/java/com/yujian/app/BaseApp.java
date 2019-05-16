@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.CoordType;
@@ -23,7 +24,7 @@ import com.yujian.entity.User;
 import com.yujian.utils.Common;
 
 public class BaseApp extends Application implements App {
-
+    public BDLocation bdLocation;
     public static Context context;
     public static User user;
     public static Context getContext(){

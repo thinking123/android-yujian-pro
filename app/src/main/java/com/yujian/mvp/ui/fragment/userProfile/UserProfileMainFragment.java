@@ -385,7 +385,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
                     case 1:
                         fragment = findChildFragment(CoachLessonFragment.class);
                         if (fragment == null) {
-                            fragment = CoachLessonFragment.newInstance();
+                            fragment = CoachLessonFragment.newInstance(userProfile);
                         }
 
                         loadRootFragment(R.id.viewpager_container, fragment);

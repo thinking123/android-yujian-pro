@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/framelayout"
+        app:cardCornerRadius="@dimen/corner_card_view"
+        android:layout_width="@dimen/grid_size"
+        android:layout_height="@dimen/grid_size">
+        <ImageView
+            android:id="@+id/logo"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@color/white1"/>
+    </android.support.v7.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="金牌"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/tip_text_size_15"
+        app:layout_constraintStart_toStartOf="@+id/framelayout"
+        app:layout_constraintTop_toBottomOf="@+id/framelayout" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="@dimen/tip_text_size_15"
+        android:textColor="@color/text_gray"
+        android:layout_marginTop="5.5dp"
+        app:layout_constraintStart_toStartOf="@+id/tag"
+        app:layout_constraintTop_toBottomOf="@+id/tag" />
+
+
+
+</android.support.constraint.ConstraintLayout>

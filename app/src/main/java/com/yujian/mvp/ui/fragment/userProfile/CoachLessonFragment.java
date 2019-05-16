@@ -1,17 +1,26 @@
 package com.yujian.mvp.ui.fragment.userProfile;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.yujian.app.BaseApp;
 import com.yujian.entity.AttationCurriculum;
 import com.yujian.entity.FeedbackInfo;
+import com.yujian.entity.Friend;
 import com.yujian.entity.GymPicture;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
@@ -32,8 +41,18 @@ import com.yujian.mvp.model.entity.FollowUserBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.activity.UserProfileActivity;
+import com.yujian.mvp.ui.adapter.FitnessRoomPersonaltainerAdapter;
+import com.yujian.mvp.ui.adapter.RelateCoachAdapter;
+import com.yujian.mvp.ui.adapter.RelateFitnessRoomAdapter;
+import com.yujian.utils.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -52,8 +71,27 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
-    public static CoachLessonFragment newInstance() {
+    @BindView(R.id.coachTitle)
+    TextView coachTitle;
+    @BindView(R.id.coachList)
+    RecyclerView coachList;
+    @BindView(R.id.userLinerLayout)
+    LinearLayout userLinerLayout;
+    @BindView(R.id.relateFitnessRoomList)
+    RecyclerView relateFitnessRoomList;
+
+    private UserProfile userProfile;
+
+    private RelateCoachAdapter relateCoachAdapter;
+    private RelateFitnessRoomAdapter relateFitnessRoomAdapter;
+    private FitnessRoomPersonaltainerAdapter fitnessRoomPersonaltainerAdapter;
+    private BDLocation bdLocation;
+
+    public static CoachLessonFragment newInstance(UserProfile userProfile) {
         CoachLessonFragment fragment = new CoachLessonFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("userProfile", userProfile);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -72,47 +110,90 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
         return inflater.inflate(R.layout.fragment_coach_lesson, container, false);
     }
 
+    private void goToUserProfile(String userId){
+        Intent intent = new Intent(getActivity() , UserProfileActivity.class);
+        intent.putExtra(Constant.Bundle.USER_ID , userId);
+        startActivity(intent);
+    }
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        userProfile = (UserProfile) this.getArguments().getSerializable("userProfile");
+        bdLocation = BaseApp.getInstance().bdLocation;
 
+        int gridSpace = getResources().getDimensionPixelSize(R.dimen.grid_space);
+
+        if (Objects.equals(userProfile.getUserRole(), "1")) {
+            fitnessRoomPersonaltainerAdapter = new FitnessRoomPersonaltainerAdapter(new ArrayList<>());
+            coachList.setAdapter(fitnessRoomPersonaltainerAdapter);
+            fitnessRoomPersonaltainerAdapter.getPositionClicks().subscribe(new Consumer<Personaltainer>() {
+                @Override
+                public void accept(Personaltainer personaltainer) throws Exception {
+                    goToUserProfile(personaltainer.getId());
+                }
+            });
+            getGymdetailsCoach();
+        } else {
+            coachTitle.setText("与TA相关的健身房");
+            userLinerLayout.setVisibility(View.VISIBLE);
+
+            relateCoachAdapter = new RelateCoachAdapter(new ArrayList<>());
+            coachList.setAdapter(relateCoachAdapter);
+            relateCoachAdapter.getPositionClicks().subscribe(new Consumer<Friend>() {
+                @Override
+                public void accept(Friend friend) throws Exception {
+                    goToUserProfile(friend.getId());
+                }
+            });
+
+            relateFitnessRoomAdapter = new RelateFitnessRoomAdapter(new ArrayList<>());
+            relateFitnessRoomList.setAdapter(relateCoachAdapter);
+
+            relateFitnessRoomList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+            relateFitnessRoomList.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(@NonNull Rect outRect,
+                                           @NonNull View view,
+                                           @NonNull RecyclerView parent,
+                                           @NonNull RecyclerView.State state) {
+                    outRect.left = gridSpace;
+                }
+            });
+
+            getCoachOrUserRelevant();
+        }
+
+
+        coachList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        coachList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect,
+                                       @NonNull View view,
+                                       @NonNull RecyclerView parent,
+                                       @NonNull RecyclerView.State state) {
+                outRect.left = gridSpace;
+            }
+        });
     }
 
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
+    private void getCoachOrUserRelevant() {
+        if (mPresenter != null && bdLocation != null) {
+            mPresenter.getCoachOrUserRelevant(
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    userProfile.getId()
+            );
+        }
+    }
+
+    private void getGymdetailsCoach() {
+        if (mPresenter != null && bdLocation != null) {
+            mPresenter.getGymdetailsCoach(
+                    userProfile.getId()
+            );
+        }
+    }
+
+
     @Override
     public void setData(@Nullable Object data) {
 
@@ -152,7 +233,8 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void getCoachOrUserRelevantResult(GetCoachOrUserRelevantBean getCoachOrUserRelevantBean) {
-
+     relateCoachAdapter.addAll(getCoachOrUserRelevantBean.getCoachList());
+     relateFitnessRoomAdapter.addAll(getCoachOrUserRelevantBean.getGymListCollections());
     }
 
     @Override
@@ -172,7 +254,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void getGymdetailsCoachResult(List<Personaltainer> list) {
-
+            fitnessRoomPersonaltainerAdapter.addAll(list);
     }
 
     @Override

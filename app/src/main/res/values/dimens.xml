@@ -32,5 +32,7 @@
 
     <dimen name="line_width">325dp</dimen>
 
+    <dimen name="corner_card_view">5dp</dimen>
+
 
 </resources>

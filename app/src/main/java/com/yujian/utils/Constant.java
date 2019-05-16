@@ -28,4 +28,7 @@ public class Constant {
         public static String DAYDATEPATTERN = "yyyy-MM-dd";
     }
 
+    public interface Bundle{
+        public static String USER_ID = "id";
+    }
 }
