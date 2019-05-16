@@ -518,12 +518,12 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void attentionResult(String res) {
-        showMessage("attentionResult");
+//        showMessage("attentionResult");
     }
 
     @Override
     public void unfollowResult(String res) {
-        showMessage("unfollowResult");
+//        showMessage("unfollowResult");
     }
 
     @Override
@@ -538,7 +538,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void addVisitNumResult(String res) {
-        showMessage("addVisitNumResult");
+//        showMessage("addVisitNumResult");
     }
 
     @Override

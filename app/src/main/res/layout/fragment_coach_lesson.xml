@@ -112,45 +112,48 @@
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_view_size2" />
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <TextView
-                android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="20"
-                android:textSize="33sp" />
-
-            <TextView
-                android:id="@+id/week"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="wu"
-                android:textSize="@dimen/tip_text_size3"
-                app:layout_constraintStart_toEndOf="@+id/day"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2019"
-                android:textSize="@dimen/tip_text_size3"
-                app:layout_constraintStart_toStartOf="@+id/week"
-                app:layout_constraintTop_toBottomOf="@+id/week" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/timeList"
+        <com.yujian.widget.TimerPickerWithTabLayoutMonth
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp" />
+            android:layout_height="150dp"/>
+        <!--<android.support.constraint.ConstraintLayout-->
+            <!--android:id="@+id/constraintLayout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="15dp">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/day"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="20"-->
+                <!--android:textSize="33sp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/week"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:text="wu"-->
+                <!--android:textSize="@dimen/tip_text_size3"-->
+                <!--app:layout_constraintStart_toEndOf="@+id/day"-->
+                <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/date"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="2019"-->
+                <!--android:textSize="@dimen/tip_text_size3"-->
+                <!--app:layout_constraintStart_toStartOf="@+id/week"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/week" />-->
+
+        <!--</android.support.constraint.ConstraintLayout>-->
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/timeList"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="14dp" />-->
 
         <View
             android:id="@+id/view1"

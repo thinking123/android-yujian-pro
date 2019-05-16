@@ -124,7 +124,7 @@ public class FitnessRoomListFragment extends BaseSupportFragment<FitnessRoomPres
         fitnessRoomListAdapter.getCardViewClicks().subscribe(new Consumer<FitnessRoom>() {
             @Override
             public void accept(FitnessRoom fitnessRoom) throws Exception {
-                showMessage("click cardview");
+//                showMessage("click cardview");
             }
         });
 

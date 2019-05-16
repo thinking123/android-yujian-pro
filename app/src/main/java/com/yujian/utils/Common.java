@@ -106,6 +106,34 @@ public class Common {
         return px;
     }
 
+    public static String CalendarWeekToString(int w){
+        String week = "";
+        switch (w) {
+            case Calendar.MONDAY:
+               week = "一";
+                break;
+            case Calendar.TUESDAY:
+               week = "二";
+                break;
+            case Calendar.WEDNESDAY:
+               week = "三";
+                break;
+            case Calendar.THURSDAY:
+               week = "四";
+                break;
+            case Calendar.FRIDAY:
+               week = "五";
+                break;
+            case Calendar.SATURDAY:
+               week = "六";
+                break;
+            case Calendar.SUNDAY:
+               week = "日";
+                break;
+        }
+        
+        return week;
+    }
     public static void showMsg(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }

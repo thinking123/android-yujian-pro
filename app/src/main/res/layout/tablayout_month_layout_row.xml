@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="12dp"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+<TextView
+    android:id="@+id/week"
+    android:textSize="@dimen/tip_text_size2"
+    android:textColor="@color/text_black"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:text="sdfdsf"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/day"
+        android:textColor="@color/text_black"
+        android:layout_marginTop="6.5dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:text="sdfdsf"
+        android:textSize="@dimen/tip_text_size"
+        />
+</LinearLayout>

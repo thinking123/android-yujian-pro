@@ -133,7 +133,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
             });
             getGymdetailsCoach();
         } else {
-            coachTitle.setText("与TA相关的健身房");
+            coachTitle.setText("与TA相关的教练");
             userLinerLayout.setVisibility(View.VISIBLE);
 
             relateCoachAdapter = new RelateCoachAdapter(new ArrayList<>());
@@ -146,7 +146,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
             });
 
             relateFitnessRoomAdapter = new RelateFitnessRoomAdapter(new ArrayList<>());
-            relateFitnessRoomList.setAdapter(relateCoachAdapter);
+            relateFitnessRoomList.setAdapter(relateFitnessRoomAdapter);
 
             relateFitnessRoomList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             relateFitnessRoomList.addItemDecoration(new RecyclerView.ItemDecoration() {
