@@ -27,6 +27,7 @@ import com.baidu.location.BDLocation;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.yujian.entity.AttationCurriculum;
 import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jakewharton.rxbinding3.view.RxView;
@@ -41,10 +42,13 @@ import com.yujian.di.component.DaggerUserProfileComponent;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
+import com.yujian.entity.Topic;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
+import com.yujian.mvp.model.entity.DynamicTopicBean;
 import com.yujian.mvp.model.entity.FeedbackInfoBean;
+import com.yujian.mvp.model.entity.FollowUserBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
@@ -413,6 +417,21 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
     }
 
     @Override
+    public void gymdetailsCoachResult(List<Personaltainer> res) {
+
+    }
+
+    @Override
+    public void addCollectCurriculumResult(AttationCurriculum res) {
+
+    }
+
+    @Override
+    public void delCollectCurriculumResult(String res) {
+
+    }
+
+    @Override
     public void getGymdetailsCoachResult(List<Personaltainer> list) {
 
     }
@@ -517,6 +536,31 @@ public class EditTimeLineObjFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void addVisitNumResult(String res) {
+
+    }
+
+    @Override
+    public void cancelCommentPraiseResult(Topic res) {
+
+    }
+
+    @Override
+    public void getMoodResult(DynamicTopicBean res) {
+
+    }
+
+    @Override
+    public void addScanResult(Topic res) {
+
+    }
+
+    @Override
+    public void toCommentPraiseResult(String res) {
+
+    }
+
+    @Override
+    public void followAllListResult(FollowUserBean res) {
 
     }
 }

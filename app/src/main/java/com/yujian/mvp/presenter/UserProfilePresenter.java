@@ -3,6 +3,7 @@ package com.yujian.mvp.presenter;
 import android.app.Application;
 import android.net.Uri;
 
+import com.yujian.entity.AttationCurriculum;
 import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jess.arms.di.scope.FragmentScope;
@@ -25,12 +26,15 @@ import com.yujian.entity.BaseResponse;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
+import com.yujian.entity.Topic;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.contract.UserProfileContract;
 import com.yujian.mvp.model.api.service.FitnessRoomService;
 import com.yujian.mvp.model.entity.AttentionRequestBean;
+import com.yujian.mvp.model.entity.DynamicTopicBean;
 import com.yujian.mvp.model.entity.FeedbackInfoBean;
+import com.yujian.mvp.model.entity.FollowUserBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 
@@ -564,9 +568,187 @@ id (string, optional): id 多个id请用逗号分割
                     }
                 });
     }
-    
-    
-    
+
+
+
+
+    public void cancelCommentPraise(String commentId) {
+
+        mModel.cancelCommentPraise(commentId)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<Topic>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<Topic> response) {
+                        if (response.isSuccess()) {
+                            mRootView.cancelCommentPraiseResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+
+
+    public void getMood(String longitude, String latitude, String type, String longitude1, String latitude1, String id, String pageNum) {
+
+        mModel.getMood(longitude,  latitude,  type,  longitude1,  latitude1,  id,  pageNum)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<DynamicTopicBean>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<DynamicTopicBean> response) {
+                        if (response.isSuccess()) {
+                            mRootView.getMoodResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void addScan(String longitude, String latitude, String moodId) {
+
+        mModel.addScan(longitude,  latitude,  moodId)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<Topic>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<Topic> response) {
+                        if (response.isSuccess()) {
+                            mRootView.addScanResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void toCommentPraise(String longitude, String latitude, String id, String commentId)  {
+
+        mModel.toCommentPraise( longitude,  latitude,  id,commentId)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.toCommentPraiseResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void followAllList(String longitude, String latitude, String pageNum, String type)  {
+
+        mModel.followAllList( longitude,  latitude,  pageNum,type)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<FollowUserBean>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<FollowUserBean> response) {
+                        if (response.isSuccess()) {
+                            mRootView.followAllListResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void getCoachOrUserRelevant(String longitude, String latitude, String id)  {
+
+        mModel.getCoachOrUserRelevant(    longitude,  latitude,  id)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<GetCoachOrUserRelevantBean>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<GetCoachOrUserRelevantBean> response) {
+                        if (response.isSuccess()) {
+                            mRootView.getCoachOrUserRelevantResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void gymdetailsCoach(String longitude, String latitude, String id)  {
+
+        mModel.gymdetailsCoach(    longitude,  latitude,  id)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<List<Personaltainer>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<List<Personaltainer>> response) {
+                        if (response.isSuccess()) {
+                            mRootView.gymdetailsCoachResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+
+    public void addCollectCurriculum(String coachId  ,
+                                String curriculumId ,
+                                String longitude, String latitude)  {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("coachId", coachId);
+        map.put("curriculumId", curriculumId);
+
+        mModel.addCollectCurriculum(  map,  longitude,  latitude)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<AttationCurriculum>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<AttationCurriculum> response) {
+                        if (response.isSuccess()) {
+                            mRootView.addCollectCurriculumResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    public void delCollectCurriculum(String coachId  ,
+                                     String curriculumId ,
+                                     String longitude, String latitude)  {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("coachId", coachId);
+        map.put("curriculumId", curriculumId);
+
+        mModel.delCollectCurriculum(  map,  longitude,  latitude)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<String>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<String> response) {
+                        if (response.isSuccess()) {
+                            mRootView.delCollectCurriculumResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

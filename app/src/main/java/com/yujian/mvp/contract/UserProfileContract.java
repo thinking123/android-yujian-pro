@@ -1,5 +1,6 @@
 package com.yujian.mvp.contract;
 
+import com.yujian.entity.AttationCurriculum;
 import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.jess.arms.mvp.IView;
@@ -8,10 +9,13 @@ import com.yujian.entity.BaseResponse;
 import com.yujian.entity.DrillTime;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
+import com.yujian.entity.Topic;
 import com.yujian.entity.UserProfile;
 import com.yujian.entity.UserProfileMatchCertificatePersonalStory;
 import com.yujian.mvp.model.entity.AttentionRequestBean;
+import com.yujian.mvp.model.entity.DynamicTopicBean;
 import com.yujian.mvp.model.entity.FeedbackInfoBean;
+import com.yujian.mvp.model.entity.FollowUserBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 
@@ -44,7 +48,7 @@ public interface UserProfileContract {
     interface View extends IView {
         void getUserProfileResult(UserProfile userProfile);
 
-        void getCoachOrUserRelevantResult(GetCoachOrUserRelevantBean getCoachOrUserRelevantBean);
+//        void getCoachOrUserRelevantResult(GetCoachOrUserRelevantBean getCoachOrUserRelevantBean);
 
         void getGymdetailsCoachResult(List<Personaltainer> list);
 
@@ -118,6 +122,112 @@ public interface UserProfileContract {
         void addVisitNumResult(
                 String res
         );
+        
+        
+          /*
+    * /api/mood/cancelCommentPraise
+动态评论取消点赞
+
+    * */
+
+        void cancelCommentPraiseResult(
+                Topic res
+        );
+
+
+        /*
+    /api/mood/getMood
+    获取动态
+    */
+
+        void getMoodResult(
+                DynamicTopicBean  res
+
+        );
+
+
+        /*
+     * /api/mood/addScan
+    动态增加一次浏览次数
+    
+     * */
+
+        void addScanResult(
+                Topic  res
+        );
+
+
+        /*
+     * /api/mood/toCommentPraise
+    动态评论点赞
+    
+     * */
+
+        void toCommentPraiseResult(
+                String  res
+        );
+
+
+
+        /*
+    /api/gym/FollowAllList
+    作用:关注列表
+     */
+
+        void followAllListResult(
+                FollowUserBean  res
+        );
+
+
+        /*
+    /api/gym/GetCoachOrUserRelevant
+    作用: 教练/用户 详情--与他相关教练/健身房 列表
+       */
+
+        void getCoachOrUserRelevantResult(
+                GetCoachOrUserRelevantBean  res
+        );
+
+
+        /*
+    /api/gym/GymdetailsCoach
+    作用:健身房详情--课程-私教 列表
+    */
+
+        void gymdetailsCoachResult(
+                List<Personaltainer>  res
+        );
+
+
+
+        /*
+        * /api/curriculum/AddCollectCurriculum
+    关注操课
+    操课关注 {
+    coachId (integer, optional): 教练id ,
+    curriculumId (integer, optional): 操课id
+    }
+        * */
+
+        void addCollectCurriculumResult(
+                AttationCurriculum  res
+        );
+
+
+
+        /*
+        * /api/curriculum/DelCollectCurriculum
+    操课 取消关注 传入操课id
+    操课关注 {
+    coachId (integer, optional): 教练id ,
+    curriculumId (integer, optional): 操课id
+    }
+        * */
+
+        void delCollectCurriculumResult(
+                String  res
+        );
+        
         
 
     }
@@ -287,6 +397,135 @@ url (string, optional): url 逗号分割
 
         Observable<BaseResponse<String>> addVisitNum(
                 HashMap<String, String> requestBody
+        );
+
+
+        /*
+    * /api/mood/cancelCommentPraise
+动态评论取消点赞
+
+    * */
+        
+        Observable<BaseResponse<Topic>> cancelCommentPraise(
+                 String commentId
+        );
+
+
+        /*
+    /api/mood/getMood
+    获取动态
+    */
+        
+        Observable<BaseResponse<DynamicTopicBean>> getMood(
+                 String longitude,
+                 String latitude,
+
+                 String type,/*
+类型 0 广场（时间排序） 1 健身房 2 教练 3 普通用户 4 推荐 5 附近（距离排序） 6 关注*/
+                 String longitude1,
+                 String latitude1,
+                 String id,
+                 String pageNum
+
+        );
+
+
+        /*
+     * /api/mood/addScan
+    动态增加一次浏览次数
+    
+     * */
+        
+        Observable<BaseResponse<Topic>> addScan(
+                 String longitude,
+                 String latitude,
+                 String moodId
+        );
+
+
+        /*
+     * /api/mood/toCommentPraise
+    动态评论点赞
+    
+     * */
+        
+        Observable<BaseResponse<String>> toCommentPraise(
+                 String longitude,
+                 String latitude,
+                 String id,
+                 String commentId
+        );
+
+
+
+        /*
+    /api/gym/FollowAllList
+    作用:关注列表
+     */
+        
+        Observable<BaseResponse<FollowUserBean>> followAllList(
+                 String longitude,
+                 String latitude,
+                 String pageNum,
+                 String type
+        );
+
+
+        /*
+    /api/gym/GetCoachOrUserRelevant
+    作用: 教练/用户 详情--与他相关教练/健身房 列表
+       */
+        
+        Observable<BaseResponse<GetCoachOrUserRelevantBean>> getCoachOrUserRelevant(
+                 String longitude,
+                 String latitude,
+                 String id
+        );
+
+
+        /*
+    /api/gym/GymdetailsCoach
+    作用:健身房详情--课程-私教 列表
+    */
+        
+        Observable<BaseResponse<List<Personaltainer>>> gymdetailsCoach(
+                 String longitude,
+                 String latitude,
+                 String id
+        );
+
+
+
+        /*
+        * /api/curriculum/AddCollectCurriculum
+    关注操课
+    操课关注 {
+    coachId (integer, optional): 教练id ,
+    curriculumId (integer, optional): 操课id
+    }
+        * */
+        
+        Observable<BaseResponse<AttationCurriculum>> addCollectCurriculum(
+                 HashMap<String, String> requestBody,
+                 String longitude,
+                 String latitude
+        );
+
+
+
+        /*
+        * /api/curriculum/DelCollectCurriculum
+    操课 取消关注 传入操课id
+    操课关注 {
+    coachId (integer, optional): 教练id ,
+    curriculumId (integer, optional): 操课id
+    }
+        * */
+        
+        Observable<BaseResponse<String>> delCollectCurriculum(
+                 HashMap<String, String> requestBody,
+                 String longitude,
+                 String latitude
         );
     }
 }
