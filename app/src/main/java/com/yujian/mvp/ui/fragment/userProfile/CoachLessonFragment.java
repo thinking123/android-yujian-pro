@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.yujian.app.BaseApp;
 import com.yujian.entity.AttationCurriculum;
 import com.yujian.entity.FeedbackInfo;
@@ -46,8 +50,13 @@ import com.yujian.mvp.ui.adapter.FitnessRoomPersonaltainerAdapter;
 import com.yujian.mvp.ui.adapter.RelateCoachAdapter;
 import com.yujian.mvp.ui.adapter.RelateFitnessRoomAdapter;
 import com.yujian.utils.Constant;
+import com.yujian.widget.TimerPickerWithTabLayoutMonth;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,12 +90,13 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
     RecyclerView relateFitnessRoomList;
 
     private UserProfile userProfile;
-
+    TimePickerView pvTime;
     private RelateCoachAdapter relateCoachAdapter;
     private RelateFitnessRoomAdapter relateFitnessRoomAdapter;
     private FitnessRoomPersonaltainerAdapter fitnessRoomPersonaltainerAdapter;
     private BDLocation bdLocation;
-
+    @BindView(R.id.timeLayout)
+    TimerPickerWithTabLayoutMonth timerPickerWithTabLayoutMonth;
     public static CoachLessonFragment newInstance(UserProfile userProfile) {
         CoachLessonFragment fragment = new CoachLessonFragment();
         Bundle bundle = new Bundle();
@@ -173,6 +183,37 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
                 outRect.left = gridSpace;
             }
         });
+
+        pvTime = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+//                Constant.Common.DAYDATEPATTERN;
+//                DateFormat df = new SimpleDateFormat(Constant.Common.DAYDATEPATTERN);
+
+                timerPickerWithTabLayoutMonth.setDate(date);
+//                time.setText(df.format(date));
+//
+//                time.setTextColor(ContextCompat.getColor(getActivity() , R.color.text_black));
+            }
+        }).build();
+        timerPickerWithTabLayoutMonth.getPositionClicks().subscribe(new Consumer<Date>() {
+            @Override
+            public void accept(Date date) throws Exception {
+                pvTime.show();
+            }
+        });
+
+        timerPickerWithTabLayoutMonth.getSelectedClicks().subscribe(new Consumer<Date>() {
+            @Override
+            public void accept(Date date) throws Exception {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                pvTime.setDate(calendar);
+            }
+        });
+
+//        timerPickerWithTabLayoutMonth.setDate(new Date());
+
     }
 
     private void getCoachOrUserRelevant() {

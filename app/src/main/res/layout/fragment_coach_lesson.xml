@@ -113,6 +113,7 @@
             android:textSize="@dimen/text_view_size2" />
 
         <com.yujian.widget.TimerPickerWithTabLayoutMonth
+            android:id="@+id/timeLayout"
             android:layout_width="match_parent"
             android:layout_height="150dp"/>
         <!--<android.support.constraint.ConstraintLayout-->

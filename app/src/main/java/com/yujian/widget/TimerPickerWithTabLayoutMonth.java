@@ -2,6 +2,7 @@ package com.yujian.widget;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,10 @@ import androidx.annotation.Nullable;
 import com.yujian.R;
 import com.yujian.mvp.ui.adapter.TabLayoutTimeListAdapter;
 import com.yujian.utils.Common;
+import com.yujian.utils.Constant;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -117,7 +121,7 @@ public class TimerPickerWithTabLayoutMonth extends LinearLayout {
         timepickerLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickSubject.onNext(null);
+                onClickSubject.onNext(curDate);
             }
         });
 
@@ -155,7 +159,13 @@ public class TimerPickerWithTabLayoutMonth extends LinearLayout {
         });
         initDate();
         setUiDate();
-        setDate(curDate);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setDate(curDate);
+            }
+        } , 100);
+
     }
 
     public Date getCurDate() {
@@ -173,6 +183,7 @@ public class TimerPickerWithTabLayoutMonth extends LinearLayout {
     public void setDate(Date date) {
         curDate = date;
         curCalendar.setTime(curDate);
+        setUiDate();
         getWeekendDays();
         tabLayoutTimeListAdapter.clear();
         tabLayoutTimeListAdapter.addAll(weekDayList);
@@ -208,7 +219,11 @@ public class TimerPickerWithTabLayoutMonth extends LinearLayout {
     private void setUiDate() {
         day.setText(Integer.toString(curCalendar.get(Calendar.DAY_OF_MONTH)));
         week.setText(String.format("星期：%s" , Common.CalendarWeekToString(curCalendar.get(Calendar.DAY_OF_WEEK))));
-        date.setText(Common.dateToString(curDate));
+
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM");
+
+        date.setText(df.format(curDate));
     }
 
     public Observable<Date> getPositionClicks() {
