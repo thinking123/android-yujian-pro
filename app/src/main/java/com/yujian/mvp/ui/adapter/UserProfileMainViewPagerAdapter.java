@@ -33,7 +33,7 @@ public class UserProfileMainViewPagerAdapter extends FragmentStatePagerAdapter {
                 CoachLessonFragment coachLessonFragment = CoachLessonFragment.newInstance(userProfile);
                 return coachLessonFragment;
             case 2:
-                UserDynamicFragment userDynamicFragment = UserDynamicFragment.newInstance();
+                UserDynamicFragment userDynamicFragment = UserDynamicFragment.newInstance(userProfile);
                 return userDynamicFragment;
             default:
                 return null;

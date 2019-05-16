@@ -391,9 +391,9 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
                         loadRootFragment(R.id.viewpager_container, fragment);
                         break;
                     case 2:
-                        fragment = findChildFragment(DynamicFragment.class);
+                        fragment = findChildFragment(UserDynamicFragment.class);
                         if (fragment == null) {
-                            fragment = DynamicFragment.newInstance();
+                            fragment = UserDynamicFragment.newInstance(userProfile);
                         }
 
                         loadRootFragment(R.id.viewpager_container, fragment);
@@ -438,6 +438,11 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     @Override
     public void delCollectCurriculumResult(String res) {
+
+    }
+
+    @Override
+    public void getTopicListByUserIdResult(List<Topic> res) {
 
     }
 

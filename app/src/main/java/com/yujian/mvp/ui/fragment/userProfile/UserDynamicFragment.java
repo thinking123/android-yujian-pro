@@ -1,15 +1,20 @@
 package com.yujian.mvp.ui.fragment.userProfile;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.location.BDLocation;
+import com.yujian.app.BaseApp;
 import com.yujian.entity.AttationCurriculum;
 import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
@@ -33,8 +38,14 @@ import com.yujian.mvp.model.entity.FollowUserBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.adapter.TopicListAdapter;
+import com.yujian.widget.XRecyclerViewEx;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -53,8 +64,21 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresenter> implements UserProfileContract.View {
 
-    public static UserDynamicFragment newInstance() {
+    @BindView(R.id.topicList)
+    RecyclerView topicList;
+    @BindView(R.id.dynamicList)
+    XRecyclerViewEx dynamicList;
+    private TopicListAdapter topicListAdapter;
+    private UserProfile userProfile;
+    private BDLocation bdLocation;
+    int pageNum = 1;
+    int pages = 0;
+    int total = 0;
+    public static UserDynamicFragment newInstance(UserProfile userProfile) {
         UserDynamicFragment fragment = new UserDynamicFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("userProfile", userProfile);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -75,45 +99,58 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        userProfile = (UserProfile) this.getArguments().getSerializable("userProfile");
+        bdLocation = BaseApp.getInstance().bdLocation;
+        int gridSpace = getResources().getDimensionPixelSize(R.dimen.grid_space);
 
+        topicListAdapter = new TopicListAdapter(new ArrayList<>());
+        topicList.setAdapter(topicListAdapter);
+        topicListAdapter.getPositionClicks().subscribe(new Consumer<Topic>() {
+            @Override
+            public void accept(Topic friend) throws Exception {
+
+            }
+        });
+
+        topicList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        topicList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect,
+                                       @NonNull View view,
+                                       @NonNull RecyclerView parent,
+                                       @NonNull RecyclerView.State state) {
+                outRect.left = gridSpace;
+            }
+        });
+
+        getTopicListByUserId();
     }
 
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
+    private void getMood(){
+
+        if (mPresenter != null && bdLocation != null) {
+            mPresenter.getMood(
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    userProfile.getUserRole(),
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    userProfile.getId(),
+                    Integer.toString(pageNum)
+            );
+        }
+    }
+    private void getTopicListByUserId(){
+
+        if (mPresenter != null && bdLocation != null) {
+            mPresenter.getTopicListByUserId(
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude()),
+                    userProfile.getId()
+            );
+        }
+    }
+
     @Override
     public void setData(@Nullable Object data) {
 
@@ -169,6 +206,11 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
     @Override
     public void delCollectCurriculumResult(String res) {
 
+    }
+
+    @Override
+    public void getTopicListByUserIdResult(List<Topic> res) {
+        topicListAdapter.addAll(res);
     }
 
     @Override
@@ -278,7 +320,11 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void getMoodResult(DynamicTopicBean res) {
+        pageNum = Integer.parseInt(res.getPageNum());
+        pages = Integer.parseInt(res.getPages());
+        total = Integer.parseInt(res.getTotal());
 
+//        topicListAdapter.addAll(res.getList());
     }
 
     @Override

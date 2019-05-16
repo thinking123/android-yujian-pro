@@ -227,6 +227,9 @@ public interface UserProfileContract {
         void delCollectCurriculumResult(
                 String  res
         );
+        void getTopicListByUserIdResult(
+                List<Topic>  res
+        );
         
         
 
@@ -527,5 +530,14 @@ url (string, optional): url 逗号分割
                  String longitude,
                  String latitude
         );
+
+        Observable<BaseResponse<List<Topic>>> getTopicListByUserId(
+                String longitude,
+                String latitude,
+                String id
+        );
     }
+
+
+
 }

@@ -749,6 +749,25 @@ id (string, optional): id 多个id请用逗号分割
                 });
     }
 
+
+    public void getTopicListByUserId(String longitude, String latitude, String id)  {
+
+        mModel.getTopicListByUserId(    longitude,  latitude,  id)
+                .compose(RxUtils.applySchedulers(mRootView))
+                .subscribe(new ErrorHandleSubscriber<BaseResponse<List<Topic>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<List<Topic>> response) {
+                        if (response.isSuccess()) {
+                            mRootView.getTopicListByUserIdResult(response.getData());
+
+                        } else {
+                            mRootView.showMessage(response.getMsg());
+                        }
+
+                    }
+                });
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

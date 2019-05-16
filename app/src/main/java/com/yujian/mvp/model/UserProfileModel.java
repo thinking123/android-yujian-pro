@@ -285,4 +285,11 @@ public class UserProfileModel extends BaseModel implements UserProfileContract.M
                 requestBody, longitude,  latitude
         );
     }
+
+    @Override
+    public Observable<BaseResponse<List<Topic>>> getTopicListByUserId(String longitude, String latitude, String id) {
+        return mRepositoryManager.obtainRetrofitService(DynamicService.class).getTopicListByUserId(
+                longitude,  latitude,  id
+        );
+    }
 }

@@ -370,6 +370,11 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
     }
 
     @Override
+    public void getTopicListByUserIdResult(List<Topic> res) {
+
+    }
+
+    @Override
     public void getGymdetailsCoachResult(List<Personaltainer> list) {
             fitnessRoomPersonaltainerAdapter.addAll(list);
     }

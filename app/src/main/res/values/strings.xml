@@ -83,4 +83,7 @@
     <string name="menu_edit">编辑</string>
     <string name="menu_cancel">取消</string>
     <string name="title_feedback_information">反馈信息</string>
+
+    <string name="sub_title_topic">话题</string>
+    <string name="sub_title_dynamic">动态</string>
 </resources>

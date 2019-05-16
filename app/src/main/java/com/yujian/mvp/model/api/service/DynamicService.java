@@ -4,6 +4,8 @@ import com.yujian.entity.BaseResponse;
 import com.yujian.entity.Topic;
 import com.yujian.mvp.model.entity.DynamicTopicBean;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -66,4 +68,18 @@ public interface DynamicService {
             @Query("id") String id,
             @Query("commentId") String commentId
     );
+
+    /*
+* /api/mood/getTopicListByUserId
+根据用户Id获取话题列表
+
+* */
+    @GET("/api/mood/getTopicListByUserId")
+    Observable<BaseResponse<List<Topic>>> getTopicListByUserId(
+            @Header("longitude") String longitude,
+            @Header("latitude") String latitude,
+            @Query("id") String id
+    );
+
+
 }
