@@ -47,8 +47,10 @@ import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.activity.UserProfileActivity;
 import com.yujian.mvp.ui.adapter.FitnessRoomPersonaltainerAdapter;
+import com.yujian.mvp.ui.adapter.LessonListAdapter;
 import com.yujian.mvp.ui.adapter.RelateCoachAdapter;
 import com.yujian.mvp.ui.adapter.RelateFitnessRoomAdapter;
+import com.yujian.utils.Common;
 import com.yujian.utils.Constant;
 import com.yujian.widget.TimerPickerWithTabLayoutMonth;
 
@@ -88,13 +90,18 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
     LinearLayout userLinerLayout;
     @BindView(R.id.relateFitnessRoomList)
     RecyclerView relateFitnessRoomList;
+    @BindView(R.id.lessonList)
+    RecyclerView lessonList;
 
     private UserProfile userProfile;
     TimePickerView pvTime;
     private RelateCoachAdapter relateCoachAdapter;
     private RelateFitnessRoomAdapter relateFitnessRoomAdapter;
     private FitnessRoomPersonaltainerAdapter fitnessRoomPersonaltainerAdapter;
+    private LessonListAdapter lessonListAdapter;
+
     private BDLocation bdLocation;
+    private Date curDate = new Date();
     @BindView(R.id.timeLayout)
     TimerPickerWithTabLayoutMonth timerPickerWithTabLayoutMonth;
     public static CoachLessonFragment newInstance(UserProfile userProfile) {
@@ -190,6 +197,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
 //                Constant.Common.DAYDATEPATTERN;
 //                DateFormat df = new SimpleDateFormat(Constant.Common.DAYDATEPATTERN);
 
+                curDate = date;
                 timerPickerWithTabLayoutMonth.setDate(date);
 //                time.setText(df.format(date));
 //
@@ -208,14 +216,69 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
             public void accept(Date date) throws Exception {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
+                curDate = date;
                 pvTime.setDate(calendar);
             }
         });
 
+
+        lessonListAdapter = new LessonListAdapter(new ArrayList<>() , userProfile.getUserRole());
+        lessonListAdapter.getPositionClicks().subscribe(new Consumer<DrillTime>() {
+            @Override
+            public void accept(DrillTime drillTime) throws Exception {
+                goToUserProfile(drillTime.getCoachId());
+            }
+        });
+        lessonListAdapter.getTipClicks().subscribe(new Consumer<DrillTime>() {
+            @Override
+            public void accept(DrillTime drillTime) throws Exception {
+                if(Objects.equals(userProfile.getUserRole() , "1")){
+//                    viewHoler.lessonBtn.setText("提醒");
+                }else {
+                    boolean isCollection = Objects.equals(
+                            drillTime.getIsCollection(),
+                            "1"
+                    );
+
+                    if(isCollection){
+                        delCollectCurriculum(drillTime);
+                    }else{
+                        addCollectCurriculum(drillTime);
+                    }
+                }
+            }
+        });
+
+
+        lessonList.setAdapter(lessonListAdapter);
+        lessonList.setLayoutManager(
+                new LinearLayoutManager(getActivity())
+        );
+        getCurriculumByTime();
 //        timerPickerWithTabLayoutMonth.setDate(new Date());
 
     }
 
+    private void addCollectCurriculum(DrillTime drillTime){
+        if (mPresenter != null && bdLocation != null) {
+            mPresenter.addCollectCurriculum(
+                    drillTime.getCoachId(),
+                    drillTime.getCurriculumId(),
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude())
+            );
+        }
+    }
+    private void delCollectCurriculum(DrillTime drillTime){
+        if (mPresenter != null && bdLocation != null) {
+            mPresenter.delCollectCurriculum(
+                    drillTime.getCoachId(),
+                    drillTime.getCurriculumId(),
+                    Double.toString(bdLocation.getLongitude()),
+                    Double.toString(bdLocation.getLatitude())
+            );
+        }
+    }
     private void getCoachOrUserRelevant() {
         if (mPresenter != null && bdLocation != null) {
             mPresenter.getCoachOrUserRelevant(
@@ -235,6 +298,19 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
     }
 
 
+    private void getCurriculumByTime(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(curDate);
+        String week = Common.CalendarWeekToDigitString(calendar.get(Calendar.DAY_OF_WEEK));
+        if (mPresenter != null && bdLocation != null) {
+            mPresenter.getCurriculumByTime(
+                    userProfile.getId(),
+                    week,
+                    Common.dateToString(curDate)
+            );
+        }
+    }
     @Override
     public void setData(@Nullable Object data) {
 
@@ -285,12 +361,12 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void addCollectCurriculumResult(AttationCurriculum res) {
-
+        getCurriculumByTime();
     }
 
     @Override
     public void delCollectCurriculumResult(String res) {
-
+        getCurriculumByTime();
     }
 
     @Override
@@ -300,7 +376,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
 
     @Override
     public void getCurriculumByTimeResult(List<DrillTime> list) {
-
+        lessonListAdapter.addAll(list);
     }
 
     @Override

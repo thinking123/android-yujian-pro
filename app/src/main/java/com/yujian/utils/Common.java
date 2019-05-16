@@ -134,6 +134,34 @@ public class Common {
         
         return week;
     }
+    public static String CalendarWeekToDigitString(int w){
+        String week = "";
+        switch (w) {
+            case Calendar.MONDAY:
+                week = "1";
+                break;
+            case Calendar.TUESDAY:
+                week = "2";
+                break;
+            case Calendar.WEDNESDAY:
+                week = "3";
+                break;
+            case Calendar.THURSDAY:
+                week = "4";
+                break;
+            case Calendar.FRIDAY:
+                week = "5";
+                break;
+            case Calendar.SATURDAY:
+                week = "6";
+                break;
+            case Calendar.SUNDAY:
+                week = "7";
+                break;
+        }
+
+        return week;
+    }
     public static void showMsg(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
