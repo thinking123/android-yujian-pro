@@ -137,10 +137,12 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
     //    @BindView(R.id.tags)
 //    TagCloudView tags;
-    public static UserProfileMainFragment newInstance(String userId) {
+    private String type;
+    public static UserProfileMainFragment newInstance(String userId , String type) {
         UserProfileMainFragment fragment = new UserProfileMainFragment();
         Bundle bundle = new Bundle();
         bundle.putString("id", userId);
+        bundle.putString("type", type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -181,13 +183,19 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
 
 
         userId = this.getArguments().getString("id");
+        type = this.getArguments().getString("type");
         getUserProfile();
 //        userId = savedInstanceState.getString("id");
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.user_profile_main_menu, menu);
+        if(Objects.equals(type , "1")){
+            inflater.inflate(R.menu.user_profile_main_fitness_room_menu, menu);
+        }else{
+            inflater.inflate(R.menu.user_profile_main_menu, menu);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -223,7 +231,7 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
         return true;
     }
 
-    @OnClick({R.id.logo})
+    @OnClick({R.id.logo  , R.id.collectionNum, R.id.fansNum})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.logo:
@@ -232,6 +240,12 @@ public class UserProfileMainFragment extends BaseSupportFragment<UserProfilePres
                     ImagePreviewImage.previewImage(getActivity(), userProfile.getHead());
                 }
 
+                break;
+            case R.id.collectionNum:
+               EventBus.getDefault().post(new UserProfileEvent(userProfile , EventBusTags.UserProfile.GOTOVISIT , null));
+                break;
+            case R.id.fansNum:
+                EventBus.getDefault().post(new UserProfileEvent(userProfile , EventBusTags.UserProfile.GOTOFANS , null));
                 break;
         }
     }

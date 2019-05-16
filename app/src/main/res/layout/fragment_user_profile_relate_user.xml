@@ -23,6 +23,7 @@
         app:layout_constraintStart_toStartOf="@+id/include3"
         app:layout_constraintTop_toBottomOf="@+id/include3" />
     <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.design.widget.TabItem

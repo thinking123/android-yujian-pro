@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="95dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/grid_size_3"
+        android:layout_height="@dimen/grid_size_3"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="18dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="26dp"
+        android:text="name"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_view_size"
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="address"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/tip_text_size2"
+        app:layout_constraintBottom_toBottomOf="@+id/label"
+        app:layout_constraintStart_toEndOf="@+id/label"
+        app:layout_constraintTop_toTopOf="@+id/label" />
+
+    <ImageView
+        android:id="@+id/label"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/time_clock_icon"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="@dimen/line_width"
+        android:layout_height="1dp"
+        android:background="@color/white1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+

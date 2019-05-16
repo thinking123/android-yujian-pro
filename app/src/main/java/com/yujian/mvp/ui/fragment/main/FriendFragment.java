@@ -204,6 +204,7 @@ public class FriendFragment extends BaseSupportFragment<FriendPresenter> impleme
                 Intent intent = new Intent(getActivity() , UserProfileActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("id" , friend.getId());
+                bundle.putString("type" , friend.getUserRole());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

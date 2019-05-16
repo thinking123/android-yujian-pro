@@ -97,7 +97,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
             String icons = friend.getIcon();
-            icons = "金牌,水电费了可视对讲弗兰克,sddsflkj,是的范德萨开发,水电费了款式大方";
+//            icons = "金牌,水电费了可视对讲弗兰克,sddsflkj,是的范德萨开发,水电费了款式大方";
             List<String> list = new ArrayList<String>();
             if(!TextUtils.isEmpty(icons)){
                 list = Arrays.asList(icons.split(","));

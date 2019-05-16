@@ -8,4 +8,7 @@
     <item android:id="@+id/relay_icon"
         app:showAsAction="always"
         android:icon="@drawable/relay_icon"/>
+    <item android:id="@+id/edit_icon"
+        app:showAsAction="always"
+        android:icon="@drawable/edit_icon"/>
 </menu>

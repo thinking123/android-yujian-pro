@@ -16,6 +16,7 @@ import com.yujian.mvp.ui.fragment.userProfile.PictureSetsFragment;
 import com.yujian.mvp.ui.fragment.userProfile.PictureSetsManageFragmentFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileFeedbackFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileMainFragment;
+import com.yujian.mvp.ui.fragment.userProfile.UserProfileRelateUserFragment;
 import com.yujian.mvp.ui.fragment.userProfile.UserProfileTimeLineFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,6 +41,7 @@ import me.yokeyword.fragmentation.SupportActivity;
  */
 public class UserProfileActivity extends SupportActivity {
     private String userId;
+    private String type;
     ISupportFragment userProfileMainFragment;
 
     @Override
@@ -49,6 +51,7 @@ public class UserProfileActivity extends SupportActivity {
         Bundle bundle = getIntent().getExtras();
 
         userId = bundle.getString("id");
+        type = bundle.getString("type");
 
         setContentView(R.layout.activity_user_profile);
 
@@ -56,7 +59,7 @@ public class UserProfileActivity extends SupportActivity {
         userProfileMainFragment = findFragment(UserProfileMainFragment.class);
 
         if (userProfileMainFragment == null) {
-            userProfileMainFragment = UserProfileMainFragment.newInstance(userId);
+            userProfileMainFragment = UserProfileMainFragment.newInstance(userId , type);
             loadRootFragment(R.id.user_profile_container,
                     userProfileMainFragment);
         }
@@ -122,6 +125,14 @@ public class UserProfileActivity extends SupportActivity {
                 fragment = findFragment(UserProfileFeedbackFragment.class);
                 if (fragment == null) {
                     fragment = UserProfileFeedbackFragment.newInstance(userProfile.getId());
+                }
+                start(fragment);
+                break;
+            case EventBusTags.UserProfile.GOTOFANS:
+            case EventBusTags.UserProfile.GOTOVISIT:
+                fragment = findFragment(UserProfileRelateUserFragment.class);
+                if (fragment == null) {
+                    fragment = UserProfileRelateUserFragment.newInstance(userProfile , tag);
                 }
                 start(fragment);
                 break;

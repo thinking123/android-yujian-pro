@@ -127,9 +127,10 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
         return inflater.inflate(R.layout.fragment_coach_lesson, container, false);
     }
 
-    private void goToUserProfile(String userId){
+    private void goToUserProfile(String userId , String type){
         Intent intent = new Intent(getActivity() , UserProfileActivity.class);
         intent.putExtra(Constant.Bundle.USER_ID , userId);
+        intent.putExtra("type" , type);
         startActivity(intent);
     }
     @Override
@@ -145,7 +146,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
             fitnessRoomPersonaltainerAdapter.getPositionClicks().subscribe(new Consumer<Personaltainer>() {
                 @Override
                 public void accept(Personaltainer personaltainer) throws Exception {
-                    goToUserProfile(personaltainer.getId());
+                    goToUserProfile(personaltainer.getId() , "2");
                 }
             });
             getGymdetailsCoach();
@@ -158,7 +159,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
             relateCoachAdapter.getPositionClicks().subscribe(new Consumer<Friend>() {
                 @Override
                 public void accept(Friend friend) throws Exception {
-                    goToUserProfile(friend.getId());
+                    goToUserProfile(friend.getId() , friend.getUserRole());
                 }
             });
 
@@ -226,7 +227,7 @@ public class CoachLessonFragment extends BaseSupportFragment<UserProfilePresente
         lessonListAdapter.getPositionClicks().subscribe(new Consumer<DrillTime>() {
             @Override
             public void accept(DrillTime drillTime) throws Exception {
-                goToUserProfile(drillTime.getCoachId());
+                goToUserProfile(drillTime.getCoachId() , "2");
             }
         });
         lessonListAdapter.getTipClicks().subscribe(new Consumer<DrillTime>() {

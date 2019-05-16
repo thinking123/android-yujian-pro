@@ -29,6 +29,7 @@
     <dimen name="grid_size">86dp</dimen>
     <dimen name="grid_size_1">155dp</dimen>
     <dimen name="grid_size_2">102dp</dimen>
+    <dimen name="grid_size_3">59dp</dimen>
 
     <dimen name="line_width">325dp</dimen>
 
