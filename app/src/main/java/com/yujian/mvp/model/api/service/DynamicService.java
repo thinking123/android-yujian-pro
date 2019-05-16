@@ -78,7 +78,7 @@ public interface DynamicService {
     Observable<BaseResponse<List<Topic>>> getTopicListByUserId(
             @Header("longitude") String longitude,
             @Header("latitude") String latitude,
-            @Query("id") String id
+            @Query("userId") String id
     );
 
 

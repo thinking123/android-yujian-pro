@@ -75,6 +75,17 @@
         <item>@string/user_profile_tab_title2</item>
         <item>@string/user_profile_tab_title3</item>
     </string-array>
+
+    <string name="user_profile_relate_tab_title1">健身房</string>
+    <string name="user_profile_relate_tab_title2">教练</string>
+    <string name="user_profile_relate_tab_title3">用户</string>
+    <string-array name="user_profile_relate_tab">
+        <item>@string/user_profile_relate_tab_title1</item>
+        <item>@string/user_profile_relate_tab_title2</item>
+        <item>@string/user_profile_relate_tab_title3</item>
+    </string-array>
+
+
     <string name="user_profile_go_to_introduce">查看此健身房的详情</string>
 
     <string name="input_please_input">请输入</string>
