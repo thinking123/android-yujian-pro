@@ -131,8 +131,10 @@ public class UserDynamicListAdapter extends RecyclerView.Adapter<UserDynamicList
         viewHoler.praiseCountIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ClickObj clickObj = new ClickObj(obj.getId() , EventBusTags.AdapterClickable.UserDynamicListAdapter.PRAISECOUNTICON);
 
-                onClickSubject.onNext(new ClickObj(obj.getId() , EventBusTags.AdapterClickable.UserDynamicListAdapter.PRAISECOUNTICON));
+                clickObj.setTarget(obj);
+                onClickSubject.onNext(clickObj);
             }
         });
 

@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import timber.log.Timber;
@@ -161,6 +162,9 @@ public class Common {
         }
 
         return week;
+    }
+    public static boolean equalStr(String str1 , String str2){
+        return Objects.equals(str1 , str2);
     }
     public static void showMsg(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

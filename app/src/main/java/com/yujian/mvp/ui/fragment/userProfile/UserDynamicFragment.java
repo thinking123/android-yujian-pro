@@ -41,6 +41,7 @@ import com.yujian.mvp.presenter.UserProfilePresenter;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.adapter.TopicListAdapter;
 import com.yujian.mvp.ui.adapter.UserDynamicListAdapter;
+import com.yujian.utils.Common;
 import com.yujian.utils.entity.ClickObj;
 import com.yujian.widget.XRecyclerViewEx;
 
@@ -135,6 +136,7 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
         getMood(pageNum);
     }
 
+
     private void initXRecyclerView() {
         userDynamicListAdapter = new UserDynamicListAdapter(new ArrayList<Dynamic>() ,
                 this);
@@ -143,8 +145,14 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
             @Override
             public void accept(ClickObj clickObj) throws Exception {
                 String id = clickObj.getId();
+                Dynamic dynamic = (Dynamic)clickObj.getTarget();
                 switch (clickObj.getType()){
-                    case EventBusTags.AdapterClickable.UserDynamicListAdapter.COMMENTCOUNTICON:
+                    case EventBusTags.AdapterClickable.UserDynamicListAdapter.PRAISECOUNTICON:
+                        if(Common.equalStr(dynamic.getIsPraise() , "1")){
+
+                        }else{
+
+                        }
                         break;
                 }
             }
@@ -185,7 +193,14 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
         });
 
     }
-
+    private void toCommentPraise(){
+//        if (mPresenter != null && bdLocation != null) {
+//            mPresenter.toCommentPraise(
+//                    Double.toString(bdLocation.getLongitude()),
+//                    Double.toString(bdLocation.getLatitude()),
+//            );
+//        }
+    }
 
     private void getMood(int pageNum){
 
