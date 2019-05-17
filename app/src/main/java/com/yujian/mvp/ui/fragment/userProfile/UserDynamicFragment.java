@@ -3,10 +3,9 @@ package com.yujian.mvp.ui.fragment.userProfile;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,17 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baidu.location.BDLocation;
-import com.yujian.app.BaseApp;
-import com.yujian.entity.AttationCurriculum;
-import com.yujian.entity.FeedbackInfo;
-import com.yujian.entity.GymPicture;
-import com.jess.arms.base.BaseFragment;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.yujian.R;
+import com.yujian.app.BaseApp;
 import com.yujian.app.BaseSupportFragment;
 import com.yujian.di.component.DaggerUserProfileComponent;
+import com.yujian.entity.AttationCurriculum;
 import com.yujian.entity.DrillTime;
+import com.yujian.entity.Dynamic;
+import com.yujian.entity.FeedbackInfo;
 import com.yujian.entity.GymPicture;
 import com.yujian.entity.Personaltainer;
 import com.yujian.entity.PictureSet;
@@ -38,7 +38,10 @@ import com.yujian.mvp.model.entity.FollowUserBean;
 import com.yujian.mvp.model.entity.GetCoachOrUserRelevantBean;
 import com.yujian.mvp.model.entity.GymPictureBean;
 import com.yujian.mvp.presenter.UserProfilePresenter;
+import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.mvp.ui.adapter.TopicListAdapter;
+import com.yujian.mvp.ui.adapter.UserDynamicListAdapter;
+import com.yujian.utils.entity.ClickObj;
 import com.yujian.widget.XRecyclerViewEx;
 
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -69,6 +73,7 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
     @BindView(R.id.dynamicList)
     XRecyclerViewEx dynamicList;
     private TopicListAdapter topicListAdapter;
+    private UserDynamicListAdapter userDynamicListAdapter;
     private UserProfile userProfile;
     private BDLocation bdLocation;
     int pageNum = 1;
@@ -124,9 +129,65 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
         });
 
         getTopicListByUserId();
+
+        initXRecyclerView();
+        
+        getMood(pageNum);
     }
 
-    private void getMood(){
+    private void initXRecyclerView() {
+        userDynamicListAdapter = new UserDynamicListAdapter(new ArrayList<Dynamic>() ,
+                this);
+
+        userDynamicListAdapter.getPositionClicks().subscribe(new Consumer<ClickObj>() {
+            @Override
+            public void accept(ClickObj clickObj) throws Exception {
+                String id = clickObj.getId();
+                switch (clickObj.getType()){
+                    case EventBusTags.AdapterClickable.UserDynamicListAdapter.COMMENTCOUNTICON:
+                        break;
+                }
+            }
+        });
+
+
+//        dynamicList.setLimitNumberToCallLoadMore(2);
+
+        dynamicList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        dynamicList.setRefreshProgressStyle(ProgressStyle.BallZigZag); //设定下拉刷新样式
+        dynamicList.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);//设定上拉加载样式
+//        friendList.setArrowImageView(R.drawable.qwe);
+
+        dynamicList.setPullRefreshEnabled(false);
+
+        dynamicList.setLoadingMoreEnabled(true);
+
+        dynamicList.setAdapter(userDynamicListAdapter);
+
+
+        dynamicList.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+
+            @Override
+            public void onLoadMore() {
+//                getMood(pageNum + 1);
+                if (pageNum < pages) {
+                    getMood(pageNum + 1);
+                } else {
+                    showMessage("没有更多了");
+                    dynamicList.loadMoreComplete();
+                }
+            }
+        });
+
+    }
+
+
+    private void getMood(int pageNum){
 
         if (mPresenter != null && bdLocation != null) {
             mPresenter.getMood(
@@ -323,6 +384,9 @@ public class UserDynamicFragment extends BaseSupportFragment<UserProfilePresente
         pageNum = Integer.parseInt(res.getPageNum());
         pages = Integer.parseInt(res.getPages());
         total = Integer.parseInt(res.getTotal());
+
+        userDynamicListAdapter.addAll(res.getList());
+
 
 //        topicListAdapter.addAll(res.getList());
     }

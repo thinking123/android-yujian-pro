@@ -16,4 +16,14 @@ public interface EventBusTags {
         public String GOTOVISIT = "GOTOVISIT";
         public String GOTOFANS = "GOTOFANS";
     }
+
+    public interface AdapterClickable{
+        public interface UserDynamicListAdapter{
+            public String PRAISECOUNTICON = "PRAISECOUNTICON";
+            public String COMMENTCOUNTICON = "COMMENTCOUNTICON";
+            public String SHARENUMICON = "SHARENUMICON";
+            public String HEAD = "HEAD";
+            public String TOPIC = "TOPIC";
+        }
+    }
 }
