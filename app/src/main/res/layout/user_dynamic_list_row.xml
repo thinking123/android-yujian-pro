@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="30dp"
+    android:layout_marginRight="8dp"
     android:layout_marginLeft="25dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         >
 
@@ -18,7 +19,7 @@
             android:id="@+id/head"
             android:layout_width="@dimen/grid_size_3"
             android:layout_height="@dimen/grid_size_3"
-            android:background="@color/white1"/>
+            android:background="@color/white"/>
 
         <TextView
             android:id="@+id/name"
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="viewCount"
-            android:textColor="@color/white1"
+            android:textColor="@color/text_gray"
             android:textSize="@dimen/tip_text_size2"
             app:layout_constraintStart_toStartOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -48,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text="createTime"
-            android:textColor="@color/white1"
+            android:textColor="@color/text_gray"
             android:textSize="@dimen/tip_text_size2"
             app:layout_constraintBottom_toBottomOf="@+id/viewCount"
             app:layout_constraintStart_toEndOf="@+id/viewCount"
@@ -74,6 +75,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
 
+    <TextView
+        android:id="@+id/moodLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white1"
+        android:padding="3dp"
+        android:textSize="@dimen/tip_text_size"
+        android:textColor="@color/text_gray"
+        android:layout_marginBottom="8dp"
+        />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -92,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="p"
-            android:textColor="@color/white1"
+            android:textColor="@color/text_gray"
             android:textSize="@dimen/tip_text_size"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -114,7 +126,7 @@
             android:layout_height="wrap_content"
             android:scrollHorizontally="true"
             android:text="comment"
-            android:textColor="@color/white1"
+            android:textColor="@color/text_gray"
             android:textSize="@dimen/tip_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
@@ -134,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="shareNum"
-            android:textColor="@color/white1"
+            android:textColor="@color/text_gray"
             android:textSize="@dimen/tip_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline9"

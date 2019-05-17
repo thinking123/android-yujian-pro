@@ -28,6 +28,7 @@ import com.previewlibrary.GPreviewBuilder;
 import com.yujian.R;
 import com.yujian.entity.Dynamic;
 import com.yujian.entity.Dynamic;
+import com.yujian.entity.Topic;
 import com.yujian.mvp.ui.EventBus.EventBusTags;
 import com.yujian.utils.Common;
 import com.yujian.utils.entity.ClickObj;
@@ -95,6 +96,9 @@ public class UserDynamicListAdapter extends RecyclerView.Adapter<UserDynamicList
         viewHoler.praiseCount.setText(obj.getPraiseCount());
         viewHoler.commentCount.setText(obj.getCommentCount());
         viewHoler.shareNum.setText(obj.getShareNum());
+        if(!TextUtils.isEmpty(obj.getMoodLocation())){
+            viewHoler.moodLocation.setText(obj.getMoodLocation());
+        }
 
 
         setClickSpan(viewHoler.moodContent , obj);
@@ -149,6 +153,37 @@ public class UserDynamicListAdapter extends RecyclerView.Adapter<UserDynamicList
             }
         });
 
+        viewHoler.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onClickSubject.onNext(new ClickObj(obj.getId() , EventBusTags.AdapterClickable.UserDynamicListAdapter.NAME));
+            }
+        });
+
+        viewHoler.viewCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onClickSubject.onNext(new ClickObj(obj.getId() , EventBusTags.AdapterClickable.UserDynamicListAdapter.NAME));
+            }
+        });
+
+        viewHoler.createTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onClickSubject.onNext(new ClickObj(obj.getId() , EventBusTags.AdapterClickable.UserDynamicListAdapter.NAME));
+            }
+        });
+        viewHoler.moodLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onClickSubject.onNext(new ClickObj(obj.getId() , EventBusTags.AdapterClickable.UserDynamicListAdapter.NAME));
+            }
+        });
+
 
 
 
@@ -191,7 +226,28 @@ public class UserDynamicListAdapter extends RecyclerView.Adapter<UserDynamicList
                 @Override
                 public void onClick(View view) {
 
+
                     Timber.i("you click");
+
+                    TextView v = (TextView)view;
+                    if(v != null){
+                        Spanned spanned = (Spanned)v.getText();
+
+                        int st = spanned.getSpanStart(this);
+                        int ed = spanned.getSpanEnd(this);
+
+                        String tg = spanned.subSequence(st , ed).toString();
+
+
+                        Timber.i(tg);
+
+                        for(Topic t : obj.getTopiclist()){
+                            if(Objects.equals(t.getTitle() , tg)){
+                                onClickSubject.onNext(new ClickObj(t.getId() , EventBusTags.AdapterClickable.UserDynamicListAdapter.TOPIC));
+                                break;
+                            }
+                        }
+                    }
 //                    view.invalidate();
                 }
 
@@ -208,26 +264,6 @@ public class UserDynamicListAdapter extends RecyclerView.Adapter<UserDynamicList
                             ContextCompat.getColor(fragment.getActivity(), R.color.colorPrimary)),
                     start, end, 0);
         }
-
-//        ClickableSpan clickableSpan = new ClickableSpan() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Timber.i("you click");
-////                    view.invalidate();
-//            }
-//        };
-//
-//        spannableString.setSpan(clickableSpan, 0,
-//                text.length() - 1
-//                , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//
-//
-//        spannableString.setSpan(new ForegroundColorSpan(
-//                        ContextCompat.getColor(fragment.getActivity(), R.color.colorPrimary)),
-//                0,
-//                text.length() - 1, 0);
-
 
         textView.setText(spannableString);
 
@@ -262,7 +298,7 @@ public class UserDynamicListAdapter extends RecyclerView.Adapter<UserDynamicList
         public TextView createTime;
         public TextView moodContent;
         public RecyclerView moodImgList;
-
+        public TextView moodLocation;
         public ImageView praiseCountIcon;
         public TextView praiseCount;
         public ImageView commentCountIcon;
@@ -281,6 +317,7 @@ public class UserDynamicListAdapter extends RecyclerView.Adapter<UserDynamicList
             viewCount = (TextView) itemView.findViewById(R.id.viewCount);
             createTime = (TextView) itemView.findViewById(R.id.createTime);
             moodContent = (TextView) itemView.findViewById(R.id.moodContent);
+            moodLocation = (TextView) itemView.findViewById(R.id.moodLocation);
             moodImgList = (RecyclerView) itemView.findViewById(R.id.moodImgList);
 
 

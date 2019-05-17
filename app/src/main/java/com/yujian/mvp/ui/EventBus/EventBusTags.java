@@ -24,6 +24,7 @@ public interface EventBusTags {
             public String SHARENUMICON = "SHARENUMICON";
             public String HEAD = "HEAD";
             public String TOPIC = "TOPIC";
+            public String NAME = "NAME";
         }
     }
 }
