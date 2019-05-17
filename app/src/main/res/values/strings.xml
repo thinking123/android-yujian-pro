@@ -60,6 +60,7 @@
     </string-array>
 
     <string name="friend_header_title">热门教练</string>
+    <string name="dynamic_header_title">热门话题</string>
     <string name="fitness_room_title">健身房</string>
 
     <string name="user_profile_picture_sets_tag">这里的一切属于TA</string>
@@ -97,4 +98,25 @@
 
     <string name="sub_title_topic">话题</string>
     <string name="sub_title_dynamic">动态</string>
+    <string name="dynamic_title">朋友圈</string>
+
+
+    <string name="dynamic_btn_list_recommend">推荐</string>
+    <string name="dynamic_btn_list_nearby">附近</string>
+    <string name="dynamic_btn_list_square">广场</string>
+    <string name="dynamic_btn_list_coach">教练</string>
+    <string name="dynamic_btn_list_user">用户</string>
+    <string name="dynamic_btn_list_fitnessroom">健身房</string>
+    <string name="dynamic_btn_list_attention">关注</string>
+
+  
+    <string-array name="dynamic_btn_list">
+        <item>@string/dynamic_btn_list_recommend</item>
+        <item>@string/dynamic_btn_list_nearby</item>
+        <item>@string/dynamic_btn_list_square</item>
+        <item>@string/dynamic_btn_list_coach</item>
+        <item>@string/dynamic_btn_list_user</item>
+        <item>@string/dynamic_btn_list_fitnessroom</item>
+        <item>@string/dynamic_btn_list_attention</item>
+    </string-array>
 </resources>

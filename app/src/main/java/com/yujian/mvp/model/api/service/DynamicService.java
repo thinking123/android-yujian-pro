@@ -1,6 +1,7 @@
 package com.yujian.mvp.model.api.service;
 
 import com.yujian.entity.BaseResponse;
+import com.yujian.entity.Dynamic;
 import com.yujian.entity.Topic;
 import com.yujian.mvp.model.entity.DynamicTopicBean;
 
@@ -81,5 +82,17 @@ public interface DynamicService {
             @Query("userId") String id
     );
 
+
+    /*
+* /api/mood/cancelPraise
+取消点赞
+
+* */
+    @GET("/api/mood/cancelPraise")
+    Observable<BaseResponse<Dynamic>> cancelPraise(
+            @Header("longitude") String longitude,
+            @Header("latitude") String latitude,
+            @Query("moodId") String moodId
+    );
 
 }

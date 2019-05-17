@@ -26,5 +26,10 @@ public interface EventBusTags {
             public String TOPIC = "TOPIC";
             public String NAME = "NAME";
         }
+
+        public interface ReadMoreTopicListAdapter{
+            public String ITEM = "ITEM";
+            public String HEADER = "HEADER";
+        }
     }
 }
